@@ -152,12 +152,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
 <li class="chapter" data-level="3" data-path="abundance.html"><a href="abundance.html"><i class="fa fa-check"></i><b>3</b> Abundance</a>
 <ul>
-<li class="chapter" data-level="3.0.1" data-path="abundance.html"><a href="abundance.html#conditional-likelihood"><i class="fa fa-check"></i><b>3.0.1</b> Conditional Likelihood</a></li>
-<li class="chapter" data-level="3.0.2" data-path="abundance.html"><a href="abundance.html#algebra"><i class="fa fa-check"></i><b>3.0.2</b> Algebra</a></li>
-<li class="chapter" data-level="3.0.3" data-path="abundance.html"><a href="abundance.html#simulation"><i class="fa fa-check"></i><b>3.0.3</b> Simulation</a></li>
-<li class="chapter" data-level="3.0.4" data-path="abundance.html"><a href="abundance.html#jags"><i class="fa fa-check"></i><b>3.0.4</b> JAGS</a></li>
-<li class="chapter" data-level="3.0.5" data-path="abundance.html"><a href="abundance.html#stan"><i class="fa fa-check"></i><b>3.0.5</b> Stan</a></li>
-<li class="chapter" data-level="3.0.6" data-path="abundance.html"><a href="abundance.html#comparison"><i class="fa fa-check"></i><b>3.0.6</b> Comparison</a></li>
+<li class="chapter" data-level="3.1" data-path="abundance.html"><a href="abundance.html#conditional-likelihood"><i class="fa fa-check"></i><b>3.1</b> Conditional Likelihood</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="abundance.html"><a href="abundance.html#algebra"><i class="fa fa-check"></i><b>3.1.1</b> Algebra</a></li>
+<li class="chapter" data-level="3.1.2" data-path="abundance.html"><a href="abundance.html#simulation"><i class="fa fa-check"></i><b>3.1.2</b> Simulation</a></li>
+<li class="chapter" data-level="3.1.3" data-path="abundance.html"><a href="abundance.html#jags"><i class="fa fa-check"></i><b>3.1.3</b> JAGS</a></li>
+<li class="chapter" data-level="3.1.4" data-path="abundance.html"><a href="abundance.html#stan"><i class="fa fa-check"></i><b>3.1.4</b> Stan</a></li>
+<li class="chapter" data-level="3.1.5" data-path="abundance.html"><a href="abundance.html#comparison"><i class="fa fa-check"></i><b>3.1.5</b> Comparison</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
@@ -199,19 +201,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="abundance" class="section level1" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Abundance</h1>
 <p>Here is a review of existing methods.</p>
-<div id="conditional-likelihood" class="section level3" number="3.0.1">
-<h3><span class="header-section-number">3.0.1</span> Conditional Likelihood</h3>
+<div id="conditional-likelihood" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Conditional Likelihood</h2>
 <p><span class="citation"><a href="references.html#ref-alho_logistic_1990" role="doc-biblioref">Alho</a> (<a href="references.html#ref-alho_logistic_1990" role="doc-biblioref">1990</a>)</span>
 <span class="citation"><a href="references.html#ref-huggins_statistical_1989" role="doc-biblioref">Huggins</a> (<a href="references.html#ref-huggins_statistical_1989" role="doc-biblioref">1989</a>)</span>
 <span class="citation"><a href="references.html#ref-huggins_practical_1991" role="doc-biblioref">Huggins</a> (<a href="references.html#ref-huggins_practical_1991" role="doc-biblioref">1991</a>)</span></p>
-</div>
-<div id="algebra" class="section level3" number="3.0.2">
-<h3><span class="header-section-number">3.0.2</span> Algebra</h3>
+<div id="algebra" class="section level3" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Algebra</h3>
 <p><span class="math display">\[\hat{N} = \frac{M_{t+1}}{1-\prod^{t}(1-p_t)}\]</span>
 <span class="math display">\[y_{i,t} \sim Bernoulli(p_t) \]</span></p>
 </div>
-<div id="simulation" class="section level3" number="3.0.3">
-<h3><span class="header-section-number">3.0.3</span> Simulation</h3>
+<div id="simulation" class="section level3" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> Simulation</h3>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="abundance.html#cb4-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">150</span> <span class="co">#True population size</span></span>
 <span id="cb4-2"><a href="abundance.html#cb4-2" aria-hidden="true" tabindex="-1"></a>n_occ <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="co">#Number of trapping occasions</span></span>
 <span id="cb4-3"><a href="abundance.html#cb4-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.50</span> <span class="co">#Probability of first detection</span></span>
@@ -225,8 +226,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-11"><a href="abundance.html#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>( <span class="fu">paste0</span>(<span class="st">&quot;Number ever detected: &quot;</span>, MNKA,<span class="at">sep =</span> <span class="st">&quot; &quot;</span>) ) <span class="co">#number ever detected</span></span></code></pre></div>
 <pre><code>## [1] &quot;Number ever detected: 139 &quot;</code></pre>
 </div>
-<div id="jags" class="section level3" number="3.0.4">
-<h3><span class="header-section-number">3.0.4</span> JAGS</h3>
+<div id="jags" class="section level3" number="3.1.3">
+<h3><span class="header-section-number">3.1.3</span> JAGS</h3>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="abundance.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(R2jags)</span>
 <span id="cb6-2"><a href="abundance.html#cb6-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb6-3"><a href="abundance.html#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y=</span>observed,</span>
@@ -302,8 +303,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 </div>
-<div id="stan" class="section level3" number="3.0.5">
-<h3><span class="header-section-number">3.0.5</span> Stan</h3>
+<div id="stan" class="section level3" number="3.1.4">
+<h3><span class="header-section-number">3.1.4</span> Stan</h3>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="abundance.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
 <span id="cb8-2"><a href="abundance.html#cb8-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb8-3"><a href="abundance.html#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y=</span>observed,</span>
@@ -375,8 +376,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 </div>
-<div id="comparison" class="section level3" number="3.0.6">
-<h3><span class="header-section-number">3.0.6</span> Comparison</h3>
+<div id="comparison" class="section level3" number="3.1.5">
+<h3><span class="header-section-number">3.1.5</span> Comparison</h3>
 <p>{{&lt; tabs “uniqueid” &gt;}}
 {{&lt; tab “JAGS” &gt;}}</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="abundance.html#cb10-1" aria-hidden="true" tabindex="-1"></a>Test <span class="ot">&lt;-</span> <span class="dv">1</span></span></code></pre></div>
@@ -389,6 +390,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>{{&lt; /tab &gt;}}
 {{&lt; /tabs &gt;}}</p>
 
+</div>
 </div>
 </div>
             </section>

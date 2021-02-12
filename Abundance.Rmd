@@ -2,7 +2,7 @@
 
 Here is a review of existing methods.
 
-### Conditional Likelihood
+## Conditional Likelihood
 
 @alho_logistic_1990
 @huggins_statistical_1989

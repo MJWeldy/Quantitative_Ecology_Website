@@ -40,7 +40,7 @@ foo * bar
 ## Model Template
 
 ````
-### Model Name 
+## Model Name 
 Model description
 
 ### Algebra
