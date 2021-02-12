@@ -1,0 +1,9 @@
+base
+coda
+rjags
+R2jags
+knitr
+StanHeaders
+ggplot2
+rstan
+shiny

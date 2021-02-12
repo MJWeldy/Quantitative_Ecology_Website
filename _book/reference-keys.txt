@@ -2,7 +2,14 @@ fig:nice-fig
 tab:nice-tab
 prerequisites
 intro
-literature
+abundance
+model-description
+algebra
+simulation
+section-1
+jags-1
+stan
+comparison
 methods
 applications
 example-one
@@ -12,3 +19,4 @@ appendix-a
 authors-guidelines
 appendix-b
 model-template
+jags

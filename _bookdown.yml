@@ -5,7 +5,7 @@ language:
     chapter_name: "Chapter "
 rmd_files: ["index.Rmd", 
             "01-intro.Rmd",
-            "02-literature.Rmd",
+            "Abundance.Rmd",
             "03-method.Rmd",
             "04-application.Rmd",
             "05-summary.Rmd",
