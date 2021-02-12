@@ -6,8 +6,7 @@ abundance
 model-description
 algebra
 simulation
-section-1
-jags-1
+jags
 stan
 comparison
 methods
@@ -19,4 +18,3 @@ appendix-a
 authors-guidelines
 appendix-b
 model-template
-jags

@@ -51,6 +51,21 @@
 
 
 
+<script>
+function unrolltab(evt, tabName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
 
 
 <style type="text/css">
@@ -117,6 +132,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
@@ -129,6 +145,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
+<li><a href="./">Quantitative Ecology</a></li>
+
+<li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
 <li class="chapter" data-level="3" data-path="abundance.html"><a href="abundance.html"><i class="fa fa-check"></i><b>3</b> Abundance</a>
@@ -137,6 +156,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.0.2" data-path="abundance.html"><a href="abundance.html#algebra"><i class="fa fa-check"></i><b>3.0.2</b> Algebra</a></li>
 <li class="chapter" data-level="3.0.3" data-path="abundance.html"><a href="abundance.html#simulation"><i class="fa fa-check"></i><b>3.0.3</b> Simulation</a></li>
 <li class="chapter" data-level="3.0.4" data-path="abundance.html"><a href="abundance.html#jags"><i class="fa fa-check"></i><b>3.0.4</b> JAGS</a></li>
+<li class="chapter" data-level="3.0.5" data-path="abundance.html"><a href="abundance.html#stan"><i class="fa fa-check"></i><b>3.0.5</b> Stan</a></li>
+<li class="chapter" data-level="3.0.6" data-path="abundance.html"><a href="abundance.html#comparison"><i class="fa fa-check"></i><b>3.0.6</b> Comparison</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
@@ -155,6 +176,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="B.1" data-path="appendix-b.html"><a href="appendix-b.html#model-template"><i class="fa fa-check"></i><b>B.1</b> Model Template</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
 </ul>
 
       </nav>
@@ -185,62 +209,62 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="simulation" class="section level3" number="3.0.3">
 <h3><span class="header-section-number">3.0.3</span> Simulation</h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="abundance.html#cb3-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">150</span> <span class="co">#True population size</span></span>
-<span id="cb3-2"><a href="abundance.html#cb3-2" aria-hidden="true" tabindex="-1"></a>n_occ <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="co">#Number of trapping occasions</span></span>
-<span id="cb3-3"><a href="abundance.html#cb3-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.50</span> <span class="co">#Probability of first detection</span></span>
-<span id="cb3-4"><a href="abundance.html#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="abundance.html#cb3-5" aria-hidden="true" tabindex="-1"></a>true_detections <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim=</span><span class="fu">c</span>(N,n_occ))</span>
-<span id="cb3-6"><a href="abundance.html#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_occ){</span>
-<span id="cb3-7"><a href="abundance.html#cb3-7" aria-hidden="true" tabindex="-1"></a>  true_detections[,t] <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n=</span>N,<span class="at">size=</span><span class="dv">1</span>,<span class="at">prob=</span>p)</span>
-<span id="cb3-8"><a href="abundance.html#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-9"><a href="abundance.html#cb3-9" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> true_detections[<span class="fu">apply</span>(true_detections,<span class="dv">1</span>,max) <span class="sc">==</span> <span class="dv">1</span>,]</span>
-<span id="cb3-10"><a href="abundance.html#cb3-10" aria-hidden="true" tabindex="-1"></a>MNKA <span class="ot">&lt;-</span> <span class="fu">nrow</span>(observed)</span>
-<span id="cb3-11"><a href="abundance.html#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>( <span class="fu">paste0</span>(<span class="st">&quot;Number ever detected: &quot;</span>, MNKA,<span class="at">sep =</span> <span class="st">&quot; &quot;</span>) ) <span class="co">#number ever detected</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="abundance.html#cb4-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">150</span> <span class="co">#True population size</span></span>
+<span id="cb4-2"><a href="abundance.html#cb4-2" aria-hidden="true" tabindex="-1"></a>n_occ <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="co">#Number of trapping occasions</span></span>
+<span id="cb4-3"><a href="abundance.html#cb4-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.50</span> <span class="co">#Probability of first detection</span></span>
+<span id="cb4-4"><a href="abundance.html#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="abundance.html#cb4-5" aria-hidden="true" tabindex="-1"></a>true_detections <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim=</span><span class="fu">c</span>(N,n_occ))</span>
+<span id="cb4-6"><a href="abundance.html#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_occ){</span>
+<span id="cb4-7"><a href="abundance.html#cb4-7" aria-hidden="true" tabindex="-1"></a>  true_detections[,t] <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n=</span>N,<span class="at">size=</span><span class="dv">1</span>,<span class="at">prob=</span>p)</span>
+<span id="cb4-8"><a href="abundance.html#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-9"><a href="abundance.html#cb4-9" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> true_detections[<span class="fu">apply</span>(true_detections,<span class="dv">1</span>,max) <span class="sc">==</span> <span class="dv">1</span>,]</span>
+<span id="cb4-10"><a href="abundance.html#cb4-10" aria-hidden="true" tabindex="-1"></a>MNKA <span class="ot">&lt;-</span> <span class="fu">nrow</span>(observed)</span>
+<span id="cb4-11"><a href="abundance.html#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>( <span class="fu">paste0</span>(<span class="st">&quot;Number ever detected: &quot;</span>, MNKA,<span class="at">sep =</span> <span class="st">&quot; &quot;</span>) ) <span class="co">#number ever detected</span></span></code></pre></div>
 <pre><code>## [1] &quot;Number ever detected: 140 &quot;</code></pre>
 </div>
 <div id="jags" class="section level3" number="3.0.4">
 <h3><span class="header-section-number">3.0.4</span> JAGS</h3>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="abundance.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(R2jags)</span>
-<span id="cb5-2"><a href="abundance.html#cb5-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb5-3"><a href="abundance.html#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y=</span>observed,</span>
-<span id="cb5-4"><a href="abundance.html#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">nsites=</span><span class="fu">nrow</span>(observed),</span>
-<span id="cb5-5"><a href="abundance.html#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">MNKA=</span>MNKA,</span>
-<span id="cb5-6"><a href="abundance.html#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_occ=</span>n_occ</span>
-<span id="cb5-7"><a href="abundance.html#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-8"><a href="abundance.html#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="abundance.html#cb5-9" aria-hidden="true" tabindex="-1"></a>modelstring <span class="ot">&lt;-</span> <span class="fu">textConnection</span>(</span>
-<span id="cb5-10"><a href="abundance.html#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;</span></span>
-<span id="cb5-11"><a href="abundance.html#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="st">  model {</span></span>
-<span id="cb5-12"><a href="abundance.html#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb5-13"><a href="abundance.html#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="st">  # Likelihood</span></span>
-<span id="cb5-14"><a href="abundance.html#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="st">  for(i in 1:nsites) {</span></span>
-<span id="cb5-15"><a href="abundance.html#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="st">    # observation model</span></span>
-<span id="cb5-16"><a href="abundance.html#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="st">    for(j in 1:4) {</span></span>
-<span id="cb5-17"><a href="abundance.html#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="st">      y[i, j] ~ dbern(p)</span></span>
-<span id="cb5-18"><a href="abundance.html#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
-<span id="cb5-19"><a href="abundance.html#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb5-20"><a href="abundance.html#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="st">  for(t in 1:4){</span></span>
-<span id="cb5-21"><a href="abundance.html#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="st">    p_un[t] &lt;- (1-p)</span></span>
-<span id="cb5-22"><a href="abundance.html#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb5-23"><a href="abundance.html#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="st">  # Priors</span></span>
-<span id="cb5-24"><a href="abundance.html#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="st">  p ~ dunif(0, 1) # Uninformative prior</span></span>
-<span id="cb5-25"><a href="abundance.html#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-26"><a href="abundance.html#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="st">  # Derived values</span></span>
-<span id="cb5-27"><a href="abundance.html#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="st">  N &lt;- (MNKA / (1-prod(p_un[])))</span></span>
-<span id="cb5-28"><a href="abundance.html#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb5-29"><a href="abundance.html#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
-<span id="cb5-30"><a href="abundance.html#cb5-30" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-31"><a href="abundance.html#cb5-31" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;p&quot;</span>,<span class="st">&quot;N&quot;</span>)</span>
-<span id="cb5-32"><a href="abundance.html#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-33"><a href="abundance.html#cb5-33" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb5-34"><a href="abundance.html#cb5-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>( </span>
-<span id="cb5-35"><a href="abundance.html#cb5-35" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-36"><a href="abundance.html#cb5-36" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb5-37"><a href="abundance.html#cb5-37" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-38"><a href="abundance.html#cb5-38" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10000</span> ; nt <span class="ot">&lt;-</span> <span class="dv">1</span> ; nb <span class="ot">&lt;-</span> <span class="dv">5000</span> ; nc <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb5-39"><a href="abundance.html#cb5-39" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">jags</span>(data, inits, parameters, modelstring, <span class="at">n.chains =</span> nc, <span class="at">n.thin =</span> nt, <span class="at">n.iter =</span> ni, <span class="at">n.burnin =</span> nb)</span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="abundance.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb6-2"><a href="abundance.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">round</span>(model<span class="sc">$</span>BUGSoutput<span class="sc">$</span>summary[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>)],<span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="abundance.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(R2jags)</span>
+<span id="cb6-2"><a href="abundance.html#cb6-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb6-3"><a href="abundance.html#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y=</span>observed,</span>
+<span id="cb6-4"><a href="abundance.html#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">nsites=</span><span class="fu">nrow</span>(observed),</span>
+<span id="cb6-5"><a href="abundance.html#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">MNKA=</span>MNKA,</span>
+<span id="cb6-6"><a href="abundance.html#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_occ=</span>n_occ</span>
+<span id="cb6-7"><a href="abundance.html#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-8"><a href="abundance.html#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="abundance.html#cb6-9" aria-hidden="true" tabindex="-1"></a>modelstring <span class="ot">&lt;-</span> <span class="fu">textConnection</span>(</span>
+<span id="cb6-10"><a href="abundance.html#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;</span></span>
+<span id="cb6-11"><a href="abundance.html#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="st">  model {</span></span>
+<span id="cb6-12"><a href="abundance.html#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb6-13"><a href="abundance.html#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="st">  # Likelihood</span></span>
+<span id="cb6-14"><a href="abundance.html#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="st">  for(i in 1:nsites) {</span></span>
+<span id="cb6-15"><a href="abundance.html#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="st">    # observation model</span></span>
+<span id="cb6-16"><a href="abundance.html#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="st">    for(j in 1:4) {</span></span>
+<span id="cb6-17"><a href="abundance.html#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="st">      y[i, j] ~ dbern(p)</span></span>
+<span id="cb6-18"><a href="abundance.html#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
+<span id="cb6-19"><a href="abundance.html#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb6-20"><a href="abundance.html#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="st">  for(t in 1:4){</span></span>
+<span id="cb6-21"><a href="abundance.html#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="st">    p_un[t] &lt;- (1-p)</span></span>
+<span id="cb6-22"><a href="abundance.html#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb6-23"><a href="abundance.html#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="st">  # Priors</span></span>
+<span id="cb6-24"><a href="abundance.html#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="st">  p ~ dunif(0, 1) # Uninformative prior</span></span>
+<span id="cb6-25"><a href="abundance.html#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-26"><a href="abundance.html#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="st">  # Derived values</span></span>
+<span id="cb6-27"><a href="abundance.html#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="st">  N &lt;- (MNKA / (1-prod(p_un[])))</span></span>
+<span id="cb6-28"><a href="abundance.html#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb6-29"><a href="abundance.html#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb6-30"><a href="abundance.html#cb6-30" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-31"><a href="abundance.html#cb6-31" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;p&quot;</span>,<span class="st">&quot;N&quot;</span>)</span>
+<span id="cb6-32"><a href="abundance.html#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-33"><a href="abundance.html#cb6-33" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb6-34"><a href="abundance.html#cb6-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>( </span>
+<span id="cb6-35"><a href="abundance.html#cb6-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-36"><a href="abundance.html#cb6-36" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-37"><a href="abundance.html#cb6-37" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-38"><a href="abundance.html#cb6-38" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10000</span> ; nt <span class="ot">&lt;-</span> <span class="dv">1</span> ; nb <span class="ot">&lt;-</span> <span class="dv">5000</span> ; nc <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb6-39"><a href="abundance.html#cb6-39" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">jags</span>(data, inits, parameters, modelstring, <span class="at">n.chains =</span> nc, <span class="at">n.thin =</span> nt, <span class="at">n.iter =</span> ni, <span class="at">n.burnin =</span> nb)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="abundance.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb7-2"><a href="abundance.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">round</span>(model<span class="sc">$</span>BUGSoutput<span class="sc">$</span>summary[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>)],<span class="dv">2</span>))</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -256,10 +280,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td align="left">N</td>
-<td align="right">148.21</td>
-<td align="right">1.35</td>
-<td align="right">145.85</td>
-<td align="right">151.19</td>
+<td align="right">152.47</td>
+<td align="right">1.37</td>
+<td align="right">150.05</td>
+<td align="right">155.42</td>
 <td align="right">1</td>
 <td align="right">15000</td>
 </tr>
@@ -274,42 +298,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div id="stan" class="section level4" number="3.0.4.1">
-<h4><span class="header-section-number">3.0.4.1</span> Stan</h4>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="abundance.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
-<span id="cb7-2"><a href="abundance.html#cb7-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb7-3"><a href="abundance.html#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y=</span>observed,</span>
-<span id="cb7-4"><a href="abundance.html#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">nsites=</span><span class="fu">nrow</span>(observed),</span>
-<span id="cb7-5"><a href="abundance.html#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">MNKA=</span>MNKA,</span>
-<span id="cb7-6"><a href="abundance.html#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_occ=</span>n_occ</span>
-<span id="cb7-7"><a href="abundance.html#cb7-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-8"><a href="abundance.html#cb7-8" aria-hidden="true" tabindex="-1"></a>stan_model <span class="ot">&lt;-</span> <span class="st">&quot;</span></span>
-<span id="cb7-9"><a href="abundance.html#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb7-10"><a href="abundance.html#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; MNKA;</span></span>
-<span id="cb7-11"><a href="abundance.html#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; nsites;</span></span>
-<span id="cb7-12"><a href="abundance.html#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; n_occ;</span></span>
-<span id="cb7-13"><a href="abundance.html#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0,upper=1&gt; y[MNKA, n_occ];</span></span>
-<span id="cb7-14"><a href="abundance.html#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb7-15"><a href="abundance.html#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="abundance.html#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb7-17"><a href="abundance.html#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0, upper=1&gt; p;</span></span>
-<span id="cb7-18"><a href="abundance.html#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb7-19"><a href="abundance.html#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-20"><a href="abundance.html#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="st">model {  </span></span>
-<span id="cb7-21"><a href="abundance.html#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="st"> for(i in 1:nsites)</span></span>
-<span id="cb7-22"><a href="abundance.html#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="st">    for(j in 1:4) </span></span>
-<span id="cb7-23"><a href="abundance.html#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="st">      y[i, j] ~ bernoulli_lpmf(p);</span></span>
-<span id="cb7-24"><a href="abundance.html#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb7-25"><a href="abundance.html#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-26"><a href="abundance.html#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
-<span id="cb7-27"><a href="abundance.html#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="st">  real N = MNKA / (1-(1-p)^4);</span></span>
-<span id="cb7-28"><a href="abundance.html#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb7-29"><a href="abundance.html#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
-<span id="cb7-30"><a href="abundance.html#cb7-30" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb7-31"><a href="abundance.html#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-32"><a href="abundance.html#cb7-32" aria-hidden="true" tabindex="-1"></a>stan.samples <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">model_code =</span> stan_model, <span class="at">data =</span> data, <span class="at">iter =</span> <span class="dv">10000</span>, <span class="at">chains =</span> nc, <span class="at">cores =</span> nc)</span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="abundance.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb8-2"><a href="abundance.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">round</span>(<span class="fu">summary</span>(stan.samples)<span class="sc">$</span>summary[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">9</span>)],<span class="dv">2</span>))</span></code></pre></div>
+</div>
+<div id="stan" class="section level3" number="3.0.5">
+<h3><span class="header-section-number">3.0.5</span> Stan</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="abundance.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
+<span id="cb8-2"><a href="abundance.html#cb8-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb8-3"><a href="abundance.html#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y=</span>observed,</span>
+<span id="cb8-4"><a href="abundance.html#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">nsites=</span><span class="fu">nrow</span>(observed),</span>
+<span id="cb8-5"><a href="abundance.html#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">MNKA=</span>MNKA,</span>
+<span id="cb8-6"><a href="abundance.html#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_occ=</span>n_occ</span>
+<span id="cb8-7"><a href="abundance.html#cb8-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-8"><a href="abundance.html#cb8-8" aria-hidden="true" tabindex="-1"></a>stan_model <span class="ot">&lt;-</span> <span class="st">&quot;</span></span>
+<span id="cb8-9"><a href="abundance.html#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb8-10"><a href="abundance.html#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; MNKA;</span></span>
+<span id="cb8-11"><a href="abundance.html#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; nsites;</span></span>
+<span id="cb8-12"><a href="abundance.html#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; n_occ;</span></span>
+<span id="cb8-13"><a href="abundance.html#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0,upper=1&gt; y[MNKA, n_occ];</span></span>
+<span id="cb8-14"><a href="abundance.html#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb8-15"><a href="abundance.html#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="abundance.html#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb8-17"><a href="abundance.html#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0, upper=1&gt; p;</span></span>
+<span id="cb8-18"><a href="abundance.html#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb8-19"><a href="abundance.html#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="abundance.html#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="st">model {  </span></span>
+<span id="cb8-21"><a href="abundance.html#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="st"> for(i in 1:nsites)</span></span>
+<span id="cb8-22"><a href="abundance.html#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="st">    for(j in 1:4) </span></span>
+<span id="cb8-23"><a href="abundance.html#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="st">      y[i, j] ~ bernoulli_lpmf(p);</span></span>
+<span id="cb8-24"><a href="abundance.html#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb8-25"><a href="abundance.html#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="abundance.html#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb8-27"><a href="abundance.html#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="st">  real N = MNKA / (1-(1-p)^4);</span></span>
+<span id="cb8-28"><a href="abundance.html#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb8-29"><a href="abundance.html#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb8-30"><a href="abundance.html#cb8-30" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb8-31"><a href="abundance.html#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="abundance.html#cb8-32" aria-hidden="true" tabindex="-1"></a>stan.samples <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">model_code =</span> stan_model, <span class="at">data =</span> data, <span class="at">iter =</span> <span class="dv">10000</span>, <span class="at">chains =</span> nc, <span class="at">cores =</span> nc)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="abundance.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb9-2"><a href="abundance.html#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">round</span>(<span class="fu">summary</span>(stan.samples)<span class="sc">$</span>summary[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">9</span>)],<span class="dv">2</span>))</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -347,10 +372,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 </div>
-<div id="comparison" class="section level4" number="3.0.4.2">
-<h4><span class="header-section-number">3.0.4.2</span> Comparison</h4>
+<div id="comparison" class="section level3" number="3.0.6">
+<h3><span class="header-section-number">3.0.6</span> Comparison</h3>
+<p>{{&lt; tabs “uniqueid” &gt;}}
+{{&lt; tab “JAGS” &gt;}}</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="abundance.html#cb10-1" aria-hidden="true" tabindex="-1"></a>Test <span class="ot">&lt;-</span> <span class="dv">1</span></span></code></pre></div>
+<p>{{&lt; /tab &gt;}}
+{{&lt; tab “Stan” &gt;}}</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="abundance.html#cb11-1" aria-hidden="true" tabindex="-1"></a>Stan <span class="ot">&lt;-</span> code <span class="ot">&lt;-</span> <span class="dv">1</span></span></code></pre></div>
+<p>{{&lt; /tab &gt;}}
+{{&lt; tab “Greta” &gt;}}</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="abundance.html#cb12-1" aria-hidden="true" tabindex="-1"></a>Greta <span class="ot">&lt;-</span> code <span class="ot">&lt;-</span> <span class="dv">1</span></span></code></pre></div>
+<p>{{&lt; /tab &gt;}}
+{{&lt; /tabs &gt;}}</p>
 
-</div>
 </div>
 </div>
             </section>
@@ -401,7 +436,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["Quantitative_Ecology_Desktop.pdf", "Quantitative_Ecology_Desktop.epub"],
 "toc": {
 "collapse": "subsection"
 }
