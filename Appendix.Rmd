@@ -2,5 +2,130 @@
 
 # Appendix A
 ## Authors Guidelines
+We have decided to adapt the tidyverse style guide. Detailed content can be found here.  
+  
+[tidyverse style guide][1]
+  
+Before committing code to the git repository, it should be styled using the styler package.
+
+Primary points are outlined below:
+- Use underscores to separate words in both variable and file names. 
+````
+File Names:
+chapter_1.Rmd
+---
+Variable Names:
+observed_data
+````
+- When submitting a description of a new model use the template provided in Appendix B. However, if extenuating circumstances make the template in Appendix B untenable for a model, describe the reason for departure in the git commit message.
+- Variables should be named with nouns, functions should be named with verbs
+- Use dots to separate words in function names
+````
+simulate.code <- function(X) {
+}
+````
+- Label function arguments
+- Spaces after commas not before
+- Do not pad parentheses with spaces
+- Pad operators with space
+````
+foo == bar
+foo <- bar
+foo + bar
+foo * bar
+````
+[1]: https://style.tidyverse.org/
+
 # Appendix B
 ## Model Template
+
+````
+### Model Name 
+Model description
+
+### Algebra
+
+Algebraic model description in latex
+
+### Simulation 
+```{r simulation}`r ''`
+
+simulated_data <- 1
+
+```  
+
+### JAGS
+```{r JAGS,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}`r ''`
+library(R2jags)
+data <- list(
+
+)
+model_string <- textConnection(
+  "
+  model {
+  
+  # Likelihood
+ 
+  # Priors
+
+
+  # Derived values
+
+  }
+"
+)
+parameters <- c( )
+set_initial_value <- function() {
+  list( 
+    
+  )
+}
+ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
+model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
+```
+
+```{r output_jags_table}`r ''`
+library(knitr)
+kable(round( ,2))
+```
+
+### Stan
+```{r stan_model_fit ,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}`r ''`
+library(rstan)
+
+data <- list(
+
+)
+
+stan_model <- "
+data {
+
+}
+
+parameters {
+
+}
+
+model {  
+
+}
+
+generated quantities {
+
+}
+"
+nc <- 4
+
+stan.samples <- stan(model_code = stan_model, data = data, iter = 10000, chains = nc, cores = nc)
+```
+
+```{r output_stan_table}`r ''`
+library(knitr)
+kable(round( ,2))
+```
+
+### Comparison
+```{r Comparison}`r ''`
+
+```
+````

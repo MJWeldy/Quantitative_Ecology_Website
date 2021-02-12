@@ -200,6 +200,94 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">B</span> Appendix B</h1>
 <div id="model-template" class="section level2" number="8.1">
 <h2><span class="header-section-number">B.1</span> Model Template</h2>
+<pre><code>### Model Name 
+Model description
+
+### Algebra
+
+Algebraic model description in latex
+
+### Simulation 
+```{r simulation}
+
+simulated_data &lt;- 1
+
+```  
+
+### JAGS
+```{r JAGS,warning=FALSE,message=FALSE,error=FALSE, results=&#39;hide&#39;,cache = TRUE}
+library(R2jags)
+data &lt;- list(
+
+)
+model_string &lt;- textConnection(
+  &quot;
+  model {
+  
+  # Likelihood
+ 
+  # Priors
+
+
+  # Derived values
+
+  }
+&quot;
+)
+parameters &lt;- c( )
+set_initial_value &lt;- function() {
+  list( 
+    
+  )
+}
+ni &lt;- 10000 ; nt &lt;- 1 ; nb &lt;- 5000 ; nc &lt;- 3
+model &lt;- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
+```
+
+```{r output_jags_table}
+library(knitr)
+kable(round( ,2))
+```
+
+### Stan
+```{r stan_model_fit ,warning=FALSE,message=FALSE,error=FALSE, results=&#39;hide&#39;,cache = TRUE}
+library(rstan)
+
+data &lt;- list(
+
+)
+
+stan_model &lt;- &quot;
+data {
+
+}
+
+parameters {
+
+}
+
+model {  
+
+}
+
+generated quantities {
+
+}
+&quot;
+nc &lt;- 4
+
+stan.samples &lt;- stan(model_code = stan_model, data = data, iter = 10000, chains = nc, cores = nc)
+```
+
+```{r output_stan_table}
+library(knitr)
+kable(round( ,2))
+```
+
+### Comparison
+```{r Comparison}
+
+```</code></pre>
 
 </div>
 </div>

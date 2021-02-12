@@ -200,6 +200,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">A</span> Appendix A</h1>
 <div id="authors-guidelines" class="section level2" number="7.1">
 <h2><span class="header-section-number">A.1</span> Authors Guidelines</h2>
+<p>We have decided to adapt the tidyverse style guide. Detailed content can be found here.</p>
+<p><a href="https://style.tidyverse.org/">tidyverse style guide</a></p>
+<p>Before committing code to the git repository, it should be styled using the styler package.</p>
+<p>Primary points are outlined below:
+- Use underscores to separate words in both variable and file names.</p>
+<pre><code>File Names:
+chapter_1.Rmd
+---
+Variable Names:
+observed_data</code></pre>
+<ul>
+<li>When submitting a description of a new model use the template provided in Appendix B. However, if extenuating circumstances make the template in Appendix B untenable for a model, describe the reason for departure in the git commit message.</li>
+<li>Variables should be named with nouns, functions should be named with verbs</li>
+<li>Use dots to separate words in function names</li>
+</ul>
+<pre><code>simulate.code &lt;- function(X) {
+}</code></pre>
+<ul>
+<li>Label function arguments</li>
+<li>Spaces after commas not before</li>
+<li>Do not pad parentheses with spaces</li>
+<li>Pad operators with space</li>
+</ul>
+<pre><code>foo == bar
+foo &lt;- bar
+foo + bar
+foo * bar</code></pre>
 </div>
 </div>
             </section>
