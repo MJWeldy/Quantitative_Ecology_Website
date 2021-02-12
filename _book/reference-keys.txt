@@ -3,7 +3,7 @@ tab:nice-tab
 prerequisites
 intro
 abundance
-model-description
+conditional-likelihood
 algebra
 simulation
 jags

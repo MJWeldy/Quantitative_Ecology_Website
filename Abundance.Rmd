@@ -2,7 +2,11 @@
 
 Here is a review of existing methods.
 
-### Model Description
+### Conditional Likelihood
+
+@alho_logistic_1990
+@huggins_statistical_1989
+@huggins_practical_1991
 
 ### Algebra
 $$\hat{N} = \frac{M_{t+1}}{1-\prod^{t}(1-p_t)}$$
