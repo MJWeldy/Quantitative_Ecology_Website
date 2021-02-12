@@ -1,0 +1,14 @@
+book_filename: "Quantitative_Ecology_Desktop"
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: "Chapter "
+rmd_files: ["index.Rmd", 
+            "01-intro.Rmd",
+            "02-literature.Rmd",
+            "03-method.Rmd",
+            "04-application.Rmd",
+            "05-summary.Rmd",
+            "Appendix.Rmd",
+            "06-references.Rmd"
+            ]

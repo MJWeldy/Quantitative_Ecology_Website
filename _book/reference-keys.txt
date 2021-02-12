@@ -1,0 +1,14 @@
+fig:nice-fig
+tab:nice-tab
+prerequisites
+intro
+literature
+methods
+applications
+example-one
+example-two
+final-words
+appendix-a
+authors-guidelines
+appendix-b
+model-template
