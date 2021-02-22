@@ -1,0 +1,3 @@
+# Survival
+## Cormack-Jolly-Seber
+## Jolly-Seber

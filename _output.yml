@@ -3,6 +3,10 @@ bookdown::gitbook:
   includes:
     in_header: ./header.html
   config:
+    sharing:
+          share: false
+          facebook: false
+          twitter: false
     toc:
       before: |
         <li><a href="./">Quantitative Ecology</a></li>

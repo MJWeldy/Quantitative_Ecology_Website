@@ -4,11 +4,10 @@ language:
   ui:
     chapter_name: "Chapter "
 rmd_files: ["index.Rmd", 
-            "01-intro.Rmd",
+            "Intro.Rmd",
             "Abundance.Rmd",
-            "03-method.Rmd",
-            "04-application.Rmd",
-            "05-summary.Rmd",
+            "Occupancy.Rmd",
+            "Survival.Rmd",
             "Appendix.Rmd",
-            "06-references.Rmd"
+            "References.Rmd"
             ]
