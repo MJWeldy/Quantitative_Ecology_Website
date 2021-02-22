@@ -6,6 +6,7 @@ abundance
 conditional-likelihood
 algebra
 simulation
+models
 jags
 stan
 comparison
