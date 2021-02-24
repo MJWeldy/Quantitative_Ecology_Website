@@ -51,6 +51,10 @@
 
 
 
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="libs/viz-1.8.2/viz.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/grViz-binding-1.0.6.1/grViz.js"></script>
 <script>
 function unrolltab(evt, tabName) {
   var i, tabcontent, tablinks;
@@ -237,7 +241,7 @@ Variation in detection probability can be modeled using linear logistic models o
 <span id="cb4-9"><a href="abundance.html#cb4-9" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> true_detections[<span class="fu">apply</span>(true_detections,<span class="dv">1</span>,max) <span class="sc">==</span> <span class="dv">1</span>,]</span>
 <span id="cb4-10"><a href="abundance.html#cb4-10" aria-hidden="true" tabindex="-1"></a>MNKA <span class="ot">&lt;-</span> <span class="fu">nrow</span>(observed)</span>
 <span id="cb4-11"><a href="abundance.html#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>( <span class="fu">paste0</span>(<span class="st">&quot;Number ever detected: &quot;</span>, MNKA,<span class="at">sep =</span> <span class="st">&quot; &quot;</span>) ) <span class="co">#number ever detected</span></span></code></pre></div>
-<pre><code>## [1] &quot;Number ever detected: 138 &quot;</code></pre>
+<pre><code>## [1] &quot;Number ever detected: 146 &quot;</code></pre>
 </div>
 <div id="models" class="section level3 tabset" number="3.3.3">
 <h3><span class="header-section-number">3.3.3</span> Models</h3>
@@ -313,8 +317,8 @@ Greta
 <span id="cb7-18"><a href="abundance.html#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb7-19"><a href="abundance.html#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="st">model {  </span></span>
 <span id="cb7-20"><a href="abundance.html#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="st"> for(i in 1:nsites)</span></span>
-<span id="cb7-21"><a href="abundance.html#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="st">    for(j in 1:4) </span></span>
-<span id="cb7-22"><a href="abundance.html#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="st">      y[i, j] ~ bernoulli_lpmf(p);</span></span>
+<span id="cb7-21"><a href="abundance.html#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="st">    for(j in 1:4)</span></span>
+<span id="cb7-22"><a href="abundance.html#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="st">      y[i, j] ~ bernoulli(p);</span></span>
 <span id="cb7-23"><a href="abundance.html#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb7-24"><a href="abundance.html#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
 <span id="cb7-25"><a href="abundance.html#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="st">  real N = MNKA / (1-(1-p)^4);</span></span>
@@ -329,34 +333,32 @@ Greta
 <div id="greta" class="section level4 unnumbered">
 <h4>Greta</h4>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="abundance.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(greta)</span>
-<span id="cb8-2"><a href="abundance.html#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="abundance.html#cb8-3" aria-hidden="true" tabindex="-1"></a>capture_vec <span class="ot">&lt;-</span> <span class="fu">apply</span>(observed, <span class="dv">1</span>, <span class="cf">function</span>(x) x[<span class="fu">min</span>(<span class="fu">which</span>(x <span class="sc">&gt;</span> <span class="dv">0</span>))<span class="sc">:</span><span class="fu">max</span>(<span class="fu">which</span>(x <span class="sc">&gt;</span> <span class="dv">0</span>))][<span class="sc">-</span><span class="dv">1</span>])</span>
-<span id="cb8-4"><a href="abundance.html#cb8-4" aria-hidden="true" tabindex="-1"></a>capture_vec <span class="ot">&lt;-</span> <span class="fu">unlist</span>(capture_vec)</span>
-<span id="cb8-5"><a href="abundance.html#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(capture_vec)</span>
-<span id="cb8-6"><a href="abundance.html#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="abundance.html#cb8-7" aria-hidden="true" tabindex="-1"></a>p_greta <span class="ot">&lt;-</span> <span class="fu">beta</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb8-8"><a href="abundance.html#cb8-8" aria-hidden="true" tabindex="-1"></a>p_greta <span class="ot">&lt;-</span> <span class="fu">uniform</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb8-9"><a href="abundance.html#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># likelihood</span></span>
-<span id="cb8-10"><a href="abundance.html#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="fu">distribution</span>(capture_vec) <span class="ot">&lt;-</span> <span class="fu">bernoulli</span>(p_greta)</span>
-<span id="cb8-11"><a href="abundance.html#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># derived parameter</span></span>
-<span id="cb8-12"><a href="abundance.html#cb8-12" aria-hidden="true" tabindex="-1"></a>pstar <span class="ot">&lt;-</span>  <span class="dv">1</span><span class="sc">-</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)</span>
-<span id="cb8-13"><a href="abundance.html#cb8-13" aria-hidden="true" tabindex="-1"></a>N_hat <span class="ot">&lt;-</span>  MNKA <span class="sc">/</span> pstar</span>
-<span id="cb8-14"><a href="abundance.html#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># defining the model</span></span>
-<span id="cb8-15"><a href="abundance.html#cb8-15" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">model</span>(p_greta, N_hat,pstar)</span>
-<span id="cb8-16"><a href="abundance.html#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(m)</span></span>
-<span id="cb8-17"><a href="abundance.html#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co"># sampling</span></span>
-<span id="cb8-18"><a href="abundance.html#cb8-18" aria-hidden="true" tabindex="-1"></a>draws <span class="ot">&lt;-</span> greta<span class="sc">::</span><span class="fu">mcmc</span>(m, <span class="at">n_samples =</span> <span class="dv">1000</span>)</span>
-<span id="cb8-19"><a href="abundance.html#cb8-19" aria-hidden="true" tabindex="-1"></a>greta_output <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Sampler=</span><span class="fu">rep</span>(<span class="st">&#39;greta&#39;</span>,<span class="dv">2</span>),<span class="fu">round</span>(<span class="fu">summary</span>(draws)<span class="sc">$</span>statistics[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)],<span class="dv">2</span>),<span class="fu">round</span>(<span class="fu">summary</span>(draws)<span class="sc">$</span>quantiles[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>)],<span class="dv">2</span>))</span></code></pre></div>
+<span id="cb8-2"><a href="abundance.html#cb8-2" aria-hidden="true" tabindex="-1"></a>capture_vec <span class="ot">&lt;-</span> <span class="fu">unlist</span>(observed)</span>
+<span id="cb8-3"><a href="abundance.html#cb8-3" aria-hidden="true" tabindex="-1"></a>p_greta <span class="ot">&lt;-</span> <span class="fu">beta</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb8-4"><a href="abundance.html#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># likelihood</span></span>
+<span id="cb8-5"><a href="abundance.html#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">distribution</span>(capture_vec) <span class="ot">&lt;-</span> <span class="fu">bernoulli</span>(p_greta)</span>
+<span id="cb8-6"><a href="abundance.html#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># derived parameter</span></span>
+<span id="cb8-7"><a href="abundance.html#cb8-7" aria-hidden="true" tabindex="-1"></a>pstar <span class="ot">&lt;-</span>  <span class="dv">1</span><span class="sc">-</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)</span>
+<span id="cb8-8"><a href="abundance.html#cb8-8" aria-hidden="true" tabindex="-1"></a>N_hat <span class="ot">&lt;-</span>  MNKA <span class="sc">/</span> pstar</span>
+<span id="cb8-9"><a href="abundance.html#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># defining the model</span></span>
+<span id="cb8-10"><a href="abundance.html#cb8-10" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">model</span>(p_greta, N_hat,pstar)</span>
+<span id="cb8-11"><a href="abundance.html#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="abundance.html#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># sampling</span></span>
+<span id="cb8-13"><a href="abundance.html#cb8-13" aria-hidden="true" tabindex="-1"></a>draws <span class="ot">&lt;-</span> greta<span class="sc">::</span><span class="fu">mcmc</span>(m, <span class="at">n_samples =</span> <span class="dv">1000</span>)</span>
+<span id="cb8-14"><a href="abundance.html#cb8-14" aria-hidden="true" tabindex="-1"></a>greta_output <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Sampler=</span><span class="fu">rep</span>(<span class="st">&#39;greta&#39;</span>,<span class="dv">2</span>),<span class="fu">round</span>(<span class="fu">summary</span>(draws)<span class="sc">$</span>statistics[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)],<span class="dv">2</span>),<span class="fu">round</span>(<span class="fu">summary</span>(draws)<span class="sc">$</span>quantiles[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>)],<span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="abundance.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m)</span></code></pre></div>
+<div id="htmlwidget-7c5e37feb1bc2a2539b9" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7c5e37feb1bc2a2539b9">{"x":{"diagram":"digraph {\n\ngraph [layout = \"dot\",\n       outputorder = \"edgesfirst\",\n       bgcolor = \"white\",\n       rankdir = \"LR\"]\n\nnode [fontname = \"Helvetica\",\n      fontsize = \"10\",\n      shape = \"circle\",\n      fixedsize = \"true\",\n      width = \"0.5\",\n      style = \"filled\",\n      fillcolor = \"aliceblue\",\n      color = \"gray70\",\n      fontcolor = \"gray50\"]\n\nedge [fontname = \"Helvetica\",\n     fontsize = \"8\",\n     len = \"1.5\",\n     color = \"gray80\",\n     arrowsize = \"0.5\"]\n\n  \"1\" [label = \"p_greta\n\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"#E0D2EE\", width = \"0.6\", height = \"0.48\", fillcolor = \"#F4F0F9\"] \n  \"2\" [label = \"beta\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"diamond\", color = \"#B797D7\", width = \"1\", height = \"0.8\", fillcolor = \"#E0D2EE\"] \n  \"3\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"4\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"5\" [label = \"bernoulli\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"diamond\", color = \"#B797D7\", width = \"1\", height = \"0.8\", fillcolor = \"#E0D2EE\"] \n  \"6\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"7\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"8\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"9\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"10\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"11\" [label = \"pstar\n\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"12\" [label = \"N_hat\n\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"13\" [label = \"146\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"14\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"15\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"16\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"17\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"18\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"19\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"20\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"21\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n\"1\"->\"5\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"prob\", style = \"solid\"] \n\"1\"->\"7\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"1\"->\"15\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"1\"->\"17\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"1\"->\"19\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"2\"->\"1\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", penwidth = \"3\", style = \"dashed\"] \n\"3\"->\"2\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"shape1\", style = \"solid\"] \n\"4\"->\"2\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"shape2\", style = \"solid\"] \n\"5\"->\"6\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", penwidth = \"3\", style = \"dashed\"] \n\"7\"->\"8\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"8\"->\"9\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"9\"->\"10\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"10\"->\"11\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"11\"->\"12\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"divide\", style = \"solid\"] \n\"13\"->\"12\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"divide\", style = \"solid\"] \n\"14\"->\"11\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"15\"->\"10\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"16\"->\"15\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"17\"->\"9\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"18\"->\"17\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"19\"->\"8\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"20\"->\"19\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"21\"->\"7\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div>
 </div>
 <div id="comparison" class="section level3" number="3.3.4">
 <h3><span class="header-section-number">3.3.4</span> Comparison</h3>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="abundance.html#cb9-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(jags_output,</span>
-<span id="cb9-2"><a href="abundance.html#cb9-2" aria-hidden="true" tabindex="-1"></a>                 stan_output,</span>
-<span id="cb9-3"><a href="abundance.html#cb9-3" aria-hidden="true" tabindex="-1"></a>                 greta_output)</span>
-<span id="cb9-4"><a href="abundance.html#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(results)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="abundance.html#cb10-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(jags_output,</span>
+<span id="cb10-2"><a href="abundance.html#cb10-2" aria-hidden="true" tabindex="-1"></a>                 stan_output,</span>
+<span id="cb10-3"><a href="abundance.html#cb10-3" aria-hidden="true" tabindex="-1"></a>                 greta_output)</span>
+<span id="cb10-4"><a href="abundance.html#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(results)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -372,50 +374,50 @@ Greta
 <tr class="odd">
 <td align="left">N</td>
 <td align="left">jags</td>
-<td align="left">145.13</td>
-<td align="left">1.37</td>
-<td align="left">142.74</td>
-<td align="left">148.12</td>
+<td align="left">150.5</td>
+<td align="left">1.56</td>
+<td align="left">147.82</td>
+<td align="left">153.87</td>
 </tr>
 <tr class="even">
 <td align="left">p</td>
 <td align="left">jags</td>
-<td align="left">0.53</td>
+<td align="left">0.51</td>
 <td align="left">0.02</td>
-<td align="left">0.49</td>
-<td align="left">0.57</td>
+<td align="left">0.47</td>
+<td align="left">0.55</td>
 </tr>
 <tr class="odd">
 <td align="left">N</td>
 <td align="left">stan</td>
-<td align="left">145.12</td>
-<td align="left">1.35</td>
-<td align="left">142.78</td>
-<td align="left">148.03</td>
+<td align="left">150.51</td>
+<td align="left">1.57</td>
+<td align="left">147.79</td>
+<td align="left">153.91</td>
 </tr>
 <tr class="even">
 <td align="left">p</td>
 <td align="left">stan</td>
-<td align="left">0.53</td>
+<td align="left">0.51</td>
 <td align="left">0.02</td>
-<td align="left">0.49</td>
-<td align="left">0.57</td>
+<td align="left">0.47</td>
+<td align="left">0.56</td>
 </tr>
 <tr class="odd">
 <td align="left">N_hat</td>
 <td align="left">greta</td>
-<td align="left">138.87</td>
-<td align="left">0.41</td>
-<td align="left">138.32</td>
-<td align="left">139.86</td>
+<td align="left">154.64</td>
+<td align="left">1.55</td>
+<td align="left">151.87</td>
+<td align="left">157.93</td>
 </tr>
 <tr class="even">
 <td align="left">p_greta</td>
 <td align="left">greta</td>
-<td align="left">0.72</td>
-<td align="left">0.03</td>
-<td align="left">0.66</td>
-<td align="left">0.78</td>
+<td align="left">0.52</td>
+<td align="left">0.02</td>
+<td align="left">0.48</td>
+<td align="left">0.56</td>
 </tr>
 </tbody>
 </table>

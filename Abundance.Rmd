@@ -105,8 +105,8 @@ parameters {
 }
 model {  
  for(i in 1:nsites)
-    for(j in 1:4) 
-      y[i, j] ~ bernoulli_lpmf(p);
+    for(j in 1:4)
+      y[i, j] ~ bernoulli(p);
 }
 generated quantities {
   real N = MNKA / (1-(1-p)^4);
@@ -121,13 +121,8 @@ stan_output <- cbind(Sampler=rep('stan',2,), round(summary(stan.samples)$summary
 #### Greta  {-}
 ```{r,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}
 library(greta)
-
-capture_vec <- apply(observed, 1, function(x) x[min(which(x > 0)):max(which(x > 0))][-1])
-capture_vec <- unlist(capture_vec)
-length(capture_vec)
-
+capture_vec <- unlist(observed)
 p_greta <- beta(1, 1)
-#p_greta <- uniform(0, 1)
 # likelihood
 distribution(capture_vec) <- bernoulli(p_greta)
 # derived parameter
@@ -135,10 +130,13 @@ pstar <-  1-(1-p_greta)*(1-p_greta)*(1-p_greta)*(1-p_greta)
 N_hat <-  MNKA / pstar
 # defining the model
 m <- model(p_greta, N_hat,pstar)
-#plot(m)
+
 # sampling
 draws <- greta::mcmc(m, n_samples = 1000)
 greta_output <- cbind(Sampler=rep('greta',2),round(summary(draws)$statistics[c(2,1),c(1,2)],2),round(summary(draws)$quantiles[c(2,1),c(1,5)],2))
+```
+```{r}
+plot(m)
 ```
 :::
 :::
