@@ -2,7 +2,7 @@ fig:nice-fig
 tab:nice-tab
 prerequisites
 intro
-abundance
+abundance---test
 lincoln-peterson
 full-likelihood
 conditional-likelihood

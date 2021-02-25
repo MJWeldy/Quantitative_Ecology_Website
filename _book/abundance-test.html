@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Abundance - test | Quantitative Ecology</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Abundance - test | Quantitative Ecology" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Abundance - test | Quantitative Ecology" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Matt Weldy" />
+
+
+<meta name="date" content="2021-02-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="intro.html"/>
+<link rel="next" href="occupancy.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="libs/viz-1.8.2/viz.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/grViz-binding-1.0.6.1/grViz.js"></script>
+<script>
+function unrolltab(evt, tabName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Quantitative Ecology</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
+<li class="chapter" data-level="3" data-path="abundance-test.html"><a href="abundance-test.html"><i class="fa fa-check"></i><b>3</b> Abundance - test</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="abundance-test.html"><a href="abundance-test.html#lincoln-peterson"><i class="fa fa-check"></i><b>3.1</b> Lincoln-Peterson</a></li>
+<li class="chapter" data-level="3.2" data-path="abundance-test.html"><a href="abundance-test.html#full-likelihood"><i class="fa fa-check"></i><b>3.2</b> Full Likelihood</a></li>
+<li class="chapter" data-level="3.3" data-path="abundance-test.html"><a href="abundance-test.html#conditional-likelihood"><i class="fa fa-check"></i><b>3.3</b> Conditional Likelihood</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="abundance-test.html"><a href="abundance-test.html#algebra"><i class="fa fa-check"></i><b>3.3.1</b> Algebra</a></li>
+<li class="chapter" data-level="3.3.2" data-path="abundance-test.html"><a href="abundance-test.html#simulation"><i class="fa fa-check"></i><b>3.3.2</b> Simulation</a></li>
+<li class="chapter" data-level="3.3.3" data-path="abundance-test.html"><a href="abundance-test.html#models"><i class="fa fa-check"></i><b>3.3.3</b> Models</a></li>
+<li class="chapter" data-level="3.3.4" data-path="abundance-test.html"><a href="abundance-test.html#comparison"><i class="fa fa-check"></i><b>3.3.4</b> Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="abundance-test.html"><a href="abundance-test.html#data-augmentation"><i class="fa fa-check"></i><b>3.4</b> Data Augmentation</a></li>
+<li class="chapter" data-level="3.5" data-path="abundance-test.html"><a href="abundance-test.html#n-mixture-model"><i class="fa fa-check"></i><b>3.5</b> N-Mixture Model</a></li>
+<li class="chapter" data-level="3.6" data-path="abundance-test.html"><a href="abundance-test.html#spatial-capture-recapture"><i class="fa fa-check"></i><b>3.6</b> Spatial Capture-Recapture</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="occupancy.html"><a href="occupancy.html"><i class="fa fa-check"></i><b>4</b> Occupancy</a></li>
+<li class="chapter" data-level="5" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>5</b> Survival</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="survival.html"><a href="survival.html#cormack-jolly-seber"><i class="fa fa-check"></i><b>5.1</b> Cormack-Jolly-Seber</a></li>
+<li class="chapter" data-level="5.2" data-path="survival.html"><a href="survival.html#jolly-seber"><i class="fa fa-check"></i><b>5.2</b> Jolly-Seber</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>A</b> Appendix A</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="appendix-a.html"><a href="appendix-a.html#authors-guidelines"><i class="fa fa-check"></i><b>A.1</b> Authors Guidelines</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="appendix-b.html"><a href="appendix-b.html"><i class="fa fa-check"></i><b>B</b> Appendix B</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="appendix-b.html"><a href="appendix-b.html#model-template"><i class="fa fa-check"></i><b>B.1</b> Model Template</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Quantitative Ecology</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="abundance---test" class="section level1" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Abundance - test</h1>
+<p>Here is a review of existing methods.</p>
+<div id="lincoln-peterson" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Lincoln-Peterson</h2>
+</div>
+<div id="full-likelihood" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Full Likelihood</h2>
+</div>
+<div id="conditional-likelihood" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Conditional Likelihood</h2>
+<p>The conditional likelihood abundance estimator proposed by <span class="citation"><a href="references.html#ref-huggins_statistical_1989" role="doc-biblioref">Huggins</a> (<a href="references.html#ref-huggins_statistical_1989" role="doc-biblioref">1989</a>)</span> and <span class="citation"><a href="references.html#ref-alho_logistic_1990" role="doc-biblioref">Alho</a> (<a href="references.html#ref-alho_logistic_1990" role="doc-biblioref">1990</a>)</span>, which was further extended in <span class="citation"><a href="references.html#ref-huggins_practical_1991" role="doc-biblioref">Huggins</a> (<a href="references.html#ref-huggins_practical_1991" role="doc-biblioref">1991</a>)</span>, is an extension to previous abundance estimators to account for heterogeneous capture probabilities (<span class="math inline">\(p\)</span>). The model estimates individual capture probabilities and abundance conditional on captured individuals.</p>
+<div id="algebra" class="section level3" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Algebra</h3>
+<p><span class="math display">\[  \mathcal{L} = \prod_{i=1}^n \prod_{t=1}^t p_{i,t}^{z_{i,t}}(1-p_{i,t})^{1-z_{i,t}} \]</span>
+where, 
+<span class="math inline">\(z_{i,t}\)</span> takes the value of 1 if individual <span class="math inline">\(i\)</span> has been captured before occasion <span class="math inline">\(t\)</span> and 0 otherwise.</p>
+<p>Thus the capture history <span class="math inline">\(y_{i,t}\)</span> is used to estimate the capture probability of individual <span class="math inline">\(i\)</span> as a Bernoulli trial,
+<span class="math display">\[y_{i,t} \sim Bernoulli(p_{i,t}) \]</span>
+and abundance <span class="math inline">\(\hat{N}\)</span> is derived condtional on the count of known individuals (<span class="math inline">\(C\)</span>), sometimes referred to the minimum number of known alive (<span class="math inline">\(MNKA\)</span>).
+<span class="math display">\[\hat{N} = \frac{C}{1-\prod^{t}(1-p_t)}\]</span>
+Variation in detection probability can be modeled using linear logistic models or other variations used to estimate probabilities 0-1.</p>
+</div>
+<div id="simulation" class="section level3" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> Simulation</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="abundance-test.html#cb4-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">150</span> <span class="co">#True population size</span></span>
+<span id="cb4-2"><a href="abundance-test.html#cb4-2" aria-hidden="true" tabindex="-1"></a>n_occ <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="co">#Number of trapping occasions</span></span>
+<span id="cb4-3"><a href="abundance-test.html#cb4-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.50</span> <span class="co">#Probability of first detection</span></span>
+<span id="cb4-4"><a href="abundance-test.html#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="abundance-test.html#cb4-5" aria-hidden="true" tabindex="-1"></a>true_detections <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim=</span><span class="fu">c</span>(N,n_occ))</span>
+<span id="cb4-6"><a href="abundance-test.html#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_occ){</span>
+<span id="cb4-7"><a href="abundance-test.html#cb4-7" aria-hidden="true" tabindex="-1"></a>  true_detections[,t] <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n=</span>N,<span class="at">size=</span><span class="dv">1</span>,<span class="at">prob=</span>p)</span>
+<span id="cb4-8"><a href="abundance-test.html#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-9"><a href="abundance-test.html#cb4-9" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> true_detections[<span class="fu">apply</span>(true_detections,<span class="dv">1</span>,max) <span class="sc">==</span> <span class="dv">1</span>,]</span>
+<span id="cb4-10"><a href="abundance-test.html#cb4-10" aria-hidden="true" tabindex="-1"></a>MNKA <span class="ot">&lt;-</span> <span class="fu">nrow</span>(observed)</span>
+<span id="cb4-11"><a href="abundance-test.html#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>( <span class="fu">paste0</span>(<span class="st">&quot;Number ever detected: &quot;</span>, MNKA,<span class="at">sep =</span> <span class="st">&quot; &quot;</span>) ) <span class="co">#number ever detected</span></span></code></pre></div>
+<pre><code>## [1] &quot;Number ever detected: 142 &quot;</code></pre>
+</div>
+<div id="models" class="section level3 tabset" number="3.3.3">
+<h3><span class="header-section-number">3.3.3</span> Models</h3>
+<div class="tab">
+<button class="tablinks" onclick="unrolltab(event,&#39;JAGS&#39;)">
+JAGS
+</button>
+<button class="tablinks" onclick="unrolltab(event, &#39;Stan&#39;)">
+Stan
+</button>
+<button class="tablinks" onclick="unrolltab(event, &#39;Greta&#39;)">
+Greta
+</button>
+<div id="JAGS" class="tabcontent">
+<div id="jags-model-fit" class="section level4 unnumbered">
+<h4>JAGS model fit</h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="abundance-test.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb6-2"><a href="abundance-test.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(R2jags)</span>
+<span id="cb6-3"><a href="abundance-test.html#cb6-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb6-4"><a href="abundance-test.html#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y=</span>observed,</span>
+<span id="cb6-5"><a href="abundance-test.html#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">nsites=</span><span class="fu">nrow</span>(observed),</span>
+<span id="cb6-6"><a href="abundance-test.html#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">MNKA=</span>MNKA,</span>
+<span id="cb6-7"><a href="abundance-test.html#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_occ=</span>n_occ</span>
+<span id="cb6-8"><a href="abundance-test.html#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-9"><a href="abundance-test.html#cb6-9" aria-hidden="true" tabindex="-1"></a>model_string <span class="ot">&lt;-</span> <span class="fu">textConnection</span>(</span>
+<span id="cb6-10"><a href="abundance-test.html#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;</span></span>
+<span id="cb6-11"><a href="abundance-test.html#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="st">  model {</span></span>
+<span id="cb6-12"><a href="abundance-test.html#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="st">  # Likelihood</span></span>
+<span id="cb6-13"><a href="abundance-test.html#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="st">  for(i in 1:nsites) {</span></span>
+<span id="cb6-14"><a href="abundance-test.html#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="st">    # Observation model</span></span>
+<span id="cb6-15"><a href="abundance-test.html#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="st">    for(j in 1:4) {</span></span>
+<span id="cb6-16"><a href="abundance-test.html#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="st">      y[i, j] ~ dbern(p)</span></span>
+<span id="cb6-17"><a href="abundance-test.html#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
+<span id="cb6-18"><a href="abundance-test.html#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb6-19"><a href="abundance-test.html#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="st">  for(t in 1:4){</span></span>
+<span id="cb6-20"><a href="abundance-test.html#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="st">    p_un[t] &lt;- (1-p)</span></span>
+<span id="cb6-21"><a href="abundance-test.html#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb6-22"><a href="abundance-test.html#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="st">  # Priors</span></span>
+<span id="cb6-23"><a href="abundance-test.html#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="st">  p ~ dunif(0, 1) # Uninformative prior</span></span>
+<span id="cb6-24"><a href="abundance-test.html#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="st">  # Derived values</span></span>
+<span id="cb6-25"><a href="abundance-test.html#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="st">  N &lt;- (MNKA / (1-prod(p_un[])))</span></span>
+<span id="cb6-26"><a href="abundance-test.html#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="st">}&quot;</span>)</span>
+<span id="cb6-27"><a href="abundance-test.html#cb6-27" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;p&quot;</span>,<span class="st">&quot;N&quot;</span>)</span>
+<span id="cb6-28"><a href="abundance-test.html#cb6-28" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb6-29"><a href="abundance-test.html#cb6-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>( </span>
+<span id="cb6-30"><a href="abundance-test.html#cb6-30" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-31"><a href="abundance-test.html#cb6-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-32"><a href="abundance-test.html#cb6-32" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10000</span> ; nt <span class="ot">&lt;-</span> <span class="dv">1</span> ; nb <span class="ot">&lt;-</span> <span class="dv">5000</span> ; nc <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb6-33"><a href="abundance-test.html#cb6-33" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">jags</span>(data, inits, parameters, model_string, <span class="at">n.chains =</span> nc, <span class="at">n.thin =</span> nt, <span class="at">n.iter =</span> ni, <span class="at">n.burnin =</span> nb)</span>
+<span id="cb6-34"><a href="abundance-test.html#cb6-34" aria-hidden="true" tabindex="-1"></a>jags_output <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Sampler=</span><span class="fu">rep</span>(<span class="st">&#39;jags&#39;</span>,<span class="dv">2</span>), <span class="fu">round</span>(model<span class="sc">$</span>BUGSoutput<span class="sc">$</span>summary[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span>)],<span class="dv">2</span>))</span></code></pre></div>
+</div>
+</div>
+<div id="Stan" class="tabcontent">
+<div id="stan" class="section level4 unnumbered">
+<h4>Stan</h4>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="abundance-test.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb7-2"><a href="abundance-test.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
+<span id="cb7-3"><a href="abundance-test.html#cb7-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb7-4"><a href="abundance-test.html#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y=</span>observed,</span>
+<span id="cb7-5"><a href="abundance-test.html#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">nsites=</span><span class="fu">nrow</span>(observed),</span>
+<span id="cb7-6"><a href="abundance-test.html#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">MNKA=</span>MNKA,</span>
+<span id="cb7-7"><a href="abundance-test.html#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_occ=</span>n_occ</span>
+<span id="cb7-8"><a href="abundance-test.html#cb7-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-9"><a href="abundance-test.html#cb7-9" aria-hidden="true" tabindex="-1"></a>stan_model <span class="ot">&lt;-</span> <span class="st">&quot;</span></span>
+<span id="cb7-10"><a href="abundance-test.html#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb7-11"><a href="abundance-test.html#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; MNKA;</span></span>
+<span id="cb7-12"><a href="abundance-test.html#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; nsites;</span></span>
+<span id="cb7-13"><a href="abundance-test.html#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; n_occ;</span></span>
+<span id="cb7-14"><a href="abundance-test.html#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0,upper=1&gt; y[MNKA, n_occ];</span></span>
+<span id="cb7-15"><a href="abundance-test.html#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb7-16"><a href="abundance-test.html#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb7-17"><a href="abundance-test.html#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0, upper=1&gt; p;</span></span>
+<span id="cb7-18"><a href="abundance-test.html#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb7-19"><a href="abundance-test.html#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="st">model {  </span></span>
+<span id="cb7-20"><a href="abundance-test.html#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="st"> for(i in 1:nsites)</span></span>
+<span id="cb7-21"><a href="abundance-test.html#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="st">    for(j in 1:4)</span></span>
+<span id="cb7-22"><a href="abundance-test.html#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="st">      y[i, j] ~ bernoulli(p);</span></span>
+<span id="cb7-23"><a href="abundance-test.html#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb7-24"><a href="abundance-test.html#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb7-25"><a href="abundance-test.html#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="st">  real N = MNKA / (1-(1-p)^4);</span></span>
+<span id="cb7-26"><a href="abundance-test.html#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb7-27"><a href="abundance-test.html#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb7-28"><a href="abundance-test.html#cb7-28" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb7-29"><a href="abundance-test.html#cb7-29" aria-hidden="true" tabindex="-1"></a>stan.samples <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">model_code =</span> stan_model, <span class="at">data =</span> data, <span class="at">iter =</span> <span class="dv">10000</span>, <span class="at">chains =</span> nc, <span class="at">cores =</span> nc, <span class="at">open_progress=</span><span class="cn">FALSE</span>)</span>
+<span id="cb7-30"><a href="abundance-test.html#cb7-30" aria-hidden="true" tabindex="-1"></a>stan_output <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Sampler=</span><span class="fu">rep</span>(<span class="st">&#39;stan&#39;</span>,<span class="dv">2</span>,), <span class="fu">round</span>(<span class="fu">summary</span>(stan.samples)<span class="sc">$</span>summary[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">8</span>)],<span class="dv">2</span>))</span></code></pre></div>
+</div>
+</div>
+<div id="Greta" class="tabcontent">
+<div id="greta" class="section level4 unnumbered">
+<h4>Greta</h4>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="abundance-test.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(greta)</span>
+<span id="cb8-2"><a href="abundance-test.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#capture_vec &lt;- unlist(observed)</span></span>
+<span id="cb8-3"><a href="abundance-test.html#cb8-3" aria-hidden="true" tabindex="-1"></a>p_greta <span class="ot">&lt;-</span> <span class="fu">beta</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb8-4"><a href="abundance-test.html#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># likelihood</span></span>
+<span id="cb8-5"><a href="abundance-test.html#cb8-5" aria-hidden="true" tabindex="-1"></a>capture_vec <span class="ot">&lt;-</span> <span class="fu">as_data</span>(observed)</span>
+<span id="cb8-6"><a href="abundance-test.html#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">distribution</span>(capture_vec) <span class="ot">&lt;-</span> <span class="fu">bernoulli</span>(p_greta)</span>
+<span id="cb8-7"><a href="abundance-test.html#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># derived parameter</span></span>
+<span id="cb8-8"><a href="abundance-test.html#cb8-8" aria-hidden="true" tabindex="-1"></a>pstar <span class="ot">&lt;-</span>  <span class="dv">1</span><span class="sc">-</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)</span>
+<span id="cb8-9"><a href="abundance-test.html#cb8-9" aria-hidden="true" tabindex="-1"></a>N_hat <span class="ot">&lt;-</span>  MNKA <span class="sc">/</span> pstar</span>
+<span id="cb8-10"><a href="abundance-test.html#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># defining the model</span></span>
+<span id="cb8-11"><a href="abundance-test.html#cb8-11" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">model</span>(p_greta, N_hat,pstar)</span>
+<span id="cb8-12"><a href="abundance-test.html#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="abundance-test.html#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># sampling</span></span>
+<span id="cb8-14"><a href="abundance-test.html#cb8-14" aria-hidden="true" tabindex="-1"></a>draws <span class="ot">&lt;-</span> greta<span class="sc">::</span><span class="fu">mcmc</span>(m, <span class="at">n_samples =</span> <span class="dv">1000</span>)</span>
+<span id="cb8-15"><a href="abundance-test.html#cb8-15" aria-hidden="true" tabindex="-1"></a>greta_output <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Sampler=</span><span class="fu">rep</span>(<span class="st">&#39;greta&#39;</span>,<span class="dv">2</span>),<span class="fu">round</span>(<span class="fu">summary</span>(draws)<span class="sc">$</span>statistics[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)],<span class="dv">2</span>),<span class="fu">round</span>(<span class="fu">summary</span>(draws)<span class="sc">$</span>quantiles[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>)],<span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="abundance-test.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m)</span></code></pre></div>
+<div id="htmlwidget-ded921e470ace4c5b170" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ded921e470ace4c5b170">{"x":{"diagram":"digraph {\n\ngraph [layout = \"dot\",\n       outputorder = \"edgesfirst\",\n       bgcolor = \"white\",\n       rankdir = \"LR\"]\n\nnode [fontname = \"Helvetica\",\n      fontsize = \"10\",\n      shape = \"circle\",\n      fixedsize = \"true\",\n      width = \"0.5\",\n      style = \"filled\",\n      fillcolor = \"aliceblue\",\n      color = \"gray70\",\n      fontcolor = \"gray50\"]\n\nedge [fontname = \"Helvetica\",\n     fontsize = \"8\",\n     len = \"1.5\",\n     color = \"gray80\",\n     arrowsize = \"0.5\"]\n\n  \"1\" [label = \"p_greta\n\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"#E0D2EE\", width = \"0.6\", height = \"0.48\", fillcolor = \"#F4F0F9\"] \n  \"2\" [label = \"beta\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"diamond\", color = \"#B797D7\", width = \"1\", height = \"0.8\", fillcolor = \"#E0D2EE\"] \n  \"3\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"4\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"5\" [label = \"bernoulli\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"diamond\", color = \"#B797D7\", width = \"1\", height = \"0.8\", fillcolor = \"#E0D2EE\"] \n  \"6\" [label = \"capture_vec\n\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"7\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"8\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"9\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"10\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"11\" [label = \"pstar\n\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"12\" [label = \"N_hat\n\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"13\" [label = \"142\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"14\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"15\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"16\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"17\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"18\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"19\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"20\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"21\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n\"1\"->\"5\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"prob\", style = \"solid\"] \n\"1\"->\"7\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"1\"->\"15\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"1\"->\"17\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"1\"->\"19\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"2\"->\"1\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", penwidth = \"3\", style = \"dashed\"] \n\"3\"->\"2\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"shape1\", style = \"solid\"] \n\"4\"->\"2\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"shape2\", style = \"solid\"] \n\"5\"->\"6\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", penwidth = \"3\", style = \"dashed\"] \n\"7\"->\"8\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"8\"->\"9\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"9\"->\"10\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"10\"->\"11\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"11\"->\"12\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"divide\", style = \"solid\"] \n\"13\"->\"12\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"divide\", style = \"solid\"] \n\"14\"->\"11\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"15\"->\"10\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"16\"->\"15\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"17\"->\"9\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"18\"->\"17\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"19\"->\"8\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"20\"->\"19\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"21\"->\"7\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="abundance-test.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(observed)</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]    1    1    1    0
+## [2,]    1    1    1    0
+## [3,]    0    1    0    1
+## [4,]    1    1    1    0
+## [5,]    1    0    0    1
+## [6,]    1    0    1    0</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="comparison" class="section level3" number="3.3.4">
+<h3><span class="header-section-number">3.3.4</span> Comparison</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="abundance-test.html#cb12-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(jags_output,</span>
+<span id="cb12-2"><a href="abundance-test.html#cb12-2" aria-hidden="true" tabindex="-1"></a>                 stan_output,</span>
+<span id="cb12-3"><a href="abundance-test.html#cb12-3" aria-hidden="true" tabindex="-1"></a>                 greta_output)</span>
+<span id="cb12-4"><a href="abundance-test.html#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(results)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">Sampler</th>
+<th align="left">mean</th>
+<th align="left">sd</th>
+<th align="left">2.5%</th>
+<th align="left">97.5%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">N</td>
+<td align="left">jags</td>
+<td align="left">150.5</td>
+<td align="left">1.56</td>
+<td align="left">147.82</td>
+<td align="left">153.87</td>
+</tr>
+<tr class="even">
+<td align="left">p</td>
+<td align="left">jags</td>
+<td align="left">0.51</td>
+<td align="left">0.02</td>
+<td align="left">0.47</td>
+<td align="left">0.55</td>
+</tr>
+<tr class="odd">
+<td align="left">N</td>
+<td align="left">stan</td>
+<td align="left">150.51</td>
+<td align="left">1.57</td>
+<td align="left">147.79</td>
+<td align="left">153.91</td>
+</tr>
+<tr class="even">
+<td align="left">p</td>
+<td align="left">stan</td>
+<td align="left">0.51</td>
+<td align="left">0.02</td>
+<td align="left">0.47</td>
+<td align="left">0.56</td>
+</tr>
+<tr class="odd">
+<td align="left">N_hat</td>
+<td align="left">greta</td>
+<td align="left">150.71</td>
+<td align="left">1.68</td>
+<td align="left">147.74</td>
+<td align="left">154.43</td>
+</tr>
+<tr class="even">
+<td align="left">p_greta</td>
+<td align="left">greta</td>
+<td align="left">0.51</td>
+<td align="left">0.02</td>
+<td align="left">0.47</td>
+<td align="left">0.56</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="data-augmentation" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Data Augmentation</h2>
+</div>
+<div id="n-mixture-model" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> N-Mixture Model</h2>
+</div>
+<div id="spatial-capture-recapture" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Spatial Capture-Recapture</h2>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="occupancy.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"],
+"share": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Quantitative_Ecology_Desktop.pdf", "Quantitative_Ecology_Desktop.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
