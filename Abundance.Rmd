@@ -121,9 +121,10 @@ stan_output <- cbind(Sampler=rep('stan',2,), round(summary(stan.samples)$summary
 #### Greta  {-}
 ```{r,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}
 library(greta)
-capture_vec <- unlist(observed)
+#capture_vec <- unlist(observed)
 p_greta <- beta(1, 1)
 # likelihood
+capture_vec <- as_data(observed)
 distribution(capture_vec) <- bernoulli(p_greta)
 # derived parameter
 pstar <-  1-(1-p_greta)*(1-p_greta)*(1-p_greta)*(1-p_greta)
@@ -137,6 +138,7 @@ greta_output <- cbind(Sampler=rep('greta',2),round(summary(draws)$statistics[c(2
 ```
 ```{r}
 plot(m)
+head(observed)
 ```
 :::
 :::
@@ -153,4 +155,4 @@ kable(results)
 ## N-Mixture Model
 ## Spatial Capture-Recapture
 
-
+    
