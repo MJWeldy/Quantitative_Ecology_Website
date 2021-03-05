@@ -10,3 +10,14 @@ shiny
 bookdown
 greta
 causact
+reticulate
+gt
+tidyverse
+tibble
+tidyr
+readr
+purrr
+dplyr
+stringr
+forcats
+glue

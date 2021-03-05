@@ -66,9 +66,29 @@ reticulate::conda_install(envname = "r-reticulate",
 #### STEP 4:  TEST THE INSTALLATION
 library(greta)  ## should work now
 library(causact)
+library(dplyr)
 graph = dag_create() %>%
   dag_node("Normal RV",
            rhs =normal(0,10))
 graph %>% dag_render()  ## see oval
 drawsDF = graph %>% dag_greta() ## see "running X chains..."
 drawsDF %>% dagp_plot(densityPlot = TRUE)  ## see plot
+# 
+# install_tensorflow(
+#   method = "conda",
+#   version = "1.14.0",
+#   extra_packages = "tensorflow-probability"
+# ) 
+
+conda_install(
+  envname = NULL,
+  packages,
+  forge = TRUE,
+  channel = character(),
+  pip = FALSE,
+  pip_options = character(),
+  pip_ignore_installed = FALSE,
+  conda = "auto",
+  python_version = NULL,
+  ...
+)

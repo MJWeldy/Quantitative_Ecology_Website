@@ -24,7 +24,7 @@
 <meta name="author" content="Matt Weldy" />
 
 
-<meta name="date" content="2021-02-25" />
+<meta name="date" content="2021-03-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -51,10 +51,6 @@
 
 
 
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
-<script src="libs/viz-1.8.2/viz.js"></script>
-<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
-<script src="libs/grViz-binding-1.0.6.1/grViz.js"></script>
 <script>
 function unrolltab(evt, tabName) {
   var i, tabcontent, tablinks;
@@ -172,8 +168,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4" data-path="occupancy.html"><a href="occupancy.html"><i class="fa fa-check"></i><b>4</b> Occupancy</a></li>
 <li class="chapter" data-level="5" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>5</b> Survival</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="survival.html"><a href="survival.html#cormack-jolly-seber"><i class="fa fa-check"></i><b>5.1</b> Cormack-Jolly-Seber</a></li>
-<li class="chapter" data-level="5.2" data-path="survival.html"><a href="survival.html#jolly-seber"><i class="fa fa-check"></i><b>5.2</b> Jolly-Seber</a></li>
+<li class="chapter" data-level="5.1" data-path="survival.html"><a href="survival.html#individual-level-cormack-jolly-seber"><i class="fa fa-check"></i><b>5.1</b> Individual-level Cormack-Jolly-Seber</a></li>
+<li class="chapter" data-level="5.2" data-path="survival.html"><a href="survival.html#model-name"><i class="fa fa-check"></i><b>5.2</b> Model Name</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="survival.html"><a href="survival.html#algebra-1"><i class="fa fa-check"></i><b>5.2.1</b> Algebra</a></li>
+<li class="chapter" data-level="5.2.2" data-path="survival.html"><a href="survival.html#simulation-1"><i class="fa fa-check"></i><b>5.2.2</b> Simulation</a></li>
+<li class="chapter" data-level="5.2.3" data-path="survival.html"><a href="survival.html#models-1"><i class="fa fa-check"></i><b>5.2.3</b> Models</a></li>
+<li class="chapter" data-level="5.2.4" data-path="survival.html"><a href="survival.html#comparison-1"><i class="fa fa-check"></i><b>5.2.4</b> Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="survival.html"><a href="survival.html#jolly-seber"><i class="fa fa-check"></i><b>5.3</b> Jolly-Seber</a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>A</b> Appendix A</a>
@@ -241,7 +244,7 @@ Variation in detection probability can be modeled using linear logistic models o
 <span id="cb4-9"><a href="abundance-test.html#cb4-9" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> true_detections[<span class="fu">apply</span>(true_detections,<span class="dv">1</span>,max) <span class="sc">==</span> <span class="dv">1</span>,]</span>
 <span id="cb4-10"><a href="abundance-test.html#cb4-10" aria-hidden="true" tabindex="-1"></a>MNKA <span class="ot">&lt;-</span> <span class="fu">nrow</span>(observed)</span>
 <span id="cb4-11"><a href="abundance-test.html#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>( <span class="fu">paste0</span>(<span class="st">&quot;Number ever detected: &quot;</span>, MNKA,<span class="at">sep =</span> <span class="st">&quot; &quot;</span>) ) <span class="co">#number ever detected</span></span></code></pre></div>
-<pre><code>## [1] &quot;Number ever detected: 142 &quot;</code></pre>
+<pre><code>## [1] &quot;Number ever detected: 137 &quot;</code></pre>
 </div>
 <div id="models" class="section level3 tabset" number="3.3.3">
 <h3><span class="header-section-number">3.3.3</span> Models</h3>
@@ -262,7 +265,7 @@ Greta
 <span id="cb6-2"><a href="abundance-test.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(R2jags)</span>
 <span id="cb6-3"><a href="abundance-test.html#cb6-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb6-4"><a href="abundance-test.html#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y=</span>observed,</span>
-<span id="cb6-5"><a href="abundance-test.html#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">nsites=</span><span class="fu">nrow</span>(observed),</span>
+<span id="cb6-5"><a href="abundance-test.html#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_sites=</span><span class="fu">nrow</span>(observed),</span>
 <span id="cb6-6"><a href="abundance-test.html#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">MNKA=</span>MNKA,</span>
 <span id="cb6-7"><a href="abundance-test.html#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_occ=</span>n_occ</span>
 <span id="cb6-8"><a href="abundance-test.html#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -270,13 +273,13 @@ Greta
 <span id="cb6-10"><a href="abundance-test.html#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;</span></span>
 <span id="cb6-11"><a href="abundance-test.html#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="st">  model {</span></span>
 <span id="cb6-12"><a href="abundance-test.html#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="st">  # Likelihood</span></span>
-<span id="cb6-13"><a href="abundance-test.html#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="st">  for(i in 1:nsites) {</span></span>
+<span id="cb6-13"><a href="abundance-test.html#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="st">  for(i in 1:n_sites) {</span></span>
 <span id="cb6-14"><a href="abundance-test.html#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="st">    # Observation model</span></span>
-<span id="cb6-15"><a href="abundance-test.html#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="st">    for(j in 1:4) {</span></span>
+<span id="cb6-15"><a href="abundance-test.html#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="st">    for(j in 1:n_occ) {</span></span>
 <span id="cb6-16"><a href="abundance-test.html#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="st">      y[i, j] ~ dbern(p)</span></span>
 <span id="cb6-17"><a href="abundance-test.html#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
 <span id="cb6-18"><a href="abundance-test.html#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb6-19"><a href="abundance-test.html#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="st">  for(t in 1:4){</span></span>
+<span id="cb6-19"><a href="abundance-test.html#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="st">  for(t in 1:n_occ){</span></span>
 <span id="cb6-20"><a href="abundance-test.html#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="st">    p_un[t] &lt;- (1-p)</span></span>
 <span id="cb6-21"><a href="abundance-test.html#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
 <span id="cb6-22"><a href="abundance-test.html#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="st">  # Priors</span></span>
@@ -290,13 +293,12 @@ Greta
 <span id="cb6-30"><a href="abundance-test.html#cb6-30" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb6-31"><a href="abundance-test.html#cb6-31" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb6-32"><a href="abundance-test.html#cb6-32" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10000</span> ; nt <span class="ot">&lt;-</span> <span class="dv">1</span> ; nb <span class="ot">&lt;-</span> <span class="dv">5000</span> ; nc <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb6-33"><a href="abundance-test.html#cb6-33" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">jags</span>(data, inits, parameters, model_string, <span class="at">n.chains =</span> nc, <span class="at">n.thin =</span> nt, <span class="at">n.iter =</span> ni, <span class="at">n.burnin =</span> nb)</span>
-<span id="cb6-34"><a href="abundance-test.html#cb6-34" aria-hidden="true" tabindex="-1"></a>jags_output <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Sampler=</span><span class="fu">rep</span>(<span class="st">&#39;jags&#39;</span>,<span class="dv">2</span>), <span class="fu">round</span>(model<span class="sc">$</span>BUGSoutput<span class="sc">$</span>summary[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span>)],<span class="dv">2</span>))</span></code></pre></div>
+<span id="cb6-33"><a href="abundance-test.html#cb6-33" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">jags</span>(data, inits, parameters, model_string, <span class="at">n.chains =</span> nc, <span class="at">n.thin =</span> nt, <span class="at">n.iter =</span> ni, <span class="at">n.burnin =</span> nb)</span></code></pre></div>
 </div>
 </div>
 <div id="Stan" class="tabcontent">
-<div id="stan" class="section level4 unnumbered">
-<h4>Stan</h4>
+<div id="stan-model-fit" class="section level4 unnumbered">
+<h4>Stan model fit</h4>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="abundance-test.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb7-2"><a href="abundance-test.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
 <span id="cb7-3"><a href="abundance-test.html#cb7-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
@@ -325,111 +327,450 @@ Greta
 <span id="cb7-26"><a href="abundance-test.html#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb7-27"><a href="abundance-test.html#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
 <span id="cb7-28"><a href="abundance-test.html#cb7-28" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb7-29"><a href="abundance-test.html#cb7-29" aria-hidden="true" tabindex="-1"></a>stan.samples <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">model_code =</span> stan_model, <span class="at">data =</span> data, <span class="at">iter =</span> <span class="dv">10000</span>, <span class="at">chains =</span> nc, <span class="at">cores =</span> nc, <span class="at">open_progress=</span><span class="cn">FALSE</span>)</span>
-<span id="cb7-30"><a href="abundance-test.html#cb7-30" aria-hidden="true" tabindex="-1"></a>stan_output <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Sampler=</span><span class="fu">rep</span>(<span class="st">&#39;stan&#39;</span>,<span class="dv">2</span>,), <span class="fu">round</span>(<span class="fu">summary</span>(stan.samples)<span class="sc">$</span>summary[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">8</span>)],<span class="dv">2</span>))</span></code></pre></div>
+<span id="cb7-29"><a href="abundance-test.html#cb7-29" aria-hidden="true" tabindex="-1"></a>stan.samples <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">model_code =</span> stan_model, <span class="at">data =</span> data, <span class="at">iter =</span> <span class="dv">10000</span>, <span class="at">chains =</span> nc, <span class="at">cores =</span> nc, <span class="at">open_progress=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="Greta" class="tabcontent">
-<div id="greta" class="section level4 unnumbered">
-<h4>Greta</h4>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="abundance-test.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(greta)</span>
-<span id="cb8-2"><a href="abundance-test.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#capture_vec &lt;- unlist(observed)</span></span>
-<span id="cb8-3"><a href="abundance-test.html#cb8-3" aria-hidden="true" tabindex="-1"></a>p_greta <span class="ot">&lt;-</span> <span class="fu">beta</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb8-4"><a href="abundance-test.html#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># likelihood</span></span>
-<span id="cb8-5"><a href="abundance-test.html#cb8-5" aria-hidden="true" tabindex="-1"></a>capture_vec <span class="ot">&lt;-</span> <span class="fu">as_data</span>(observed)</span>
-<span id="cb8-6"><a href="abundance-test.html#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">distribution</span>(capture_vec) <span class="ot">&lt;-</span> <span class="fu">bernoulli</span>(p_greta)</span>
-<span id="cb8-7"><a href="abundance-test.html#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># derived parameter</span></span>
-<span id="cb8-8"><a href="abundance-test.html#cb8-8" aria-hidden="true" tabindex="-1"></a>pstar <span class="ot">&lt;-</span>  <span class="dv">1</span><span class="sc">-</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)</span>
-<span id="cb8-9"><a href="abundance-test.html#cb8-9" aria-hidden="true" tabindex="-1"></a>N_hat <span class="ot">&lt;-</span>  MNKA <span class="sc">/</span> pstar</span>
-<span id="cb8-10"><a href="abundance-test.html#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># defining the model</span></span>
-<span id="cb8-11"><a href="abundance-test.html#cb8-11" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">model</span>(p_greta, N_hat,pstar)</span>
-<span id="cb8-12"><a href="abundance-test.html#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="abundance-test.html#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># sampling</span></span>
-<span id="cb8-14"><a href="abundance-test.html#cb8-14" aria-hidden="true" tabindex="-1"></a>draws <span class="ot">&lt;-</span> greta<span class="sc">::</span><span class="fu">mcmc</span>(m, <span class="at">n_samples =</span> <span class="dv">1000</span>)</span>
-<span id="cb8-15"><a href="abundance-test.html#cb8-15" aria-hidden="true" tabindex="-1"></a>greta_output <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Sampler=</span><span class="fu">rep</span>(<span class="st">&#39;greta&#39;</span>,<span class="dv">2</span>),<span class="fu">round</span>(<span class="fu">summary</span>(draws)<span class="sc">$</span>statistics[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)],<span class="dv">2</span>),<span class="fu">round</span>(<span class="fu">summary</span>(draws)<span class="sc">$</span>quantiles[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>)],<span class="dv">2</span>))</span></code></pre></div>
+<div id="greta-model-fit" class="section level4 unnumbered">
+<h4>Greta model fit</h4>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="abundance-test.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb8-2"><a href="abundance-test.html#cb8-2" aria-hidden="true" tabindex="-1"></a>reticulate<span class="sc">::</span><span class="fu">use_condaenv</span>(<span class="st">&quot;r-reticulate&quot;</span>)</span>
+<span id="cb8-3"><a href="abundance-test.html#cb8-3" aria-hidden="true" tabindex="-1"></a>reticulate<span class="sc">::</span><span class="fu">py_config</span>()</span>
+<span id="cb8-4"><a href="abundance-test.html#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(greta)</span>
+<span id="cb8-5"><a href="abundance-test.html#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#capture_vec &lt;- unlist(observed)</span></span>
+<span id="cb8-6"><a href="abundance-test.html#cb8-6" aria-hidden="true" tabindex="-1"></a>p_greta <span class="ot">&lt;-</span> <span class="fu">beta</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb8-7"><a href="abundance-test.html#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># likelihood</span></span>
+<span id="cb8-8"><a href="abundance-test.html#cb8-8" aria-hidden="true" tabindex="-1"></a>capture_vec <span class="ot">&lt;-</span> <span class="fu">as_data</span>(observed)</span>
+<span id="cb8-9"><a href="abundance-test.html#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">distribution</span>(capture_vec) <span class="ot">&lt;-</span> <span class="fu">bernoulli</span>(p_greta)</span>
+<span id="cb8-10"><a href="abundance-test.html#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># derived parameter</span></span>
+<span id="cb8-11"><a href="abundance-test.html#cb8-11" aria-hidden="true" tabindex="-1"></a>pstar <span class="ot">&lt;-</span>  <span class="dv">1</span><span class="sc">-</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_greta)</span>
+<span id="cb8-12"><a href="abundance-test.html#cb8-12" aria-hidden="true" tabindex="-1"></a>N_hat <span class="ot">&lt;-</span>  MNKA <span class="sc">/</span> pstar</span>
+<span id="cb8-13"><a href="abundance-test.html#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># defining the model</span></span>
+<span id="cb8-14"><a href="abundance-test.html#cb8-14" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">model</span>(p_greta, N_hat, pstar)</span>
+<span id="cb8-15"><a href="abundance-test.html#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="abundance-test.html#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># sampling</span></span>
+<span id="cb8-17"><a href="abundance-test.html#cb8-17" aria-hidden="true" tabindex="-1"></a>draws <span class="ot">&lt;-</span> greta<span class="sc">::</span><span class="fu">mcmc</span>(m, <span class="at">n_samples =</span> <span class="dv">1000</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="abundance-test.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m)</span></code></pre></div>
-<div id="htmlwidget-ded921e470ace4c5b170" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ded921e470ace4c5b170">{"x":{"diagram":"digraph {\n\ngraph [layout = \"dot\",\n       outputorder = \"edgesfirst\",\n       bgcolor = \"white\",\n       rankdir = \"LR\"]\n\nnode [fontname = \"Helvetica\",\n      fontsize = \"10\",\n      shape = \"circle\",\n      fixedsize = \"true\",\n      width = \"0.5\",\n      style = \"filled\",\n      fillcolor = \"aliceblue\",\n      color = \"gray70\",\n      fontcolor = \"gray50\"]\n\nedge [fontname = \"Helvetica\",\n     fontsize = \"8\",\n     len = \"1.5\",\n     color = \"gray80\",\n     arrowsize = \"0.5\"]\n\n  \"1\" [label = \"p_greta\n\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"#E0D2EE\", width = \"0.6\", height = \"0.48\", fillcolor = \"#F4F0F9\"] \n  \"2\" [label = \"beta\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"diamond\", color = \"#B797D7\", width = \"1\", height = \"0.8\", fillcolor = \"#E0D2EE\"] \n  \"3\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"4\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"5\" [label = \"bernoulli\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"diamond\", color = \"#B797D7\", width = \"1\", height = \"0.8\", fillcolor = \"#E0D2EE\"] \n  \"6\" [label = \"capture_vec\n\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"7\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"8\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"9\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"10\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"11\" [label = \"pstar\n\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"12\" [label = \"N_hat\n\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"13\" [label = \"142\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"14\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"15\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"16\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"17\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"18\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"19\" [label = \"\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"circle\", color = \"lightgray\", width = \"0.2\", height = \"0.16\", fillcolor = \"#D3D3D3\"] \n  \"20\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n  \"21\" [label = \"1\", fontcolor = \"#8960B3\", fontsize = \"12\", penwidth = \"2\", shape = \"square\", color = \"#E0D2EE\", width = \"0.5\", height = \"0.4\", fillcolor = \"#FFFFFF\"] \n\"1\"->\"5\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"prob\", style = \"solid\"] \n\"1\"->\"7\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"1\"->\"15\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"1\"->\"17\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"1\"->\"19\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"2\"->\"1\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", penwidth = \"3\", style = \"dashed\"] \n\"3\"->\"2\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"shape1\", style = \"solid\"] \n\"4\"->\"2\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"shape2\", style = \"solid\"] \n\"5\"->\"6\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", penwidth = \"3\", style = \"dashed\"] \n\"7\"->\"8\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"8\"->\"9\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"9\"->\"10\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"10\"->\"11\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"11\"->\"12\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"divide\", style = \"solid\"] \n\"13\"->\"12\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"divide\", style = \"solid\"] \n\"14\"->\"11\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"15\"->\"10\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"16\"->\"15\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"17\"->\"9\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"18\"->\"17\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"19\"->\"8\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"multiply\", style = \"solid\"] \n\"20\"->\"19\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n\"21\"->\"7\" [color = \"Gainsboro\", fontname = \"Helvetica\", fontcolor = \"gray\", fontsize = \"11\", penwidth = \"3\", label = \"subtract\", style = \"solid\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="abundance-test.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(observed)</span></code></pre></div>
-<pre><code>##      [,1] [,2] [,3] [,4]
-## [1,]    1    1    1    0
-## [2,]    1    1    1    0
-## [3,]    0    1    0    1
-## [4,]    1    1    1    0
-## [5,]    1    0    0    1
-## [6,]    1    0    1    0</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div id="comparison" class="section level3" number="3.3.4">
 <h3><span class="header-section-number">3.3.4</span> Comparison</h3>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="abundance-test.html#cb12-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(jags_output,</span>
-<span id="cb12-2"><a href="abundance-test.html#cb12-2" aria-hidden="true" tabindex="-1"></a>                 stan_output,</span>
-<span id="cb12-3"><a href="abundance-test.html#cb12-3" aria-hidden="true" tabindex="-1"></a>                 greta_output)</span>
-<span id="cb12-4"><a href="abundance-test.html#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(results)</span></code></pre></div>
-<table>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="left">Sampler</th>
-<th align="left">mean</th>
-<th align="left">sd</th>
-<th align="left">2.5%</th>
-<th align="left">97.5%</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">N</td>
-<td align="left">jags</td>
-<td align="left">150.5</td>
-<td align="left">1.56</td>
-<td align="left">147.82</td>
-<td align="left">153.87</td>
-</tr>
-<tr class="even">
-<td align="left">p</td>
-<td align="left">jags</td>
-<td align="left">0.51</td>
-<td align="left">0.02</td>
-<td align="left">0.47</td>
-<td align="left">0.55</td>
-</tr>
-<tr class="odd">
-<td align="left">N</td>
-<td align="left">stan</td>
-<td align="left">150.51</td>
-<td align="left">1.57</td>
-<td align="left">147.79</td>
-<td align="left">153.91</td>
-</tr>
-<tr class="even">
-<td align="left">p</td>
-<td align="left">stan</td>
-<td align="left">0.51</td>
-<td align="left">0.02</td>
-<td align="left">0.47</td>
-<td align="left">0.56</td>
-</tr>
-<tr class="odd">
-<td align="left">N_hat</td>
-<td align="left">greta</td>
-<td align="left">150.71</td>
-<td align="left">1.68</td>
-<td align="left">147.74</td>
-<td align="left">154.43</td>
-</tr>
-<tr class="even">
-<td align="left">p_greta</td>
-<td align="left">greta</td>
-<td align="left">0.51</td>
-<td align="left">0.02</td>
-<td align="left">0.47</td>
-<td align="left">0.56</td>
-</tr>
-</tbody>
-</table>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#nzxhjvvfvv .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#nzxhjvvfvv .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#nzxhjvvfvv .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#nzxhjvvfvv .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#nzxhjvvfvv .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nzxhjvvfvv .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#nzxhjvvfvv .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#nzxhjvvfvv .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#nzxhjvvfvv .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#nzxhjvvfvv .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#nzxhjvvfvv .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#nzxhjvvfvv .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#nzxhjvvfvv .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#nzxhjvvfvv .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#nzxhjvvfvv .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#nzxhjvvfvv .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#nzxhjvvfvv .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#nzxhjvvfvv .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nzxhjvvfvv .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#nzxhjvvfvv .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nzxhjvvfvv .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#nzxhjvvfvv .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#nzxhjvvfvv .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nzxhjvvfvv .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#nzxhjvvfvv .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#nzxhjvvfvv .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#nzxhjvvfvv .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#nzxhjvvfvv .gt_left {
+  text-align: left;
+}
+
+#nzxhjvvfvv .gt_center {
+  text-align: center;
+}
+
+#nzxhjvvfvv .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#nzxhjvvfvv .gt_font_normal {
+  font-weight: normal;
+}
+
+#nzxhjvvfvv .gt_font_bold {
+  font-weight: bold;
+}
+
+#nzxhjvvfvv .gt_font_italic {
+  font-style: italic;
+}
+
+#nzxhjvvfvv .gt_super {
+  font-size: 65%;
+}
+
+#nzxhjvvfvv .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="nzxhjvvfvv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="4" class="gt_heading gt_title gt_font_normal" style>Estimate Comparison</th>
+    </tr>
+    <tr>
+      <th colspan="4" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Comparison of Huggins abundance (N) and detection 
+              
+ probability (p) estimates fit using JAGS, Stan, greta.</th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Mean</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">SD</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">LCL</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">UCL</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr class="gt_group_heading_row">
+      <td colspan="4" class="gt_group_heading">N</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">150.00</td>
+      <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">149.73</td>
+      <td class="gt_row gt_right">1.46</td>
+      <td class="gt_row gt_right">147.21</td>
+      <td class="gt_row gt_right">152.95</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">149.73</td>
+      <td class="gt_row gt_right">1.43</td>
+      <td class="gt_row gt_right">147.25</td>
+      <td class="gt_row gt_right">152.79</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">149.73</td>
+      <td class="gt_row gt_right">1.44</td>
+      <td class="gt_row gt_right">147.22</td>
+      <td class="gt_row gt_right">152.96</td>
+    </tr>
+    <tr class="gt_group_heading_row">
+      <td colspan="4" class="gt_group_heading">p</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">0.52</td>
+      <td class="gt_row gt_right">0.02</td>
+      <td class="gt_row gt_right">0.48</td>
+      <td class="gt_row gt_right">0.57</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">0.52</td>
+      <td class="gt_row gt_right">0.02</td>
+      <td class="gt_row gt_right">0.48</td>
+      <td class="gt_row gt_right">0.57</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">0.52</td>
+      <td class="gt_row gt_right">0.02</td>
+      <td class="gt_row gt_right">0.48</td>
+      <td class="gt_row gt_right">0.57</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
 </div>
 </div>
 <div id="data-augmentation" class="section level2" number="3.4">

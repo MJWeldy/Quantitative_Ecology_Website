@@ -15,7 +15,12 @@ n-mixture-model
 spatial-capture-recapture
 occupancy
 survival
-cormack-jolly-seber
+individual-level-cormack-jolly-seber
+model-name
+algebra-1
+simulation-1
+models-1
+comparison-1
 jolly-seber
 appendix-a
 authors-guidelines

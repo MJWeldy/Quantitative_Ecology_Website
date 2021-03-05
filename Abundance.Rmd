@@ -24,7 +24,7 @@ Variation in detection probability can be modeled using linear logistic models o
 
 ### Simulation 
 
-```{r simulation}
+```{r}
 N <- 150 #True population size
 n_occ <- 4 #Number of trapping occasions
 p <- 0.50 #Probability of first detection
@@ -45,12 +45,12 @@ print( paste0("Number ever detected: ", MNKA,sep = " ") ) #number ever detected
 <button class="tablinks" onclick="unrolltab(event, 'Greta')">Greta</button>
 ::: {#JAGS .tabcontent}
 #### JAGS model fit {-}
-```{r,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}
+```{r,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}
 library(knitr)
 library(R2jags)
 data <- list(
   y=observed,
-  nsites=nrow(observed),
+  n_sites=nrow(observed),
   MNKA=MNKA,
   n_occ=n_occ
 )
@@ -58,13 +58,13 @@ model_string <- textConnection(
   "
   model {
   # Likelihood
-  for(i in 1:nsites) {
+  for(i in 1:n_sites) {
     # Observation model
-    for(j in 1:4) {
+    for(j in 1:n_occ) {
       y[i, j] ~ dbern(p)
     }
   }
-  for(t in 1:4){
+  for(t in 1:n_occ){
     p_un[t] <- (1-p)
   }
   # Priors
@@ -79,12 +79,11 @@ inits <- function() {
 }
 ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
 model <- jags(data, inits, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
-jags_output <- cbind(Sampler=rep('jags',2), round(model$BUGSoutput$summary[c(1,3),c(1,2,3,7)],2))
 ```
 :::
 ::: {#Stan .tabcontent}
-#### Stan  {-}
-```{r ,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}
+#### Stan model fit {-}
+```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}
 library(knitr)
 library(rstan)
 data <- list(
@@ -114,12 +113,14 @@ generated quantities {
 "
 nc <- 4
 stan.samples <- stan(model_code = stan_model, data = data, iter = 10000, chains = nc, cores = nc, open_progress=FALSE)
-stan_output <- cbind(Sampler=rep('stan',2,), round(summary(stan.samples)$summary[c(2,1),c(1,3,4,8)],2))
 ```
 :::
 ::: {#Greta .tabcontent}
-#### Greta  {-}
-```{r,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}
+#### Greta model fit{-}
+```{r,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}
+library(reticulate)
+reticulate::use_condaenv("r-reticulate")
+reticulate::py_config()
 library(greta)
 #capture_vec <- unlist(observed)
 p_greta <- beta(1, 1)
@@ -130,26 +131,53 @@ distribution(capture_vec) <- bernoulli(p_greta)
 pstar <-  1-(1-p_greta)*(1-p_greta)*(1-p_greta)*(1-p_greta)
 N_hat <-  MNKA / pstar
 # defining the model
-m <- model(p_greta, N_hat,pstar)
+m <- model(p_greta, N_hat, pstar)
 
 # sampling
 draws <- greta::mcmc(m, n_samples = 1000)
-greta_output <- cbind(Sampler=rep('greta',2),round(summary(draws)$statistics[c(2,1),c(1,2)],2),round(summary(draws)$quantiles[c(2,1),c(1,5)],2))
 ```
-```{r}
+```{r,eval = FALSE}
 plot(m)
-head(observed)
 ```
 :::
 :::
 
 ### Comparison
-```{r Comparison}
-results <- rbind(jags_output,
-                 stan_output,
-                 greta_output)
-kable(results)
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
+# round(model$BUGSoutput$summary[c(1,3),c(1,2,3,7)],2) #jags
+# round(summary(stan.samples)$summary[c(2,1),c(1,3,4,8)],2) #stan
+# summary(draws) #greta
+library(gt)
+library(tidyverse)
+results_df <- data.frame(
+              Sampler=c("Simulated","JAGS","Stan","greta","Simulated","JAGS","Stan","greta"),
+              Parameter=c("N","N","N","N","p","p","p","p"),
+              Mean=c(150,149.73,149.73,149.73,NA,0.52,0.52,0.52),
+              SD=c(NA,1.46,1.43,1.44,NA,0.02,0.02,0.02),
+              LCL=c(NA,147.21,147.25,147.22,NA,0.48,0.48,0.48),
+              UCL=c(NA,152.95,152.79,152.96,NA,0.57,0.57,0.57)
+              )
+
+# Create a gt table based on preprocessed
+# `sp500` table data
+results_df %>%
+  dplyr::select(-Sampler,-Parameter) %>%
+  gt() %>%
+  tab_row_group(
+    group = "p",
+    rows = 5:8
+  ) %>%
+  tab_row_group(
+    group = "N",
+    rows = 1:4
+  ) %>%
+  tab_header(
+    title = "Estimate Comparison",
+    subtitle = "Comparison of Huggins abundance (N) and detection 
+              \n probability (p) estimates fit using JAGS, Stan, greta."
+  )
 ```
+
 
 ## Data Augmentation
 ## N-Mixture Model
