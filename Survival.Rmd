@@ -1,11 +1,9 @@
 # Survival
 ## Individual-level Cormack-Jolly-Seber
-## Model Name 
 Model description
 
 ### Algebra
 
-Algebraic model description in latex
 Log likelihood of the state-space parametrization 
 $$\mathcal{L}(\phi, p, z| y) = f(z_1|\phi) \prod_{t=2}^T f(z_t| z_{t-1}, \phi) \prod_{t=1}^T f(y_t| z_t, p)$$
 State Process

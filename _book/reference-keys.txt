@@ -18,7 +18,6 @@ spatial-capture-recapture
 occupancy
 survival
 individual-level-cormack-jolly-seber
-model-name
 algebra-1
 simulation-1
 models-1
