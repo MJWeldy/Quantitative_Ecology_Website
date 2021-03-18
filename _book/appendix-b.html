@@ -24,7 +24,7 @@
 <meta name="author" content="Matt Weldy" />
 
 
-<meta name="date" content="2021-03-05" />
+<meta name="date" content="2021-03-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -229,6 +229,7 @@ simulated_data &lt;- 1
 
 ::: {.tab}
 &lt;button class=&quot;tablinks&quot; onclick=&quot;unrolltab(event,&#39;JAGS&#39;)&quot;&gt;JAGS&lt;/button&gt;
+&lt;button class=&quot;tablinks&quot; onclick=&quot;unrolltab(event,&#39;NIMBLE&#39;)&quot;&gt;NIMBLE&lt;/button&gt;
 &lt;button class=&quot;tablinks&quot; onclick=&quot;unrolltab(event, &#39;Stan&#39;)&quot;&gt;Stan&lt;/button&gt;
 &lt;button class=&quot;tablinks&quot; onclick=&quot;unrolltab(event, &#39;Greta&#39;)&quot;&gt;Greta&lt;/button&gt;
 ::: {#JAGS .tabcontent}
@@ -262,7 +263,47 @@ set_initial_value &lt;- function() {
 ni &lt;- 10000 ; nt &lt;- 1 ; nb &lt;- 5000 ; nc &lt;- 3
 model &lt;- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
 ```
+:::
+::: {#NIMBLE .tabcontent}
+#### NIMBLE model fit {-}
 
+```r
+library(nimble)
+n_data &lt;- list(
+
+)
+n_constants &lt;- list(
+
+)
+Nimble_Code &lt;- nimbleCode({
+  # Likelihood
+  
+  # Priors
+  
+  # Derived values
+
+})
+
+n_params &lt;- c( )
+n_inits &lt;- list( 
+  
+)
+Nimble_Model &lt;- nimbleModel(
+  code = Nimble_Code,
+  constants = n_constants,
+  data = n_data,
+  inits = n_inits
+)
+MCMC_Model &lt;- configureMCMC(Nimble_Model, monitors = n_params, print = T, enableWAIC = F)
+Model1_MCMC &lt;- buildMCMC(MCMC_Model)
+Comp_Model &lt;- compileNimble( Nimble_Model, showCompilerOutput = TRUE )
+Comp_Model &lt;- compileNimble(Model1_MCMC, project = Nimble_Model)
+
+niter=10000
+Model_samples &lt;- runMCMC(Comp_Model, niter = niter, nburnin=niter/2,nchains=3,summary = TRUE)
+mcmc_combo(Model_samples$samples, pars = c(&quot;N&quot;, &quot;p&quot;))
+round(Model_samples$summary$all.chains,2)
+```
 :::
 ::: {#Stan .tabcontent}
 #### Stan  {-}

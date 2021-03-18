@@ -6,6 +6,13 @@ Model description
 ### Algebra
 
 Algebraic model description in latex
+Log likelihood of the state-space parametrization 
+$$\mathcal{L}(\phi, p, z| y) = f(z_1|\phi) \prod_{t=2}^T f(z_t| z_{t-1}, \phi) \prod_{t=1}^T f(y_t| z_t, p)$$
+State Process
+$$z_{i_f} = 1$$
+$$z_{i,t+1}|z_{i,t} \sim Bernoulli(z_{i,t} \phi_{i,t}) $$
+Observation Process
+$$y_{i,t}|z_{i,t} \sim Bernoulli(z_{i,t},p_{i,t})$$ 
 
 ### Simulation 
 ```{r}
@@ -42,6 +49,7 @@ last_capture <- apply(CH, 1, get.last.capture)
 
 ::: {.tab}
 <button class="tablinks" onclick="unrolltab(event,'JAGS')">JAGS</button>
+<button class="tablinks" onclick="unrolltab(event,'NIMBLE')">NIMBLE</button>
 <button class="tablinks" onclick="unrolltab(event, 'Stan')">Stan</button>
 <button class="tablinks" onclick="unrolltab(event, 'Greta')">Greta</button>
 ::: {#JAGS .tabcontent}
@@ -58,36 +66,28 @@ data <- list(
 )
 model_string <- textConnection(
   "
-  model {
+    model {
   
   # Likelihood
   for (i in 1:n_ind){
     z[i,f[i]] <- 1
-    for (t in (f[i]+1):nocc){
+    for (t in (f[i]+1):n_occ){
       # State process
-      z[i,t] ~ dbern(mu_phi * z[i,t-1])#[i,t-1]
+      z[i,t] ~ dbern(phi * z[i,t-1])
       # Observation process
       y[i,t] ~ dbern(mu[i,t])
-      mu[i,t] <- mu_p * z[i,t]#[i,t-1]
+      mu[i,t] <- p * z[i,t]
     } #t
   } #i
   
   # Priors and Constraints
-  # for (i in 1:n_ind){
-  #   for (t in f[i]:(n_occ-1)){
-  #     phi[i,t] <- mu_phi
-  #     p[i,t] <- mu_p
-  #   } #t
-  # } #i
-  mu_phi ~ dunif(0, 1)
-  mu_p ~ dunif(0, 1)
-
+  phi ~ dunif(0, 1)
+  p ~ dunif(0, 1)
   # Derived values
-
   }
 "
 )
-parameters <- c("mu_p","mu_phi")
+parameters <- c("p","phi")
 cjs.z.init <- function(ch){
 state <- ch
    for (i in 1:dim(ch)[1]){
@@ -109,127 +109,71 @@ model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, 
 ```
 
 :::
-::: {#Stan .tabcontent}
-#### Stan  {-}
-```{r,eval = FALSE ,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}
-library(knitr)
-library(rstan)
-
-data <- list(
-  CH = CH,
-  n_ind = dim(CH)[1],
-  n_occ = dim(CH)[2]
-  # f = first_capture,
-  # l = last_capture
+::: {#NIMBLE .tabcontent}
+#### NIMBLE model fit {-}
+```{r,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}
+library(nimble)
+n_data <- list(
+  y = CH
 )
-
-stan_model <- "
-/**
- * Cormack-Jolly-Seber Model
- * 
- * following section 1.2.1 of:
- * http://www.maths.otago.ac.nz/home/resources/theses/PhD_Matthew_Schofield.pdf
- * https://discourse.mc-stan.org/t/cjs-log-likelihood/15112
- */
-data {
-  int<lower=2> n_occ;                      // capture events
-  int<lower=0> n_ind;                      // number of individuals
-  int<lower=0,upper=1> CH[n_ind,n_occ];    // CH[i,k]: individual i captured at k
-}
-
-transformed data {
-  int<lower=0,upper=n_occ+1> first[n_ind];     // first[i]: ind i first capture
-  int<lower=0,upper=n_occ+1> last[n_ind];      // last[i]:  ind i last capture
-  int<lower=0,upper=n_ind> n_captured[n_occ];  // n_capt[k]: num aptured at k
-
-  first = rep_array(n_occ+1,n_ind);
-  last = rep_array(0,n_ind);
-  for (i in 1:n_ind) {
-    for (k in 1:n_occ) {
-      if (CH[i,k] == 1) {
-        if (k < first[i]) 
-          first[i] = k;
-        if (k > last[i]) 
-          last[i] = k;
-      }
-    }
-  }
-
-  n_captured = rep_array(0,n_occ);
-  for (i in 1:n_ind)
-    for (k in 1:n_occ)
-      n_captured[k] = n_captured[k] + CH[i,k];
-}
-
-parameters {
-  //vector<lower=0,upper=1>[n_occ-1] phi;  // phi[k]: Pr[alive at k + 1 | alive at k]
-  //vector<lower=0,upper=1>[n_occ] p;      // p[k]: Pr[capture at k]
-  real<lower=0,upper=1> phi;  // phi[k]: Pr[alive at k + 1 | alive at k]
-  real<lower=0,upper=1> p;      // p[k]: Pr[capture at k]
-
-  // note:  p[1] not used in model and hence not identified
-}
-
-transformed parameters {
-  vector<lower=0,upper=1>[n_occ] chi;   // chi[k]: Pr[no capture >  k | alive at k]
-  vector[n_ind] log_lik;
-  {
-    int k;
-    chi[n_occ] = 1.0;              
-    k = n_occ - 1;
-    while (k > 0) {
-      //chi[k] = (1 - phi[k]) + phi[k] * (1 - p[k+1]) * chi[k+1]; 
-      chi[k] = (1 - phi) + phi * (1 - p) * chi[k+1];
-      k = k - 1;
-    }
-  }
+n_constants <- list(
+  n_ind = dim(CH)[1],
+  nocc = dim(CH)[2],
+  f = first_capture
+)
+Nimble_Code <- nimbleCode({
+ # Likelihood
+  for (i in 1:n_ind){
+    z[i,f[i]] <- 1
+    for (t in (f[i]+1):n_occ){
+      # State process
+      z[i,t] ~ dbern(phi * z[i,t-1])
+      # Observation process
+      y[i,t] ~ dbern(mu[i,t])
+      mu[i,t] <- p * z[i,t]
+    } #t
+  } #i
   
-  for (i in 1:n_ind) {
-    log_lik[i] = 0;
-    if (last[i] > 0) {
-      for (k in (first[i]+1):last[i]) {
-        log_lik[i] +=log(phi);     // i survived from k-1 to k
-        if (CH[i,k] == 1)
-          log_lik[i] +=log(p);       // i captured at k
-        else
-          log_lik[i] +=log1m(p);     // i not captured at k
+  # Priors and Constraints
+  phi ~ dunif(0, 1)
+  p ~ dunif(0, 1)
+  # Derived values
+})
+
+n_params <- c("p", "phi")
+cjs.z.init <- function(ch){
+state <- ch
+   for (i in 1:dim(ch)[1]){
+      n1 <- min(which(ch[i,]==1))
+      n2 <- max(which(ch[i,]==1))
+      state[i,n1:n2] <- 1
+      state[i,n1] <- NA
       }
-      log_lik[i] +=log(chi[last[i]]);   // i not seen after last[i]
-    }
-  }
+   state[state==0] <- NA
+   return(state)
 }
+n_inits <- list( 
+  z = cjs.z.init(CH)
+)
+Nimble_Model <- nimbleModel(
+  code = Nimble_Code,
+  constants = n_constants,
+  data = n_data,
+  inits = n_inits
+)
+MCMC_Model <- configureMCMC(Nimble_Model, monitors = n_params, print = T, enableWAIC = F)
+Model1_MCMC <- buildMCMC(MCMC_Model)
+Comp_Model <- compileNimble( Nimble_Model, showCompilerOutput = TRUE )
+Comp_Model <- compileNimble(Model1_MCMC, project = Nimble_Model)
 
-model {
-  target += sum(log_lik);
-}
-
-generated quantities {
-  // phi[K-1] and p(K) not identified, but product is
-  real beta;
-  vector<lower=0>[n_occ] pop_hat;  // population
-  
-  beta = phi * p;
-  for (k in 1:n_occ)
-    pop_hat[k] = n_captured[k] / p;  
-}
-"
-
-inits <- function() list(phi = runif(1, 0, 1),
-                         p = runif(1, 0, 1))
-
-## Parameters monitored
-params <- c("phi", "p")
-
-## MCMC settings
-ni <- 2000
-nt <- 1
-nb <- 1000
-nc <- 4
-
-stan.samples <- stan(model_code = stan_model, data = data, iter = 10000, chains = nc, cores = nc)
+niter=10000
+Model_samples <- runMCMC(Comp_Model, niter = niter, nburnin=niter/2,nchains=3,summary = TRUE)
+#mcmc_combo(Model_samples$samples, pars = c("N", "p"))
+round(Model_samples$summary$all.chains,2)
 ```
-
-
+:::
+::: {#Stan .tabcontent}
+#### Stan model fit {-}
 ```{r ,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}
 library(knitr)
 library(rstan)
@@ -336,7 +280,7 @@ stan.samples <- stan(model_code = stan_model, data = data, iter = 10000, chains 
 ```
 :::
 ::: {#Greta .tabcontent}
-#### Greta  {-}
+#### Greta  model fit {-}
 ```{r,eval = FALSE}
 library(greta)
 head(CH)

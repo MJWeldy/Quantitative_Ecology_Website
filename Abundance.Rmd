@@ -12,19 +12,18 @@ The conditional likelihood abundance estimator proposed by @huggins_statistical_
 
 
 ### Algebra
-$$  \mathcal{L} = \prod_{i=1}^n \prod_{t=1}^t p_{i,t}^{z_{i,t}}(1-p_{i,t})^{1-z_{i,t}} $$
-where, \linebreak
-  $z_{i,t}$ takes the value of 1 if individual $i$ has been captured before occasion $t$ and 0 otherwise.
-
-Thus the capture history $y_{i,t}$ is used to estimate the capture probability of individual $i$ as a Bernoulli trial,
+The capture history $y_{i,t}$ is used to estimate the capture probability of individual $i$ as a Bernoulli trial,
 $$y_{i,t} \sim Bernoulli(p_{i,t}) $$
-and abundance $\hat{N}$ is derived condtional on the count of known individuals ($C$), sometimes referred to the minimum number of known alive ($MNKA$).
+$$\mathcal{L}(p| y) = \prod_{i=1}^n \prod_{t=1}^t p_{i,t}^{z_{i,t}}(1-p_{i,t})^{1-z_{i,t}}$$
+
+Abundance $\hat{N}$ is derived conditional on the count of known individuals ($C$), sometimes referred to the minimum number of known alive ($MNKA$).
 $$\hat{N} = \frac{C}{1-\prod^{t}(1-p_t)}$$
 Variation in detection probability can be modeled using linear logistic models or other variations used to estimate probabilities 0-1.
 
 ### Simulation 
 
 ```{r}
+set.seed(1)
 N <- 150 #True population size
 n_occ <- 4 #Number of trapping occasions
 p <- 0.50 #Probability of first detection
@@ -41,6 +40,7 @@ print( paste0("Number ever detected: ", MNKA,sep = " ") ) #number ever detected
 
 ::: {.tab}
 <button class="tablinks" onclick="unrolltab(event,'JAGS')">JAGS</button>
+<button class="tablinks" onclick="unrolltab(event,'NIMBLE')">NIMBLE</button>
 <button class="tablinks" onclick="unrolltab(event, 'Stan')">Stan</button>
 <button class="tablinks" onclick="unrolltab(event, 'Greta')">Greta</button>
 ::: {#JAGS .tabcontent}
@@ -81,6 +81,57 @@ ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
 model <- jags(data, inits, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
 ```
 :::
+::: {#NIMBLE .tabcontent}
+#### NIMBLE model fit {-}
+```{r,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}
+library(nimble)
+n_data <- list(
+  y = observed,
+  MNKA = MNKA
+)
+n_constants <- list(
+  n_occ = n_occ
+)
+Nimble_Code <- nimbleCode({
+  # Likelihood
+  for(i in 1:MNKA) {
+    # Observation model
+    for(j in 1:n_occ) {
+      y[i, j] ~ dbern(p)
+    } #j
+  } #i
+  
+  # Priors
+  p ~ dunif(0, 1) # Uninformative prior
+  
+  # Derived values
+  for(t in 1:n_occ){
+    p_un[t] <- (1-p)
+  } #t
+  N <- (MNKA / (1-prod(p_un[1:n_occ]))) #The only difference in this model is here declaring dimensions
+})
+
+n_params <- c("p", "N")
+n_inits <- list( 
+  
+)
+Nimble_Model <- nimbleModel(
+  code = Nimble_Code,
+  constants = n_constants,
+  data = n_data,
+  inits = n_inits
+)
+MCMC_Model <- configureMCMC(Nimble_Model, monitors = n_params, print = T, enableWAIC = F)
+Model1_MCMC <- buildMCMC(MCMC_Model)
+Comp_Model <- compileNimble( Nimble_Model, showCompilerOutput = TRUE )
+Comp_Model <- compileNimble(Model1_MCMC, project = Nimble_Model)
+
+niter=10000
+Model_samples <- runMCMC(Comp_Model, niter = niter, nburnin=niter/2,nchains=3,summary = TRUE)
+#mcmc_combo(Model_samples$samples, pars = c("N", "p"))
+round(Model_samples$summary$all.chains,2)
+```
+:::
 ::: {#Stan .tabcontent}
 #### Stan model fit {-}
 ```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}
@@ -105,10 +156,11 @@ parameters {
 model {  
  for(i in 1:nsites)
     for(j in 1:4)
-      y[i, j] ~ bernoulli(p);
+      target += bernoulli_lpmf(y[i, j] | p);
 }
 generated quantities {
-  real N = MNKA / (1-(1-p)^4);
+  real pstar = (1-(1-p)^n_occ);
+  real N = MNKA / pstar;
 }
 "
 nc <- 4
@@ -122,17 +174,16 @@ library(reticulate)
 reticulate::use_condaenv("r-reticulate")
 reticulate::py_config()
 library(greta)
-#capture_vec <- unlist(observed)
+capture_vec <- unlist(observed)
+# priors
 p_greta <- beta(1, 1)
 # likelihood
-capture_vec <- as_data(observed)
 distribution(capture_vec) <- bernoulli(p_greta)
-# derived parameter
-pstar <-  1-(1-p_greta)*(1-p_greta)*(1-p_greta)*(1-p_greta)
-N_hat <-  MNKA / pstar
+# derived parameters
+pstar <- 1 - (1 - p_greta)^n_occ
+N_hat <- MNKA / pstar
 # defining the model
 m <- model(p_greta, N_hat, pstar)
-
 # sampling
 draws <- greta::mcmc(m, n_samples = 1000)
 ```
@@ -143,19 +194,19 @@ plot(m)
 :::
 
 ### Comparison
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
+```{r, echo=FALSE,warning=FALSE}
 # round(model$BUGSoutput$summary[c(1,3),c(1,2,3,7)],2) #jags
 # round(summary(stan.samples)$summary[c(2,1),c(1,3,4,8)],2) #stan
 # summary(draws) #greta
 library(gt)
 library(tidyverse)
 results_df <- data.frame(
-              Sampler=c("Simulated","JAGS","Stan","greta","Simulated","JAGS","Stan","greta"),
-              Parameter=c("N","N","N","N","p","p","p","p"),
-              Mean=c(150,149.73,149.73,149.73,NA,0.52,0.52,0.52),
-              SD=c(NA,1.46,1.43,1.44,NA,0.02,0.02,0.02),
-              LCL=c(NA,147.21,147.25,147.22,NA,0.48,0.48,0.48),
-              UCL=c(NA,152.95,152.79,152.96,NA,0.57,0.57,0.57)
+              Sampler=c("Simulated","JAGS","NIMBLE","Stan","greta","Simulated","JAGS","NIMBLE","Stan","greta"),
+              Parameter=c("N","N","N","N","N","p","p","p","p","p"),
+              Mean=c(150,149.73,149.73,149.73,149.73,NA,0.52,0.52,0.52,0.52),
+              SD=c(NA,1.46,1.46,1.43,1.44,NA,0.02,0.02,0.02,0.02),
+              LCL=c(NA,147.21,147.21,147.25,147.22,NA,0.48,0.48,0.48,0.48),
+              UCL=c(NA,152.95,152.95,152.79,152.96,NA,0.57,0.57,0.57,0.57)
               )
 
 # Create a gt table based on preprocessed

@@ -9,7 +9,8 @@ We have decided to adapt the tidyverse style guide. Detailed content can be foun
 Before committing code to the git repository, it should be styled using the styler package.
 
 Primary points are outlined below:
-- Use underscores to separate words in both variable and file names. 
+- Use underscores (snake_case) to separate words in both variable and file names. 
+- Use periods to separate words in function names
 ````
 File Names:
 chapter_1.Rmd
@@ -57,6 +58,7 @@ simulated_data <- 1
 
 ::: {.tab}
 <button class="tablinks" onclick="unrolltab(event,'JAGS')">JAGS</button>
+<button class="tablinks" onclick="unrolltab(event,'NIMBLE')">NIMBLE</button>
 <button class="tablinks" onclick="unrolltab(event, 'Stan')">Stan</button>
 <button class="tablinks" onclick="unrolltab(event, 'Greta')">Greta</button>
 ::: {#JAGS .tabcontent}
@@ -90,7 +92,47 @@ set_initial_value <- function() {
 ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
 model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
 ```
+:::
+::: {#NIMBLE .tabcontent}
+#### NIMBLE model fit {-}
+```{r,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}
+library(nimble)
+n_data <- list(
 
+)
+n_constants <- list(
+
+)
+Nimble_Code <- nimbleCode({
+  # Likelihood
+  
+  # Priors
+  
+  # Derived values
+
+})
+
+n_params <- c( )
+n_inits <- list( 
+  
+)
+Nimble_Model <- nimbleModel(
+  code = Nimble_Code,
+  constants = n_constants,
+  data = n_data,
+  inits = n_inits
+)
+MCMC_Model <- configureMCMC(Nimble_Model, monitors = n_params, print = T, enableWAIC = F)
+Model1_MCMC <- buildMCMC(MCMC_Model)
+Comp_Model <- compileNimble( Nimble_Model, showCompilerOutput = TRUE )
+Comp_Model <- compileNimble(Model1_MCMC, project = Nimble_Model)
+
+niter=10000
+Model_samples <- runMCMC(Comp_Model, niter = niter, nburnin=niter/2,nchains=3,summary = TRUE)
+mcmc_combo(Model_samples$samples, pars = c("N", "p"))
+round(Model_samples$summary$all.chains,2)
+
+```
 :::
 ::: {#Stan .tabcontent}
 #### Stan  {-}
