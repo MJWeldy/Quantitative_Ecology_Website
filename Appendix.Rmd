@@ -63,7 +63,7 @@ simulated_data <- 1
 <button class="tablinks" onclick="unrolltab(event, 'Greta')">Greta</button>
 ::: {#JAGS .tabcontent}
 #### JAGS model fit {-}
-```{r,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}r ''`
+```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}r ''`
 library(knitr)
 library(R2jags)
 data <- list(
@@ -95,7 +95,7 @@ model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, 
 :::
 ::: {#NIMBLE .tabcontent}
 #### NIMBLE model fit {-}
-```{r,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}
+```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
 library(nimble)
 n_data <- list(
 
@@ -136,7 +136,7 @@ round(Model_samples$summary$all.chains,2)
 :::
 ::: {#Stan .tabcontent}
 #### Stan  {-}
-```{r ,warning=FALSE,message=FALSE,error=FALSE, results='hide',cache = TRUE}r ''`
+```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}r ''`
 library(knitr)
 library(rstan)
 
@@ -169,7 +169,7 @@ stan.samples <- stan(model_code = stan_model, data = data, iter = 10000, chains 
 :::
 ::: {#Greta .tabcontent}
 #### Greta  {-}
-```{r}r ''`
+```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}r ''`
 library(greta)
 # priors
 

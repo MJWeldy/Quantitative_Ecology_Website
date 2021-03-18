@@ -1,8 +1,10 @@
-fig:nice-fig
-tab:nice-tab
 prerequisites
 intro
-abundance---test
+probabilistic-modelling-in-ecology
+common-distributions
+linear-models
+common-priors
+abundance
 lincoln-peterson
 full-likelihood
 conditional-likelihood
