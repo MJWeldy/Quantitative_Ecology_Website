@@ -231,6 +231,7 @@ results_df %>%
 
 ## Data Augmentation
 ## N-Mixture Model
+## Distance Sampling
 ## Spatial Capture-Recapture
-
+## Time to Event
     

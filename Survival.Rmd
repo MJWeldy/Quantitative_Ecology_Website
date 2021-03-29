@@ -1,4 +1,6 @@
 # Survival
+## Nest Survival
+## Known-fate
 ## Individual-level Cormack-Jolly-Seber
 Model description
 

@@ -1,3 +1,10 @@
 # Occupancy
 
 We describe our methods in this chapter.
+
+## Static Single Season
+## Multistate
+## Multiscale
+## Multiscale Multistate
+## Species Cooccurrence 
+## Dynamic Occupancy
