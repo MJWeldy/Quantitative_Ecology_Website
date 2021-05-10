@@ -1,8 +1,187 @@
 # Abundance
 
-Here is a review of existing methods.
+
 
 ## Lincoln-Peterson
+
+Lincoln 1930, Petersen 1896
+
+The Lincoln-Petersen abundance estimator arises in cases where we have mark-recapture data recorded over two capture occasions. During the first occasion individuals are captured and uniquely marked. During the second occasion the number of individuals captured is recorded, along with the number of individuals marked during the first occasion that are recaptured. 
+
+### Algebra
+
+The data consist of:
+- $M_1$ : the number of individuals captured and uniquely marked during the first occasion
+- $M_2$ : the number of previously marked individuals captured during the second occasion
+- $C$ : the number of animals captured during the second trapping occasion
+
+$$M_2 \sim Binomial(C, \frac{M_1}{\hat{N}}) $$
+$$\mathcal{L}(C| M_1, p = \frac{M_1}{\hat{N}}) = {M_1 \choose C} p^C(1-p)^{M_1-C}$$
+The maximum likelihood estimate for $\hat{N}$ is, 
+$$\hat{N} = \frac{M_1*C}{M_2}$$
+
+### Simulation 
+```{r}
+set.seed(1)
+N <- 75 #True population size
+n_occ <- 2 #Number of trapping occasions
+p <- 0.50 #Probability of first detection
+
+true_detections <- array(NA, dim=c(N,n_occ))
+for (t in 1:n_occ){
+  true_detections[,t] <- rbinom(n=N,size=1,prob=p)
+}
+observed <- true_detections[apply(true_detections,1,max) == 1,]
+M_1 <- sum(observed[,1])
+M_2 <- nrow(subset(observed,rowSums(observed)>1))
+C <- sum(observed[,2])
+```
+### Models {.tabset}
+
+::: {.tab}
+<button class="tablinks" onclick="unrolltab(event,'JAGS')">JAGS</button>
+<button class="tablinks" onclick="unrolltab(event,'NIMBLE')">NIMBLE</button>
+<button class="tablinks" onclick="unrolltab(event, 'Stan')">Stan</button>
+<button class="tablinks" onclick="unrolltab(event, 'Greta')">Greta</button>
+::: {#JAGS .tabcontent}
+#### JAGS model fit {-}
+```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+library(knitr)
+library(R2jags)
+data <- list(
+          M_1 = M_1,
+          M_2= M_2,
+          C = C,
+          LB = C- M_1 + M_2,
+          UB = 5*C
+)
+model_string <- textConnection(
+  "
+  model {
+  
+  # Likelihood
+  M_2 ~ dbin(M_1/N, C )
+  # Priors
+  N ~ dunif(LB, UB) # Slightly informative prior
+
+  # Derived values
+  }
+"
+)
+parameters <- c("N")
+set_initial_value <- function() {
+  list( 
+    
+  )
+}
+ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
+model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
+```
+:::
+::: {#NIMBLE .tabcontent}
+#### NIMBLE model fit {-}
+```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+library(nimble)
+n_data <- list(
+          M_1 = M_1,
+          M_2= M_2,
+          C = C
+)
+n_constants <- list(
+          LB = C- M_1 + M_2,
+          UB = 5*C
+)
+Nimble_Code <- nimbleCode({
+  # Likelihood
+  M_2 ~ dbin(M_1/N, C )
+  # Priors
+  N ~ dunif(LB, UB) # Slightly informative prior
+
+  # Derived values
+
+})
+
+n_params <- c("N")
+n_inits <- list( 
+  
+)
+Nimble_Model <- nimbleModel(
+  code = Nimble_Code,
+  constants = n_constants,
+  data = n_data,
+  inits = n_inits
+)
+MCMC_Model <- configureMCMC(Nimble_Model, monitors = n_params, print = T, enableWAIC = F)
+Model1_MCMC <- buildMCMC(MCMC_Model)
+Comp_Model <- compileNimble( Nimble_Model, showCompilerOutput = TRUE )
+Comp_Model <- compileNimble(Model1_MCMC, project = Nimble_Model)
+
+niter=10000
+Model_samples <- runMCMC(Comp_Model, niter = niter, nburnin=niter/2,nchains=3,summary = TRUE)
+# mcmc_combo(Model_samples$samples, pars = c("N", "p"))
+# round(Model_samples$summary$all.chains,2)
+
+```
+:::
+::: {#Stan .tabcontent}
+#### Stan  {-}
+```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+library(knitr)
+library(rstan)
+
+data <- list(
+          M_1 = M_1,
+          M_2= M_2,
+          C = C
+)
+
+stan_model <- "
+data {
+  int<lower=0> M_1;
+  int<lower=0> M_2;
+  int<lower=0> C;
+}
+parameters {
+  real<lower=(C - M_2 + M_1)> N;
+}
+model {
+  M_2 ~ binomial(C, M_1 / N);
+}
+"
+nc <- 4
+
+stan.samples <- stan(model_code = stan_model, data = data, iter = 10000, chains = nc, cores = nc)
+```
+
+:::
+::: {#Greta .tabcontent}
+#### Greta  {-}
+```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+library(reticulate)
+reticulate::use_condaenv("r-reticulate")
+reticulate::py_config()
+library(greta)
+LB <- C- M_1 + M_2
+UB <- 5*C
+# priors
+N <- uniform(LB,UB)
+# likelihood
+distribution(M_2) <- binomial(C, M_1 / N)
+# derived parameter
+
+# defining the model
+m <- model(N) #objects to sample
+# sampling
+draws <- greta::mcmc(m, n_samples = 1000)
+```
+```{r}
+plot(m)
+```
+:::
+:::
+
+### Comparison
+
 
 ## Full Likelihood
 
