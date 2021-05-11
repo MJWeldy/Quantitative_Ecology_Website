@@ -1,2214 +1,0 @@
---- 
-title: "Quantitative Ecology"
-subtitle: "Modelling applications in population ecology"
-author: "Matt Weldy"
-date: "2021-05-11"
-site: bookdown::bookdown_site
-documentclass: book
-bibliography: [book.bib, packages.bib]
-biblio-style: apalike
-link-citations: yes
-description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
----
-
-# Prerequisites
-
-This is a work in progress. 
-
-The scope of this work is to demonstrate the fit of well known ecological models using a variety of tools. Our aim is to provide brief model descriptions, primary citations, and a simple simulation and model fit.
-
-Contributions to this web page are welcome, and can be made through the books github repository. The website is hosted through netlify, which offers continuous integration with the books git repository. Commit changes to the repository after using the bookdown and changes will populate to the page. Please try to structure indivudal model fits using the template outlined in Appendix B.
-
-
-```r
-bookdown::render_book("index.Rmd", "bookdown::gitbook")
-```
-
-
-
-<!--chapter:end:index.Rmd-->
-
-# Introduction {#intro}
-
-## Probabilistic Modelling in Ecology
-
-## Common Distributions
-
-## Uncommon Distributions
-
-## Linear Models
-
-
-```r
-library(lme4)
-library(R2jags)
-library(runjags)
-#library(equatiomatic)
-```
-
-
-### Model of the Mean 
-
-This is an intercept only model. We are estimating two parameters, $\mu$ and $\sigma$. 
-
-Average length of adult coho salmon 75 cm with standard deviation of 20.
-
-
-```r
-n <- 1000
-mu <- 75
-sd <- 20
-y <- rnorm(n, mean = mu, sd = sd)
-```
-
-
-```r
-hist(y)
-```
-
-<img src="Quantitative_Ecology_Desktop_files/figure-html/unnamed-chunk-7-1.png" width="672" />
-
-$$y \sim Normal(\mu, \sigma)$$
-$$mu = \beta_0$$
-$$P(\mu, \sigma| y) \propto \mathbb(L)*P$$
-
-
-```r
-lm_fit <- lm(y ~ 1)
-data <- list(
-            n = n,
-            y = y
-)
-model_string <- textConnection(
-  "
-  model {
-  
-  # Likelihood
-  for (i in 1:n){
-    y[i] ~ dnorm(mu, tau)
-  }
-  # Priors
-  mu ~ dnorm(0, 0.00001)
-  sigma ~ dunif(0, 100) # standard deviation
-	tau <- 1 / (sigma * sigma) # sigma^2 doesn't work in JAGS
-  
-
-  # Derived values
-
-  }
-"
-)
-parameters <- c("mu", "sigma" )
-set_initial_value <- function() {
-  list( 
-    
-  )
-}
-ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
-model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
-```
-
-```
-## Compiling model graph
-##    Resolving undeclared variables
-##    Allocating nodes
-## Graph information:
-##    Observed stochastic nodes: 1000
-##    Unobserved stochastic nodes: 2
-##    Total graph size: 1009
-## 
-## Initializing model
-## 
-##   |                                                          |                                                  |   0%  |                                                          |++                                                |   4%  |                                                          |++++                                              |   8%  |                                                          |++++++                                            |  12%  |                                                          |++++++++                                          |  16%  |                                                          |++++++++++                                        |  20%  |                                                          |++++++++++++                                      |  24%  |                                                          |++++++++++++++                                    |  28%  |                                                          |++++++++++++++++                                  |  32%  |                                                          |++++++++++++++++++                                |  36%  |                                                          |++++++++++++++++++++                              |  40%  |                                                          |++++++++++++++++++++++                            |  44%  |                                                          |++++++++++++++++++++++++                          |  48%  |                                                          |++++++++++++++++++++++++++                        |  52%  |                                                          |++++++++++++++++++++++++++++                      |  56%  |                                                          |++++++++++++++++++++++++++++++                    |  60%  |                                                          |++++++++++++++++++++++++++++++++                  |  64%  |                                                          |++++++++++++++++++++++++++++++++++                |  68%  |                                                          |++++++++++++++++++++++++++++++++++++              |  72%  |                                                          |++++++++++++++++++++++++++++++++++++++            |  76%  |                                                          |++++++++++++++++++++++++++++++++++++++++          |  80%  |                                                          |++++++++++++++++++++++++++++++++++++++++++        |  84%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++      |  88%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++++    |  92%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++++++  |  96%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
-##   |                                                          |                                                  |   0%  |                                                          |**                                                |   4%  |                                                          |****                                              |   8%  |                                                          |******                                            |  12%  |                                                          |********                                          |  16%  |                                                          |**********                                        |  20%  |                                                          |************                                      |  24%  |                                                          |**************                                    |  28%  |                                                          |****************                                  |  32%  |                                                          |******************                                |  36%  |                                                          |********************                              |  40%  |                                                          |**********************                            |  44%  |                                                          |************************                          |  48%  |                                                          |**************************                        |  52%  |                                                          |****************************                      |  56%  |                                                          |******************************                    |  60%  |                                                          |********************************                  |  64%  |                                                          |**********************************                |  68%  |                                                          |************************************              |  72%  |                                                          |**************************************            |  76%  |                                                          |****************************************          |  80%  |                                                          |******************************************        |  84%  |                                                          |********************************************      |  88%  |                                                          |**********************************************    |  92%  |                                                          |************************************************  |  96%  |                                                          |**************************************************| 100%
-```
-
-### Difference of Means
-
-This is a one-way anova with the intercept as the identity and the beta estimates representing the offset effects from the intercept. 
-
-
-```r
-n <- 1000
-beta_0 <- 1.5
-beta_1 <- 3
-x <- c(rep(0,n/2),rep(1,n/2))
-mu <- beta_0 + beta_1*x
-sd <- 10
-y <- rnorm(n, mean = mu, sd = sd)
-#model.matrix(~x)
-```
-
-
-```r
-lm_fit <- lm(y ~ x)
-data <- list(
-            n = n,
-            y = y,
-            x = x
-)
-model_string <- textConnection(
-  "
-  model {
-  
-  # Likelihood
-  for (i in 1:n){
-    y[i] ~ dnorm(mu[i], tau)
-    mu[i] <- beta_0 + beta_1*x[i]
-  }
-  # Priors
-  beta_0 ~ dnorm(0, 0.00001)
-  beta_1 ~ dnorm(0, 0.00001)
-  sigma ~ dunif(0, 100) # standard deviation
-	tau <- 1 / (sigma * sigma) # sigma^2 doesn't work in JAGS
-  
-
-  # Derived values
-
-  }
-"
-)
-parameters <- c("beta_0","beta_1", "sigma" )
-set_initial_value <- function() {
-  list( 
-    
-  )
-}
-ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
-model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
-```
-
-```
-## Compiling model graph
-##    Resolving undeclared variables
-##    Allocating nodes
-## Graph information:
-##    Observed stochastic nodes: 1000
-##    Unobserved stochastic nodes: 3
-##    Total graph size: 2014
-## 
-## Initializing model
-## 
-##   |                                                          |                                                  |   0%  |                                                          |++                                                |   4%  |                                                          |++++                                              |   8%  |                                                          |++++++                                            |  12%  |                                                          |++++++++                                          |  16%  |                                                          |++++++++++                                        |  20%  |                                                          |++++++++++++                                      |  24%  |                                                          |++++++++++++++                                    |  28%  |                                                          |++++++++++++++++                                  |  32%  |                                                          |++++++++++++++++++                                |  36%  |                                                          |++++++++++++++++++++                              |  40%  |                                                          |++++++++++++++++++++++                            |  44%  |                                                          |++++++++++++++++++++++++                          |  48%  |                                                          |++++++++++++++++++++++++++                        |  52%  |                                                          |++++++++++++++++++++++++++++                      |  56%  |                                                          |++++++++++++++++++++++++++++++                    |  60%  |                                                          |++++++++++++++++++++++++++++++++                  |  64%  |                                                          |++++++++++++++++++++++++++++++++++                |  68%  |                                                          |++++++++++++++++++++++++++++++++++++              |  72%  |                                                          |++++++++++++++++++++++++++++++++++++++            |  76%  |                                                          |++++++++++++++++++++++++++++++++++++++++          |  80%  |                                                          |++++++++++++++++++++++++++++++++++++++++++        |  84%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++      |  88%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++++    |  92%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++++++  |  96%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
-##   |                                                          |                                                  |   0%  |                                                          |**                                                |   4%  |                                                          |****                                              |   8%  |                                                          |******                                            |  12%  |                                                          |********                                          |  16%  |                                                          |**********                                        |  20%  |                                                          |************                                      |  24%  |                                                          |**************                                    |  28%  |                                                          |****************                                  |  32%  |                                                          |******************                                |  36%  |                                                          |********************                              |  40%  |                                                          |**********************                            |  44%  |                                                          |************************                          |  48%  |                                                          |**************************                        |  52%  |                                                          |****************************                      |  56%  |                                                          |******************************                    |  60%  |                                                          |********************************                  |  64%  |                                                          |**********************************                |  68%  |                                                          |************************************              |  72%  |                                                          |**************************************            |  76%  |                                                          |****************************************          |  80%  |                                                          |******************************************        |  84%  |                                                          |********************************************      |  88%  |                                                          |**********************************************    |  92%  |                                                          |************************************************  |  96%  |                                                          |**************************************************| 100%
-```
-
-### One-way ANOVA
-
-This is a one-way anova with the intercept as the identity and the beta estimates representing the offset effects from the intercept. 
-
-
-```r
-n <- 1000
-beta_0 <- 1.5
-beta_1 <- 3
-beta_2 <- -2
-beta_3 <- 0.2
-x <- as.factor(c(rep(1,n/4),rep(2,n/4),rep(3,n/4),rep(4,n/4)))
-X <- model.matrix(~x)
-head(X)
-```
-
-```
-##   (Intercept) x2 x3 x4
-## 1           1  0  0  0
-## 2           1  0  0  0
-## 3           1  0  0  0
-## 4           1  0  0  0
-## 5           1  0  0  0
-## 6           1  0  0  0
-```
-
-```r
-mu <- beta_0 + beta_1*X[,2] + beta_2*X[,3] + beta_3*X[,4]
-sd <- 10
-y <- rnorm(n, mean = mu, sd = sd)
-```
-
-
-```r
-lm_fit <- lm(y ~ x)
-data <- list(
-            n = n,
-            y = y,
-            x = x
-)
-model_string <- textConnection(
-  "
-  model {
-  
-  # Likelihood
-  for (i in 1:n){
-    y[i] ~ dnorm(mu[i], tau)
-    mu[i] <- beta_0 + betas[x[i]]
-  }
-  # Priors
-  beta_0 ~ dnorm(0, 0.00001)
-  betas[1] <- 0
-  for(i in 2:4) {
-    betas[i] ~ dnorm(0, 0.00001)
-  }
-  
-  sigma ~ dunif(0, 100) # standard deviation
-	tau <- 1 / (sigma * sigma) # sigma^2 doesn't work in JAGS
-  
-
-  # Derived values
-
-  }
-"
-)
-parameters <- c("beta_0","betas","sigma" )
-set_initial_value <- function() {
-  list( 
-    
-  )
-}
-ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
-model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
-```
-
-```
-## Compiling model graph
-##    Resolving undeclared variables
-##    Allocating nodes
-## Graph information:
-##    Observed stochastic nodes: 1000
-##    Unobserved stochastic nodes: 5
-##    Total graph size: 2016
-## 
-## Initializing model
-## 
-##   |                                                          |                                                  |   0%  |                                                          |++                                                |   4%  |                                                          |++++                                              |   8%  |                                                          |++++++                                            |  12%  |                                                          |++++++++                                          |  16%  |                                                          |++++++++++                                        |  20%  |                                                          |++++++++++++                                      |  24%  |                                                          |++++++++++++++                                    |  28%  |                                                          |++++++++++++++++                                  |  32%  |                                                          |++++++++++++++++++                                |  36%  |                                                          |++++++++++++++++++++                              |  40%  |                                                          |++++++++++++++++++++++                            |  44%  |                                                          |++++++++++++++++++++++++                          |  48%  |                                                          |++++++++++++++++++++++++++                        |  52%  |                                                          |++++++++++++++++++++++++++++                      |  56%  |                                                          |++++++++++++++++++++++++++++++                    |  60%  |                                                          |++++++++++++++++++++++++++++++++                  |  64%  |                                                          |++++++++++++++++++++++++++++++++++                |  68%  |                                                          |++++++++++++++++++++++++++++++++++++              |  72%  |                                                          |++++++++++++++++++++++++++++++++++++++            |  76%  |                                                          |++++++++++++++++++++++++++++++++++++++++          |  80%  |                                                          |++++++++++++++++++++++++++++++++++++++++++        |  84%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++      |  88%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++++    |  92%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++++++  |  96%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
-##   |                                                          |                                                  |   0%  |                                                          |**                                                |   4%  |                                                          |****                                              |   8%  |                                                          |******                                            |  12%  |                                                          |********                                          |  16%  |                                                          |**********                                        |  20%  |                                                          |************                                      |  24%  |                                                          |**************                                    |  28%  |                                                          |****************                                  |  32%  |                                                          |******************                                |  36%  |                                                          |********************                              |  40%  |                                                          |**********************                            |  44%  |                                                          |************************                          |  48%  |                                                          |**************************                        |  52%  |                                                          |****************************                      |  56%  |                                                          |******************************                    |  60%  |                                                          |********************************                  |  64%  |                                                          |**********************************                |  68%  |                                                          |************************************              |  72%  |                                                          |**************************************            |  76%  |                                                          |****************************************          |  80%  |                                                          |******************************************        |  84%  |                                                          |********************************************      |  88%  |                                                          |**********************************************    |  92%  |                                                          |************************************************  |  96%  |                                                          |**************************************************| 100%
-```
-
-### One-way ANOVA Identity
-
-This is a one-way anova with an identity parameterization. Beta estimates represent the mean effect for each factor level. 
-
-
-```r
-n <- 1000
-beta_0 <- 3
-beta_1 <- 6
-beta_2 <- -4
-beta_3 <- 0
-x <- as.factor(c(rep(1,n/4),rep(2,n/4),rep(3,n/4),rep(4,n/4)))
-X <- model.matrix(~x-1)
-tail(X)
-```
-
-```
-##      x1 x2 x3 x4
-## 995   0  0  0  1
-## 996   0  0  0  1
-## 997   0  0  0  1
-## 998   0  0  0  1
-## 999   0  0  0  1
-## 1000  0  0  0  1
-```
-
-```r
-mu <- beta_0*X[,1] + beta_1*X[,2] + beta_2*X[,3] + beta_3*X[,4]
-sd <- 10
-y <- rnorm(n, mean = mu, sd = sd)
-```
-
-
-```r
-lm_fit <- lm(y ~ -1 + x)
-data <- list(
-            n = n,
-            y = y,
-            x = x
-)
-model_string <- textConnection(
-  "
-  model {
-  
-  # Likelihood
-  for (i in 1:n){
-    y[i] ~ dnorm(mu[i], tau)
-    mu[i] <- betas[x[i]]
-  }
-  # Priors
-  for(i in 1:4) {
-    betas[i] ~ dnorm(0, 0.00001)
-  }
-  
-  sigma ~ dunif(0, 100) # standard deviation
-	tau <- 1 / (sigma * sigma) # sigma^2 doesn't work in JAGS
-  
-
-  # Derived values
-
-  }
-"
-)
-parameters <- c("betas","sigma" )
-set_initial_value <- function() {
-  list( 
-    
-  )
-}
-ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
-model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
-```
-
-```
-## Compiling model graph
-##    Resolving undeclared variables
-##    Allocating nodes
-## Graph information:
-##    Observed stochastic nodes: 1000
-##    Unobserved stochastic nodes: 5
-##    Total graph size: 2012
-## 
-## Initializing model
-## 
-##   |                                                          |                                                  |   0%  |                                                          |++                                                |   4%  |                                                          |++++                                              |   8%  |                                                          |++++++                                            |  12%  |                                                          |++++++++                                          |  16%  |                                                          |++++++++++                                        |  20%  |                                                          |++++++++++++                                      |  24%  |                                                          |++++++++++++++                                    |  28%  |                                                          |++++++++++++++++                                  |  32%  |                                                          |++++++++++++++++++                                |  36%  |                                                          |++++++++++++++++++++                              |  40%  |                                                          |++++++++++++++++++++++                            |  44%  |                                                          |++++++++++++++++++++++++                          |  48%  |                                                          |++++++++++++++++++++++++++                        |  52%  |                                                          |++++++++++++++++++++++++++++                      |  56%  |                                                          |++++++++++++++++++++++++++++++                    |  60%  |                                                          |++++++++++++++++++++++++++++++++                  |  64%  |                                                          |++++++++++++++++++++++++++++++++++                |  68%  |                                                          |++++++++++++++++++++++++++++++++++++              |  72%  |                                                          |++++++++++++++++++++++++++++++++++++++            |  76%  |                                                          |++++++++++++++++++++++++++++++++++++++++          |  80%  |                                                          |++++++++++++++++++++++++++++++++++++++++++        |  84%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++      |  88%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++++    |  92%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++++++  |  96%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
-##   |                                                          |                                                  |   0%  |                                                          |**                                                |   4%  |                                                          |****                                              |   8%  |                                                          |******                                            |  12%  |                                                          |********                                          |  16%  |                                                          |**********                                        |  20%  |                                                          |************                                      |  24%  |                                                          |**************                                    |  28%  |                                                          |****************                                  |  32%  |                                                          |******************                                |  36%  |                                                          |********************                              |  40%  |                                                          |**********************                            |  44%  |                                                          |************************                          |  48%  |                                                          |**************************                        |  52%  |                                                          |****************************                      |  56%  |                                                          |******************************                    |  60%  |                                                          |********************************                  |  64%  |                                                          |**********************************                |  68%  |                                                          |************************************              |  72%  |                                                          |**************************************            |  76%  |                                                          |****************************************          |  80%  |                                                          |******************************************        |  84%  |                                                          |********************************************      |  88%  |                                                          |**********************************************    |  92%  |                                                          |************************************************  |  96%  |                                                          |**************************************************| 100%
-```
-
-### Two-way ANOVA
-### ANCOVA
-### MANOVA
-### MANCOVA
-## Common Priors
-
-<!--chapter:end:Intro.Rmd-->
-
-# Abundance
-
-
-
-## Lincoln-Peterson
-
-Lincoln 1930, Petersen 1896
-
-The Lincoln-Petersen abundance estimator arises in cases where we have mark-recapture data recorded over two capture occasions. During the first occasion individuals are captured and uniquely marked. During the second occasion the number of individuals captured is recorded, along with the number of individuals marked during the first occasion that are recaptured. 
-
-### Algebra
-
-The data consist of:
-- $M_1$ : the number of individuals captured and uniquely marked during the first occasion
-- $M_2$ : the number of previously marked individuals captured during the second occasion
-- $C$ : the number of animals captured during the second trapping occasion
-
-$$M_2 \sim Binomial(C, \frac{M_1}{\hat{N}}) $$
-$$\mathcal{L}(C| M_1, p = \frac{M_1}{\hat{N}}) = {M_1 \choose C} p^C(1-p)^{M_1-C}$$
-The maximum likelihood estimate for $\hat{N}$ is, 
-$$\hat{N} = \frac{M_1*C}{M_2}$$
-
-### Simulation 
-
-```r
-set.seed(1)
-N <- 75 #True population size
-n_occ <- 2 #Number of trapping occasions
-p <- 0.50 #Probability of first detection
-
-true_detections <- array(NA, dim=c(N,n_occ))
-for (t in 1:n_occ){
-  true_detections[,t] <- rbinom(n=N,size=1,prob=p)
-}
-observed <- true_detections[apply(true_detections,1,max) == 1,]
-M_1 <- sum(observed[,1])
-M_2 <- nrow(subset(observed,rowSums(observed)>1))
-C <- sum(observed[,2])
-```
-### Models {.tabset}
-
-::: {.tab}
-<button class="tablinks" onclick="unrolltab(event,'JAGS')">JAGS</button>
-<button class="tablinks" onclick="unrolltab(event,'NIMBLE')">NIMBLE</button>
-<button class="tablinks" onclick="unrolltab(event, 'Stan')">Stan</button>
-<button class="tablinks" onclick="unrolltab(event, 'Greta')">Greta</button>
-::: {#JAGS .tabcontent}
-#### JAGS model fit {-}
-
-```r
-library(knitr)
-library(R2jags)
-data <- list(
-          M_1 = M_1,
-          M_2= M_2,
-          C = C,
-          LB = C- M_1 + M_2,
-          UB = 5*C
-)
-model_string <- textConnection(
-  "
-  model {
-  
-  # Likelihood
-  M_2 ~ dbin(M_1/N, C )
-  # Priors
-  N ~ dunif(LB, UB) # Slightly informative prior
-
-  # Derived values
-  }
-"
-)
-parameters <- c("N")
-set_initial_value <- function() {
-  list( 
-    
-  )
-}
-ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
-model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
-```
-:::
-::: {#NIMBLE .tabcontent}
-#### NIMBLE model fit {-}
-
-```r
-library(nimble)
-n_data <- list(
-          M_1 = M_1,
-          M_2= M_2,
-          C = C
-)
-n_constants <- list(
-          LB = C- M_1 + M_2,
-          UB = 5*C
-)
-Nimble_Code <- nimbleCode({
-  # Likelihood
-  M_2 ~ dbin(M_1/N, C )
-  # Priors
-  N ~ dunif(LB, UB) # Slightly informative prior
-
-  # Derived values
-
-})
-
-n_params <- c("N")
-n_inits <- list( 
-  
-)
-Nimble_Model <- nimbleModel(
-  code = Nimble_Code,
-  constants = n_constants,
-  data = n_data,
-  inits = n_inits
-)
-MCMC_Model <- configureMCMC(Nimble_Model, monitors = n_params, print = T, enableWAIC = F)
-Model1_MCMC <- buildMCMC(MCMC_Model)
-Comp_Model <- compileNimble( Nimble_Model, showCompilerOutput = TRUE )
-Comp_Model <- compileNimble(Model1_MCMC, project = Nimble_Model)
-
-niter=10000
-Model_samples <- runMCMC(Comp_Model, niter = niter, nburnin=niter/2,nchains=3,summary = TRUE)
-# mcmc_combo(Model_samples$samples, pars = c("N", "p"))
-# round(Model_samples$summary$all.chains,2)
-```
-:::
-::: {#Stan .tabcontent}
-#### Stan  {-}
-
-```r
-library(knitr)
-library(rstan)
-
-data <- list(
-          M_1 = M_1,
-          M_2= M_2,
-          C = C
-)
-
-stan_model <- "
-data {
-  int<lower=0> M_1;
-  int<lower=0> M_2;
-  int<lower=0> C;
-}
-parameters {
-  real<lower=(C - M_2 + M_1)> N;
-}
-model {
-  M_2 ~ binomial(C, M_1 / N);
-}
-"
-nc <- 4
-
-stan.samples <- stan(model_code = stan_model, data = data, iter = 10000, chains = nc, cores = nc)
-```
-
-:::
-::: {#Greta .tabcontent}
-#### Greta  {-}
-
-```r
-library(reticulate)
-reticulate::use_condaenv("r-reticulate")
-reticulate::py_config()
-library(greta)
-LB <- C- M_1 + M_2
-UB <- 5*C
-# priors
-N <- uniform(LB,UB)
-# likelihood
-distribution(M_2) <- binomial(C, M_1 / N)
-# derived parameter
-
-# defining the model
-m <- model(N) #objects to sample
-# sampling
-draws <- greta::mcmc(m, n_samples = 1000)
-```
-
-```r
-plot(m)
-```
-:::
-:::
-
-### Comparison
-
-
-## Full Likelihood
-
-## Conditional Likelihood
-
-The conditional likelihood abundance estimator proposed by @huggins_statistical_1989 and @alho_logistic_1990, which was further extended in @huggins_practical_1991, is an extension to previous abundance estimators to account for heterogeneous capture probabilities ($p$). The model estimates individual capture probabilities and abundance conditional on captured individuals.
-
-
-### Algebra
-The capture history $y_{i,t}$ is used to estimate the capture probability of individual $i$ as a Bernoulli trial,
-$$y_{i,t} \sim Bernoulli(p_{i,t}) $$
-$$\mathcal{L}(p| y) = \prod_{i=1}^n \prod_{t=1}^t p_{i,t}^{z_{i,t}}(1-p_{i,t})^{1-z_{i,t}}$$
-
-Abundance $\hat{N}$ is derived conditional on the count of known individuals ($C$), sometimes referred to the minimum number of known alive ($MNKA$).
-$$\hat{N} = \frac{C}{1-\prod^{t}(1-p_t)}$$
-Variation in detection probability can be modeled using linear logistic models or other variations used to estimate probabilities 0-1.
-
-### Simulation 
-
-
-```r
-set.seed(1)
-N <- 150 #True population size
-n_occ <- 4 #Number of trapping occasions
-p <- 0.50 #Probability of first detection
-
-true_detections <- array(NA, dim=c(N,n_occ))
-for (t in 1:n_occ){
-  true_detections[,t] <- rbinom(n=N,size=1,prob=p)
-}
-observed <- true_detections[apply(true_detections,1,max) == 1,]
-MNKA <- nrow(observed)
-print( paste0("Number ever detected: ", MNKA,sep = " ") ) #number ever detected
-```
-
-```
-## [1] "Number ever detected: 139 "
-```
-### Models {.tabset}
-
-::: {.tab}
-<button class="tablinks" onclick="unrolltab(event,'JAGS')">JAGS</button>
-<button class="tablinks" onclick="unrolltab(event,'NIMBLE')">NIMBLE</button>
-<button class="tablinks" onclick="unrolltab(event, 'Stan')">Stan</button>
-<button class="tablinks" onclick="unrolltab(event, 'Greta')">Greta</button>
-::: {#JAGS .tabcontent}
-#### JAGS model fit {-}
-
-```r
-library(R2jags)
-data <- list(
-  y=observed,
-  n_sites=nrow(observed),
-  MNKA=MNKA,
-  n_occ=n_occ
-)
-model_string <- textConnection(
-  "
-  model {
-  # Likelihood
-  for(i in 1:n_sites) {
-    # Observation model
-    for(j in 1:n_occ) {
-      y[i, j] ~ dbern(p)
-    }
-  }
-  for(t in 1:n_occ){
-    p_un[t] <- (1-p)
-  }
-  # Priors
-  p ~ dunif(0, 1) # Uninformative prior
-  # Derived values
-  N <- (MNKA / (1-prod(p_un[])))
-}")
-parameters <- c("p","N")
-inits <- function() {
-  list( 
-  )
-}
-ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
-model <- jags(data, inits, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
-```
-:::
-::: {#NIMBLE .tabcontent}
-#### NIMBLE model fit {-}
-
-```r
-library(nimble)
-n_data <- list(
-  y = observed,
-  MNKA = MNKA
-)
-n_constants <- list(
-  n_occ = n_occ
-)
-Nimble_Code <- nimbleCode({
-  # Likelihood
-  for(i in 1:MNKA) {
-    # Observation model
-    for(j in 1:n_occ) {
-      y[i, j] ~ dbern(p)
-    } #j
-  } #i
-  
-  # Priors
-  p ~ dunif(0, 1) # Uninformative prior
-  
-  # Derived values
-  for(t in 1:n_occ){
-    p_un[t] <- (1-p)
-  } #t
-  N <- (MNKA / (1-prod(p_un[1:n_occ]))) #The only difference in this model is here declaring dimensions
-})
-
-n_params <- c("p", "N")
-n_inits <- list( 
-  
-)
-Nimble_Model <- nimbleModel(
-  code = Nimble_Code,
-  constants = n_constants,
-  data = n_data,
-  inits = n_inits
-)
-MCMC_Model <- configureMCMC(Nimble_Model, monitors = n_params, print = T, enableWAIC = F)
-Model1_MCMC <- buildMCMC(MCMC_Model)
-Comp_Model <- compileNimble( Nimble_Model, showCompilerOutput = TRUE )
-Comp_Model <- compileNimble(Model1_MCMC, project = Nimble_Model)
-
-niter=10000
-Model_samples <- runMCMC(Comp_Model, niter = niter, nburnin=niter/2,nchains=3,summary = TRUE)
-#mcmc_combo(Model_samples$samples, pars = c("N", "p"))
-round(Model_samples$summary$all.chains,2)
-```
-:::
-::: {#Stan .tabcontent}
-#### Stan model fit {-}
-
-```r
-library(knitr)
-library(rstan)
-data <- list(
-  y=observed,
-  nsites=nrow(observed),
-  MNKA=MNKA,
-  n_occ=n_occ
-)
-stan_model <- "
-data {
-  int<lower=0> MNKA;
-  int<lower=0> nsites;
-  int<lower=0> n_occ;
-  int<lower=0,upper=1> y[MNKA, n_occ];
-}
-parameters {
-  real<lower=0, upper=1> p;
-}
-model {  
- for(i in 1:nsites)
-    for(j in 1:4)
-      target += bernoulli_lpmf(y[i, j] | p);
-}
-generated quantities {
-  real pstar = (1-(1-p)^n_occ);
-  real N = MNKA / pstar;
-}
-"
-nc <- 4
-stan.samples <- stan(model_code = stan_model, data = data, iter = 10000, chains = nc, cores = nc, open_progress=FALSE)
-```
-:::
-::: {#Greta .tabcontent}
-#### Greta model fit{-}
-
-```r
-library(reticulate)
-reticulate::use_condaenv("r-reticulate")
-reticulate::py_config()
-library(greta)
-capture_vec <- unlist(observed)
-# priors
-p_greta <- beta(1, 1)
-# likelihood
-distribution(capture_vec) <- bernoulli(p_greta)
-# derived parameters
-pstar <- 1 - (1 - p_greta)^n_occ
-N_hat <- MNKA / pstar
-# defining the model
-m <- model(p_greta, N_hat, pstar)
-# sampling
-draws <- greta::mcmc(m, n_samples = 1000)
-```
-
-```r
-plot(m)
-```
-:::
-:::
-
-### Comparison
-
-```{=html}
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
-}
-
-#sebuelczrn .gt_table {
-  display: table;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#sebuelczrn .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#sebuelczrn .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#sebuelczrn .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 4px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#sebuelczrn .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#sebuelczrn .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#sebuelczrn .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#sebuelczrn .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#sebuelczrn .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#sebuelczrn .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#sebuelczrn .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#sebuelczrn .gt_group_heading {
-  padding: 8px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#sebuelczrn .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#sebuelczrn .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#sebuelczrn .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#sebuelczrn .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#sebuelczrn .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 12px;
-}
-
-#sebuelczrn .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#sebuelczrn .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-}
-
-#sebuelczrn .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#sebuelczrn .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#sebuelczrn .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#sebuelczrn .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#sebuelczrn .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#sebuelczrn .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding: 4px;
-}
-
-#sebuelczrn .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#sebuelczrn .gt_sourcenote {
-  font-size: 90%;
-  padding: 4px;
-}
-
-#sebuelczrn .gt_left {
-  text-align: left;
-}
-
-#sebuelczrn .gt_center {
-  text-align: center;
-}
-
-#sebuelczrn .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#sebuelczrn .gt_font_normal {
-  font-weight: normal;
-}
-
-#sebuelczrn .gt_font_bold {
-  font-weight: bold;
-}
-
-#sebuelczrn .gt_font_italic {
-  font-style: italic;
-}
-
-#sebuelczrn .gt_super {
-  font-size: 65%;
-}
-
-#sebuelczrn .gt_footnote_marks {
-  font-style: italic;
-  font-size: 65%;
-}
-</style>
-<div id="sebuelczrn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
-  <thead class="gt_header">
-    <tr>
-      <th colspan="4" class="gt_heading gt_title gt_font_normal" style>Estimate Comparison</th>
-    </tr>
-    <tr>
-      <th colspan="4" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Comparison of Huggins abundance (N) and detection 
-              
- probability (p) estimates fit using JAGS, Stan, greta.</th>
-    </tr>
-  </thead>
-  <thead class="gt_col_headings">
-    <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Mean</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">SD</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">LCL</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">UCL</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr class="gt_group_heading_row">
-      <td colspan="4" class="gt_group_heading">N</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">150.00</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">149.73</td>
-      <td class="gt_row gt_right">1.46</td>
-      <td class="gt_row gt_right">147.21</td>
-      <td class="gt_row gt_right">152.95</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">149.73</td>
-      <td class="gt_row gt_right">1.46</td>
-      <td class="gt_row gt_right">147.21</td>
-      <td class="gt_row gt_right">152.95</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">149.73</td>
-      <td class="gt_row gt_right">1.43</td>
-      <td class="gt_row gt_right">147.25</td>
-      <td class="gt_row gt_right">152.79</td>
-    </tr>
-    <tr class="gt_group_heading_row">
-      <td colspan="4" class="gt_group_heading">p</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">149.73</td>
-      <td class="gt_row gt_right">1.44</td>
-      <td class="gt_row gt_right">147.22</td>
-      <td class="gt_row gt_right">152.96</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.52</td>
-      <td class="gt_row gt_right">0.02</td>
-      <td class="gt_row gt_right">0.48</td>
-      <td class="gt_row gt_right">0.57</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.52</td>
-      <td class="gt_row gt_right">0.02</td>
-      <td class="gt_row gt_right">0.48</td>
-      <td class="gt_row gt_right">0.57</td>
-    </tr>
-    <tr class="gt_group_heading_row">
-      <td colspan="4" class="gt_empty_group_heading"></td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.52</td>
-      <td class="gt_row gt_right">0.02</td>
-      <td class="gt_row gt_right">0.48</td>
-      <td class="gt_row gt_right">0.57</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.52</td>
-      <td class="gt_row gt_right">0.02</td>
-      <td class="gt_row gt_right">0.48</td>
-      <td class="gt_row gt_right">0.57</td>
-    </tr>
-  </tbody>
-  
-  
-</table></div>
-```
-
-
-## Data Augmentation
-## N-Mixture Model
-## Distance Sampling
-## Spatial Capture-Recapture
-## Time to Event
-    
-
-<!--chapter:end:Abundance.Rmd-->
-
-# Occupancy
-
-We describe our methods in this chapter.
-
-## Static Single Season
-## Multistate
-## Multiscale
-## Multiscale Multistate
-## Species Cooccurrence 
-## Dynamic Occupancy
-
-<!--chapter:end:Occupancy.Rmd-->
-
-# Survival
-## Nest Survival
-## Known-fate
-## Individual-level Cormack-Jolly-Seber
-Model description
-
-### Algebra
-
-Log likelihood of the state-space parametrization 
-$$\mathcal{L}(\phi, p, z| y) = f(z_1|\phi) \prod_{t=2}^T f(z_t| z_{t-1}, \phi) \prod_{t=1}^T f(y_t| z_t, p)$$
-State Process
-$$z_{i_f} = 1$$
-$$z_{i,t+1}|z_{i,t} \sim Bernoulli(z_{i,t} \phi_{i,t}) $$
-Observation Process
-$$y_{i,t}|z_{i,t} \sim Bernoulli(z_{i,t},p_{i,t})$$ 
-
-### Simulation 
-
-```r
-n_occ <- 4                   # Number of capture occasions
-marked <- rep(50, n_occ-1)   # Annual number of newly marked individuals
-phi <- rep(0.65, n_occ-1)
-p <- rep(0.4, n_occ-1)
-
-# Define matrices with survival and recapture probabilities
-PHI <- matrix(phi, ncol = n_occ-1, nrow = sum(marked))
-P <- matrix(p, ncol = n_occ-1, nrow = sum(marked))
-
-CH <- matrix(0, ncol = n_occ, nrow = sum(marked))
-marking_occ <- rep(1:length(marked), marked[1:length(marked)])
-# Fill the CH matrix
-i<-1
-for (i in 1:sum(marked)){
-  CH[i, marking_occ[i]] <- 1       # Write an 1 at the release occasion
-  if (marking_occ[i]==n_occ) next
-  for (t in (marking_occ[i]+1):n_occ){
-    survive_occasion <- rbinom(1, 1, PHI[i,t-1])
-    if (survive_occasion==0) break 
-    rp <- rbinom(1, 1, P[i,t-1])
-    if (rp==1) CH[i,t] <- 1
-  } #t
-} #i
-get.first.capture <- function(x) min(which(x!=0))
-first_capture <- apply(CH, 1, get.first.capture)
-
-get.last.capture <- function(x) max(which(x!=0))
-last_capture <- apply(CH, 1, get.last.capture)
-```
-### Models {.tabset}
-
-::: {.tab}
-<button class="tablinks" onclick="unrolltab(event,'JAGS')">JAGS</button>
-<button class="tablinks" onclick="unrolltab(event,'NIMBLE')">NIMBLE</button>
-<button class="tablinks" onclick="unrolltab(event, 'Stan')">Stan</button>
-<button class="tablinks" onclick="unrolltab(event, 'Greta')">Greta</button>
-::: {#JAGS .tabcontent}
-#### JAGS model fit {-}
-
-```r
-library(knitr)
-library(R2jags)
-
-data <- list(
-  y = CH,
-  n_ind = dim(CH)[1],
-  nocc = dim(CH)[2],
-  f = first_capture
-)
-model_string <- textConnection(
-  "
-    model {
-  
-  # Likelihood
-  for (i in 1:n_ind){
-    z[i,f[i]] <- 1
-    for (t in (f[i]+1):n_occ){
-      # State process
-      z[i,t] ~ dbern(phi * z[i,t-1])
-      # Observation process
-      y[i,t] ~ dbern(mu[i,t])
-      mu[i,t] <- p * z[i,t]
-    } #t
-  } #i
-  
-  # Priors and Constraints
-  phi ~ dunif(0, 1)
-  p ~ dunif(0, 1)
-  # Derived values
-  }
-"
-)
-parameters <- c("p","phi")
-cjs.z.init <- function(ch){
-state <- ch
-   for (i in 1:dim(ch)[1]){
-      n1 <- min(which(ch[i,]==1))
-      n2 <- max(which(ch[i,]==1))
-      state[i,n1:n2] <- 1
-      state[i,n1] <- NA
-      }
-   state[state==0] <- NA
-   return(state)
-}
-set_initial_value <- function() {
-  list( 
-  z = cjs.z.init(CH)  
-  )
-}
-ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
-model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
-```
-
-:::
-::: {#NIMBLE .tabcontent}
-#### NIMBLE model fit {-}
-
-```r
-library(nimble)
-n_data <- list(
-  y = CH
-)
-n_constants <- list(
-  n_ind = dim(CH)[1],
-  nocc = dim(CH)[2],
-  f = first_capture
-)
-Nimble_Code <- nimbleCode({
- # Likelihood
-  for (i in 1:n_ind){
-    z[i,f[i]] <- 1
-    for (t in (f[i]+1):n_occ){
-      # State process
-      z[i,t] ~ dbern(phi * z[i,t-1])
-      # Observation process
-      y[i,t] ~ dbern(mu[i,t])
-      mu[i,t] <- p * z[i,t]
-    } #t
-  } #i
-  
-  # Priors and Constraints
-  phi ~ dunif(0, 1)
-  p ~ dunif(0, 1)
-  # Derived values
-})
-
-n_params <- c("p", "phi")
-cjs.z.init <- function(ch){
-state <- ch
-   for (i in 1:dim(ch)[1]){
-      n1 <- min(which(ch[i,]==1))
-      n2 <- max(which(ch[i,]==1))
-      state[i,n1:n2] <- 1
-      state[i,n1] <- NA
-      }
-   state[state==0] <- NA
-   return(state)
-}
-n_inits <- list( 
-  z = cjs.z.init(CH)
-)
-Nimble_Model <- nimbleModel(
-  code = Nimble_Code,
-  constants = n_constants,
-  data = n_data,
-  inits = n_inits
-)
-MCMC_Model <- configureMCMC(Nimble_Model, monitors = n_params, print = T, enableWAIC = F)
-Model1_MCMC <- buildMCMC(MCMC_Model)
-Comp_Model <- compileNimble( Nimble_Model, showCompilerOutput = TRUE )
-Comp_Model <- compileNimble(Model1_MCMC, project = Nimble_Model)
-
-niter=10000
-Model_samples <- runMCMC(Comp_Model, niter = niter, nburnin=niter/2,nchains=3,summary = TRUE)
-#mcmc_combo(Model_samples$samples, pars = c("N", "p"))
-round(Model_samples$summary$all.chains,2)
-```
-:::
-::: {#Stan .tabcontent}
-#### Stan model fit {-}
-
-```r
-library(knitr)
-library(rstan)
-
-data <- list(
-  CH = CH,
-  n_ind = dim(CH)[1],
-  n_occ = dim(CH)[2],
-  f = first_capture,
-  l = last_capture
-)
-
-stan_model <- "
-/**
- * Cormack-Jolly-Seber Model
- * 
- * following section 1.2.1 of:
- * http://www.maths.otago.ac.nz/home/resources/theses/PhD_Matthew_Schofield.pdf
- * https://discourse.mc-stan.org/t/cjs-log-likelihood/15112
- */
-data {
-  int<lower=2> n_occ;                      // capture events
-  int<lower=0> n_ind;                      // number of individuals
-  int<lower=0, upper=n_occ+1> f[n_ind];     // f[i]: ind i first capture
-  int<lower=0, upper=n_occ+1> l[n_ind];     // l[i]:  ind i last capture
-  int<lower=0,upper=1> CH[n_ind,n_occ];    // CH[i,k]: individual i captured at k
-}
-
-transformed data {
-  int<lower=0,upper=n_ind> n_captured[n_occ];  // n_capt[k]: num aptured at k
-
-  n_captured = rep_array(0,n_occ);
-  for (i in 1:n_ind)
-    for (k in 1:n_occ)
-      n_captured[k] = n_captured[k] + CH[i,k];
-}
-
-parameters {
-  //vector<lower=0,upper=1>[n_occ-1] phi;  // phi[k]: Pr[alive at k + 1 | alive at k]
-  //vector<lower=0,upper=1>[n_occ] p;      // p[k]: Pr[capture at k]
-  real<lower=0,upper=1> phi;  // phi[k]: Pr[alive at k + 1 | alive at k]
-  real<lower=0,upper=1> p;      // p[k]: Pr[capture at k]
-
-  // note:  p[1] not used in model and hence not identified
-}
-
-transformed parameters {
-  vector<lower=0,upper=1>[n_occ] chi;   // chi[k]: Pr[no capture >  k | alive at k]
-  vector[n_ind] log_lik;
-  {
-    int k;
-    chi[n_occ] = 1.0;              
-    k = n_occ - 1;
-    while (k > 0) {
-      //chi[k] = (1 - phi[k]) + phi[k] * (1 - p[k+1]) * chi[k+1]; 
-      chi[k] = (1 - phi) + phi * (1 - p) * chi[k+1];
-      k = k - 1;
-    }
-  }
-  
-  for (i in 1:n_ind) {
-    log_lik[i] = 0;
-    if (l[i] > 0) {
-      for (k in (f[i]+1):l[i]) {
-        log_lik[i] +=log(phi);     // i survived from k-1 to k
-        if (CH[i,k] == 1)
-          log_lik[i] +=log(p);       // i captured at k
-        else
-          log_lik[i] +=log1m(p);     // i not captured at k
-      }
-      log_lik[i] +=log(chi[l[i]]);   // i not seen after last[i]
-    }
-  }
-}
-
-model {
-  target += sum(log_lik);
-}
-
-generated quantities {
-  // phi[K-1] and p(K) not identified, but product is
-  real beta;
-  vector<lower=0>[n_occ] pop_hat;  // population
-  
-  beta = phi * p;
-  for (k in 1:n_occ)
-    pop_hat[k] = n_captured[k] / p;  
-}
-"
-
-inits <- function() list(phi = runif(1, 0, 1),
-                         p = runif(1, 0, 1))
-
-## Parameters monitored
-params <- c("phi", "p")
-
-## MCMC settings
-ni <- 2000
-nt <- 1
-nb <- 1000
-nc <- 4
-
-stan.samples <- stan(model_code = stan_model, data = data, iter = 10000, chains = nc, cores = nc)
-```
-:::
-::: {#Greta .tabcontent}
-#### Greta  model fit {-}
-
-```r
-library(greta)
-head(CH)
-head(obs_id)
-head(capture_vec)
-obs_id <- apply(CH, 1, function(x) seq(min(which(x > 0)), max(which(x > 0)), by = 1)[-1])
-obs_id <- unlist(obs_id)
-capture_vec <- apply(CH, 1, function(x) x[min(which(x > 0)):max(which(x > 0))][-1])
-capture_vec <- unlist(capture_vec)
-
-# dummy variables
-alive_data <- ones(length(obs_id))            # definitely alive
-not_seen_last <- last_capture != n_occ              # ignore observations in last timestep
-final_observation <- ones(sum(not_seen_last)) # final observation
-
-capture_vec <- as_data(observed)
-# priors
-phi <- beta(1, 1, dim = 1)
-p <- beta(1, 1, dim = 1)
-# derived parameter
-chi <- ones(n_occ)
-for (i in seq_len(n_occ - 1)) {
-  tn <- n_occ - i
-  chi[tn] <- (1 - phi) + phi * (1 - p) * chi[tn + 1]
-}
-# likelihood
-distribution(alive_data) <- bernoulli(phi)
-distribution(capture_vec) <- bernoulli(p)
-distribution(final_observation) <- bernoulli(chi[last_capture[not_seen_last]])
-
-# defining the model
-m <- model(phi,p) #objects to sample
-
-# sampling
-draws <- greta::mcmc(m, n_samples = 1000)
-```
-
-
-```r
-plot(m)
-```
-:::
-:::
-
-### Comparison
-
-```{=html}
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
-}
-
-#xchenmscem .gt_table {
-  display: table;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#xchenmscem .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#xchenmscem .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#xchenmscem .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 4px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#xchenmscem .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#xchenmscem .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#xchenmscem .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#xchenmscem .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#xchenmscem .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#xchenmscem .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#xchenmscem .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#xchenmscem .gt_group_heading {
-  padding: 8px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#xchenmscem .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#xchenmscem .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#xchenmscem .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#xchenmscem .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#xchenmscem .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 12px;
-}
-
-#xchenmscem .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#xchenmscem .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-}
-
-#xchenmscem .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#xchenmscem .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#xchenmscem .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#xchenmscem .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#xchenmscem .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#xchenmscem .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding: 4px;
-}
-
-#xchenmscem .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#xchenmscem .gt_sourcenote {
-  font-size: 90%;
-  padding: 4px;
-}
-
-#xchenmscem .gt_left {
-  text-align: left;
-}
-
-#xchenmscem .gt_center {
-  text-align: center;
-}
-
-#xchenmscem .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#xchenmscem .gt_font_normal {
-  font-weight: normal;
-}
-
-#xchenmscem .gt_font_bold {
-  font-weight: bold;
-}
-
-#xchenmscem .gt_font_italic {
-  font-style: italic;
-}
-
-#xchenmscem .gt_super {
-  font-size: 65%;
-}
-
-#xchenmscem .gt_footnote_marks {
-  font-style: italic;
-  font-size: 65%;
-}
-</style>
-<div id="xchenmscem" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
-  <thead class="gt_header">
-    <tr>
-      <th colspan="4" class="gt_heading gt_title gt_font_normal" style>Estimate Comparison</th>
-    </tr>
-    <tr>
-      <th colspan="4" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Comparison of C-J-S apparent survival (phi) and recapture 
-               probability (p) estimates fit using JAGS, Stan, greta.</th>
-    </tr>
-  </thead>
-  <thead class="gt_col_headings">
-    <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Mean</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">SD</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">LCL</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">UCL</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr class="gt_group_heading_row">
-      <td colspan="4" class="gt_group_heading">phi</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.65</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.60</td>
-      <td class="gt_row gt_right">0.08</td>
-      <td class="gt_row gt_right">0.47</td>
-      <td class="gt_row gt_right">0.78</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.61</td>
-      <td class="gt_row gt_right">0.08</td>
-      <td class="gt_row gt_right">0.46</td>
-      <td class="gt_row gt_right">0.78</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.62</td>
-      <td class="gt_row gt_right">0.07</td>
-      <td class="gt_row gt_right">0.49</td>
-      <td class="gt_row gt_right">0.78</td>
-    </tr>
-    <tr class="gt_group_heading_row">
-      <td colspan="4" class="gt_group_heading">p</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.40</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.44</td>
-      <td class="gt_row gt_right">0.08</td>
-      <td class="gt_row gt_right">0.29</td>
-      <td class="gt_row gt_right">0.60</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.43</td>
-      <td class="gt_row gt_right">0.08</td>
-      <td class="gt_row gt_right">0.28</td>
-      <td class="gt_row gt_right">0.60</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.46</td>
-      <td class="gt_row gt_right">0.07</td>
-      <td class="gt_row gt_right">0.32</td>
-      <td class="gt_row gt_right">0.61</td>
-    </tr>
-  </tbody>
-  
-  
-</table></div>
-```
-## Jolly-Seber
-
-<!--chapter:end:Survival.Rmd-->
-
-# (APPENDIX) Appendix {-} 
-
-# Appendix A
-## Authors Guidelines
-We have decided to adapt the tidyverse style guide. Detailed content can be found here.  
-  
-[tidyverse style guide][1]
-  
-Before committing code to the git repository, it should be styled using the styler package.
-
-Primary points are outlined below:
-- Use underscores (snake_case) to separate words in both variable and file names. 
-- Use periods to separate words in function names
-````
-File Names:
-chapter_1.Rmd
----
-Variable Names:
-observed_data
-````
-- When submitting a description of a new model use the template provided in Appendix B. However, if extenuating circumstances make the template in Appendix B untenable for a model, describe the reason for departure in the git commit message.
-- Variables should be named with nouns, functions should be named with verbs
-- Use dots to separate words in function names
-````
-simulate.code <- function(X) {
-}
-````
-- Label function arguments
-- Spaces after commas not before
-- Do not pad parentheses with spaces
-- Pad operators with space
-````
-foo == bar
-foo <- bar
-foo + bar
-foo * bar
-````
-[1]: https://style.tidyverse.org/
-
-# Appendix B
-## Model Template
-
-````
-## Model Name 
-Model description
-
-### Algebra
-
-Algebraic model description in latex
-
-### Simulation 
-```{r }r ''`
-
-simulated_data <- 1
-
-```  
-### Models {.tabset}
-
-::: {.tab}
-<button class="tablinks" onclick="unrolltab(event,'JAGS')">JAGS</button>
-<button class="tablinks" onclick="unrolltab(event,'NIMBLE')">NIMBLE</button>
-<button class="tablinks" onclick="unrolltab(event, 'Stan')">Stan</button>
-<button class="tablinks" onclick="unrolltab(event, 'Greta')">Greta</button>
-::: {#JAGS .tabcontent}
-#### JAGS model fit {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}r ''`
-library(knitr)
-library(R2jags)
-data <- list(
-
-)
-model_string <- textConnection(
-  "
-  model {
-  
-  # Likelihood
- 
-  # Priors
-
-
-  # Derived values
-
-  }
-"
-)
-parameters <- c( )
-set_initial_value <- function() {
-  list( 
-    
-  )
-}
-ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
-model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
-```
-:::
-::: {#NIMBLE .tabcontent}
-#### NIMBLE model fit {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}r ''`
-library(nimble)
-n_data <- list(
-
-)
-n_constants <- list(
-
-)
-Nimble_Code <- nimbleCode({
-  # Likelihood
-  
-  # Priors
-  
-  # Derived values
-
-})
-
-n_params <- c( )
-n_inits <- list( 
-  
-)
-Nimble_Model <- nimbleModel(
-  code = Nimble_Code,
-  constants = n_constants,
-  data = n_data,
-  inits = n_inits
-)
-MCMC_Model <- configureMCMC(Nimble_Model, monitors = n_params, print = T, enableWAIC = F)
-Model1_MCMC <- buildMCMC(MCMC_Model)
-Comp_Model <- compileNimble( Nimble_Model, showCompilerOutput = TRUE )
-Comp_Model <- compileNimble(Model1_MCMC, project = Nimble_Model)
-
-niter=10000
-Model_samples <- runMCMC(Comp_Model, niter = niter, nburnin=niter/2,nchains=3,summary = TRUE)
-mcmc_combo(Model_samples$samples, pars = c("N", "p"))
-round(Model_samples$summary$all.chains,2)
-
-```
-:::
-::: {#Stan .tabcontent}
-#### Stan  {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}r ''`
-library(knitr)
-library(rstan)
-
-data <- list(
-
-)
-
-stan_model <- "
-data {
-
-}
-
-parameters {
-
-}
-
-model {  
-
-}
-
-generated quantities {
-
-}
-"
-nc <- 4
-
-stan.samples <- stan(model_code = stan_model, data = data, iter = 10000, chains = nc, cores = nc)
-```
-
-:::
-::: {#Greta .tabcontent}
-#### Greta  {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}r ''`
-library(greta)
-# priors
-
-# likelihood
-
-# derived parameter
-
-# defining the model
-m <- model() #objects to sample
-
-# sampling
-draws <- greta::mcmc(m, n_samples = 1000)
-```
-```{r}r ''`
-plot(m)
-```
-:::
-:::
-
-### Comparison
-```{r , echo=FALSE, warning=FALSE}r```
-#round(model$BUGSoutput$summary[c(1,3),c(1,2,3,7)],2) #jags 
-#round(summary(stan.samples)$summary[c(2,1),c(1,3,4,8)],2) #stan 
-#summary(draws) #greta 
-#https://gt.rstudio.com/articles/intro-creating-gt-tables.html
-
-library(gt)
-library(tidyverse)
-results_df <- data.frame(
-              Sampler=c(),
-              Parameter=c(),
-              Mean=c(),
-              SD=c(),
-              LCL=c(),
-              UCL=c()
-              )
-
-results_df %>%
-  dplyr::select(-Sampler,-Parameter) %>%
-  gt() %>%
-  tab_row_group(
-    group = "p",
-    rows = 5:8
-  ) %>%
-  tab_row_group(
-    group = "N",
-    rows = 1:4
-  ) %>%
-  tab_header(
-    title = "",
-    subtitle = ""
-  )
-```
-````
-
-<!--chapter:end:Appendix.Rmd-->
-
-
-# References {-}
-
-
-<!--chapter:end:References.Rmd-->
-
