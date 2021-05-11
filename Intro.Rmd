@@ -11,11 +11,12 @@
 ```{r}
 library(lme4)
 library(R2jags)
+library(runjags)
 #library(equatiomatic)
 ```
 
 
-# Model of the Mean 
+### Model of the Mean 
 
 This is an intercept only model. We are estimating two parameters, $\mu$ and $\sigma$. 
 
@@ -71,7 +72,7 @@ ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
 model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
 ```
 
-# Difference of Means
+### Difference of Means
 
 This is a one-way anova with the intercept as the identity and the beta estimates representing the offset effects from the intercept. 
 
@@ -124,7 +125,7 @@ ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
 model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
 ```
 
-# One-way ANOVA
+### One-way ANOVA
 
 This is a one-way anova with the intercept as the identity and the beta estimates representing the offset effects from the intercept. 
 
@@ -185,7 +186,7 @@ ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
 model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
 ```
 
-# One-way ANOVA Identity
+### One-way ANOVA Identity
 
 This is a one-way anova with an identity parameterization. Beta estimates represent the mean effect for each factor level. 
 
@@ -244,8 +245,8 @@ ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
 model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
 ```
 
-# Two-way ANOVA
-# ANCOVA
-# MANOVA
-# MANCOVA
+### Two-way ANOVA
+### ANCOVA
+### MANOVA
+### MANCOVA
 ## Common Priors
