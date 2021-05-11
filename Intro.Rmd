@@ -83,7 +83,7 @@ x <- c(rep(0,n/2),rep(1,n/2))
 mu <- beta_0 + beta_1*x
 sd <- 10
 y <- rnorm(n, mean = mu, sd = sd)
-model.matrix(~x)
+#model.matrix(~x)
 ```
 
 ```{r}
@@ -136,7 +136,7 @@ beta_2 <- -2
 beta_3 <- 0.2
 x <- as.factor(c(rep(1,n/4),rep(2,n/4),rep(3,n/4),rep(4,n/4)))
 X <- model.matrix(~x)
-tail(X)
+head(X)
 mu <- beta_0 + beta_1*X[,2] + beta_2*X[,3] + beta_3*X[,4]
 sd <- 10
 y <- rnorm(n, mean = mu, sd = sd)

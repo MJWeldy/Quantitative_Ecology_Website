@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 12 Occupancy | Quantitative Ecology</title>
+  <title>Chapter 4 Difference of Means | Quantitative Ecology</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 12 Occupancy | Quantitative Ecology" />
+  <meta property="og:title" content="Chapter 4 Difference of Means | Quantitative Ecology" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 12 Occupancy | Quantitative Ecology" />
+  <meta name="twitter:title" content="Chapter 4 Difference of Means | Quantitative Ecology" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="abundance.html"/>
-<link rel="next" href="survival.html"/>
+<link rel="prev" href="model-of-the-mean.html"/>
+<link rel="next" href="one-way-anova.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -242,36 +242,176 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="occupancy" class="section level1" number="12">
-<h1><span class="header-section-number">Chapter 12</span> Occupancy</h1>
-<p>We describe our methods in this chapter.</p>
-<div id="static-single-season" class="section level2" number="12.1">
-<h2><span class="header-section-number">12.1</span> Static Single Season</h2>
-</div>
-<div id="multistate" class="section level2" number="12.2">
-<h2><span class="header-section-number">12.2</span> Multistate</h2>
-</div>
-<div id="multiscale" class="section level2" number="12.3">
-<h2><span class="header-section-number">12.3</span> Multiscale</h2>
-</div>
-<div id="multiscale-multistate" class="section level2" number="12.4">
-<h2><span class="header-section-number">12.4</span> Multiscale Multistate</h2>
-</div>
-<div id="species-cooccurrence" class="section level2" number="12.5">
-<h2><span class="header-section-number">12.5</span> Species Cooccurrence</h2>
-</div>
-<div id="dynamic-occupancy" class="section level2" number="12.6">
-<h2><span class="header-section-number">12.6</span> Dynamic Occupancy</h2>
-
-</div>
+<div id="difference-of-means" class="section level1" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Difference of Means</h1>
+<p>This is a one-way anova with the intercept as the identity and the beta estimates representing the offset effects from the intercept.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="difference-of-means.html#cb7-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb7-2"><a href="difference-of-means.html#cb7-2" aria-hidden="true" tabindex="-1"></a>beta_0 <span class="ot">&lt;-</span> <span class="fl">1.5</span></span>
+<span id="cb7-3"><a href="difference-of-means.html#cb7-3" aria-hidden="true" tabindex="-1"></a>beta_1 <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb7-4"><a href="difference-of-means.html#cb7-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,n<span class="sc">/</span><span class="dv">2</span>),<span class="fu">rep</span>(<span class="dv">1</span>,n<span class="sc">/</span><span class="dv">2</span>))</span>
+<span id="cb7-5"><a href="difference-of-means.html#cb7-5" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> beta_0 <span class="sc">+</span> beta_1<span class="sc">*</span>x</span>
+<span id="cb7-6"><a href="difference-of-means.html#cb7-6" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb7-7"><a href="difference-of-means.html#cb7-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> mu, <span class="at">sd =</span> sd)</span>
+<span id="cb7-8"><a href="difference-of-means.html#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#model.matrix(~x)</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="difference-of-means.html#cb8-1" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb8-2"><a href="difference-of-means.html#cb8-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb8-3"><a href="difference-of-means.html#cb8-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> n,</span>
+<span id="cb8-4"><a href="difference-of-means.html#cb8-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">y =</span> y,</span>
+<span id="cb8-5"><a href="difference-of-means.html#cb8-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">x =</span> x</span>
+<span id="cb8-6"><a href="difference-of-means.html#cb8-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-7"><a href="difference-of-means.html#cb8-7" aria-hidden="true" tabindex="-1"></a>model_string <span class="ot">&lt;-</span> <span class="fu">textConnection</span>(</span>
+<span id="cb8-8"><a href="difference-of-means.html#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;</span></span>
+<span id="cb8-9"><a href="difference-of-means.html#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="st">  model {</span></span>
+<span id="cb8-10"><a href="difference-of-means.html#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb8-11"><a href="difference-of-means.html#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="st">  # Likelihood</span></span>
+<span id="cb8-12"><a href="difference-of-means.html#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1:n){</span></span>
+<span id="cb8-13"><a href="difference-of-means.html#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="st">    y[i] ~ dnorm(mu[i], tau)</span></span>
+<span id="cb8-14"><a href="difference-of-means.html#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="st">    mu[i] &lt;- beta_0 + beta_1*x[i]</span></span>
+<span id="cb8-15"><a href="difference-of-means.html#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb8-16"><a href="difference-of-means.html#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="st">  # Priors</span></span>
+<span id="cb8-17"><a href="difference-of-means.html#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="st">  beta_0 ~ dnorm(0, 0.00001)</span></span>
+<span id="cb8-18"><a href="difference-of-means.html#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="st">  beta_1 ~ dnorm(0, 0.00001)</span></span>
+<span id="cb8-19"><a href="difference-of-means.html#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ dunif(0, 100) # standard deviation</span></span>
+<span id="cb8-20"><a href="difference-of-means.html#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="st">    tau &lt;- 1 / (sigma * sigma) # sigma^2 doesn&#39;t work in JAGS</span></span>
+<span id="cb8-21"><a href="difference-of-means.html#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb8-22"><a href="difference-of-means.html#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="difference-of-means.html#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="st">  # Derived values</span></span>
+<span id="cb8-24"><a href="difference-of-means.html#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="difference-of-means.html#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb8-26"><a href="difference-of-means.html#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb8-27"><a href="difference-of-means.html#cb8-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-28"><a href="difference-of-means.html#cb8-28" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;beta_0&quot;</span>,<span class="st">&quot;beta_1&quot;</span>, <span class="st">&quot;sigma&quot;</span> )</span>
+<span id="cb8-29"><a href="difference-of-means.html#cb8-29" aria-hidden="true" tabindex="-1"></a>set_initial_value <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb8-30"><a href="difference-of-means.html#cb8-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>( </span>
+<span id="cb8-31"><a href="difference-of-means.html#cb8-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-32"><a href="difference-of-means.html#cb8-32" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-33"><a href="difference-of-means.html#cb8-33" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-34"><a href="difference-of-means.html#cb8-34" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10000</span> ; nt <span class="ot">&lt;-</span> <span class="dv">1</span> ; nb <span class="ot">&lt;-</span> <span class="dv">5000</span> ; nc <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb8-35"><a href="difference-of-means.html#cb8-35" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">jags</span>(data, set_initial_value, parameters, model_string, <span class="at">n.chains =</span> nc, <span class="at">n.thin =</span> nt, <span class="at">n.iter =</span> ni, <span class="at">n.burnin =</span> nb)</span></code></pre></div>
+<pre><code>## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 1000
+##    Unobserved stochastic nodes: 3
+##    Total graph size: 2014
+## 
+## Initializing model
+## 
+## 
+  |                                                        
+  |                                                  |   0%
+  |                                                        
+  |++                                                |   4%
+  |                                                        
+  |++++                                              |   8%
+  |                                                        
+  |++++++                                            |  12%
+  |                                                        
+  |++++++++                                          |  16%
+  |                                                        
+  |++++++++++                                        |  20%
+  |                                                        
+  |++++++++++++                                      |  24%
+  |                                                        
+  |++++++++++++++                                    |  28%
+  |                                                        
+  |++++++++++++++++                                  |  32%
+  |                                                        
+  |++++++++++++++++++                                |  36%
+  |                                                        
+  |++++++++++++++++++++                              |  40%
+  |                                                        
+  |++++++++++++++++++++++                            |  44%
+  |                                                        
+  |++++++++++++++++++++++++                          |  48%
+  |                                                        
+  |++++++++++++++++++++++++++                        |  52%
+  |                                                        
+  |++++++++++++++++++++++++++++                      |  56%
+  |                                                        
+  |++++++++++++++++++++++++++++++                    |  60%
+  |                                                        
+  |++++++++++++++++++++++++++++++++                  |  64%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++                |  68%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++++              |  72%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++++++            |  76%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++++++++          |  80%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++++++++++        |  84%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++++++++++++      |  88%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++++++++++++++    |  92%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++++++++++++++++  |  96%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
+## 
+  |                                                        
+  |                                                  |   0%
+  |                                                        
+  |**                                                |   4%
+  |                                                        
+  |****                                              |   8%
+  |                                                        
+  |******                                            |  12%
+  |                                                        
+  |********                                          |  16%
+  |                                                        
+  |**********                                        |  20%
+  |                                                        
+  |************                                      |  24%
+  |                                                        
+  |**************                                    |  28%
+  |                                                        
+  |****************                                  |  32%
+  |                                                        
+  |******************                                |  36%
+  |                                                        
+  |********************                              |  40%
+  |                                                        
+  |**********************                            |  44%
+  |                                                        
+  |************************                          |  48%
+  |                                                        
+  |**************************                        |  52%
+  |                                                        
+  |****************************                      |  56%
+  |                                                        
+  |******************************                    |  60%
+  |                                                        
+  |********************************                  |  64%
+  |                                                        
+  |**********************************                |  68%
+  |                                                        
+  |************************************              |  72%
+  |                                                        
+  |**************************************            |  76%
+  |                                                        
+  |****************************************          |  80%
+  |                                                        
+  |******************************************        |  84%
+  |                                                        
+  |********************************************      |  88%
+  |                                                        
+  |**********************************************    |  92%
+  |                                                        
+  |************************************************  |  96%
+  |                                                        
+  |**************************************************| 100%</code></pre>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="abundance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="survival.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="model-of-the-mean.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="one-way-anova.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -174,7 +174,7 @@ m <- model(N) #objects to sample
 # sampling
 draws <- greta::mcmc(m, n_samples = 1000)
 ```
-```{r}
+```{r,eval = FALSE}
 plot(m)
 ```
 :::

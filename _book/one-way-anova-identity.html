@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 12 Occupancy | Quantitative Ecology</title>
+  <title>Chapter 6 One-way ANOVA Identity | Quantitative Ecology</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 12 Occupancy | Quantitative Ecology" />
+  <meta property="og:title" content="Chapter 6 One-way ANOVA Identity | Quantitative Ecology" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 12 Occupancy | Quantitative Ecology" />
+  <meta name="twitter:title" content="Chapter 6 One-way ANOVA Identity | Quantitative Ecology" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="abundance.html"/>
-<link rel="next" href="survival.html"/>
+<link rel="prev" href="one-way-anova.html"/>
+<link rel="next" href="two-way-anova.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -242,36 +242,188 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="occupancy" class="section level1" number="12">
-<h1><span class="header-section-number">Chapter 12</span> Occupancy</h1>
-<p>We describe our methods in this chapter.</p>
-<div id="static-single-season" class="section level2" number="12.1">
-<h2><span class="header-section-number">12.1</span> Static Single Season</h2>
-</div>
-<div id="multistate" class="section level2" number="12.2">
-<h2><span class="header-section-number">12.2</span> Multistate</h2>
-</div>
-<div id="multiscale" class="section level2" number="12.3">
-<h2><span class="header-section-number">12.3</span> Multiscale</h2>
-</div>
-<div id="multiscale-multistate" class="section level2" number="12.4">
-<h2><span class="header-section-number">12.4</span> Multiscale Multistate</h2>
-</div>
-<div id="species-cooccurrence" class="section level2" number="12.5">
-<h2><span class="header-section-number">12.5</span> Species Cooccurrence</h2>
-</div>
-<div id="dynamic-occupancy" class="section level2" number="12.6">
-<h2><span class="header-section-number">12.6</span> Dynamic Occupancy</h2>
-
-</div>
+<div id="one-way-anova-identity" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 6</span> One-way ANOVA Identity</h1>
+<p>This is a one-way anova with an identity parameterization. Beta estimates represent the mean effect for each factor level.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="one-way-anova-identity.html#cb15-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb15-2"><a href="one-way-anova-identity.html#cb15-2" aria-hidden="true" tabindex="-1"></a>beta_0 <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb15-3"><a href="one-way-anova-identity.html#cb15-3" aria-hidden="true" tabindex="-1"></a>beta_1 <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb15-4"><a href="one-way-anova-identity.html#cb15-4" aria-hidden="true" tabindex="-1"></a>beta_2 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">4</span></span>
+<span id="cb15-5"><a href="one-way-anova-identity.html#cb15-5" aria-hidden="true" tabindex="-1"></a>beta_3 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb15-6"><a href="one-way-anova-identity.html#cb15-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>,n<span class="sc">/</span><span class="dv">4</span>),<span class="fu">rep</span>(<span class="dv">2</span>,n<span class="sc">/</span><span class="dv">4</span>),<span class="fu">rep</span>(<span class="dv">3</span>,n<span class="sc">/</span><span class="dv">4</span>),<span class="fu">rep</span>(<span class="dv">4</span>,n<span class="sc">/</span><span class="dv">4</span>)))</span>
+<span id="cb15-7"><a href="one-way-anova-identity.html#cb15-7" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>x<span class="dv">-1</span>)</span>
+<span id="cb15-8"><a href="one-way-anova-identity.html#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(X)</span></code></pre></div>
+<pre><code>##      x1 x2 x3 x4
+## 995   0  0  0  1
+## 996   0  0  0  1
+## 997   0  0  0  1
+## 998   0  0  0  1
+## 999   0  0  0  1
+## 1000  0  0  0  1</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="one-way-anova-identity.html#cb17-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> beta_0<span class="sc">*</span>X[,<span class="dv">1</span>] <span class="sc">+</span> beta_1<span class="sc">*</span>X[,<span class="dv">2</span>] <span class="sc">+</span> beta_2<span class="sc">*</span>X[,<span class="dv">3</span>] <span class="sc">+</span> beta_3<span class="sc">*</span>X[,<span class="dv">4</span>]</span>
+<span id="cb17-2"><a href="one-way-anova-identity.html#cb17-2" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb17-3"><a href="one-way-anova-identity.html#cb17-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> mu, <span class="at">sd =</span> sd)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="one-way-anova-identity.html#cb18-1" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> x)</span>
+<span id="cb18-2"><a href="one-way-anova-identity.html#cb18-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb18-3"><a href="one-way-anova-identity.html#cb18-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> n,</span>
+<span id="cb18-4"><a href="one-way-anova-identity.html#cb18-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">y =</span> y,</span>
+<span id="cb18-5"><a href="one-way-anova-identity.html#cb18-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">x =</span> x</span>
+<span id="cb18-6"><a href="one-way-anova-identity.html#cb18-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-7"><a href="one-way-anova-identity.html#cb18-7" aria-hidden="true" tabindex="-1"></a>model_string <span class="ot">&lt;-</span> <span class="fu">textConnection</span>(</span>
+<span id="cb18-8"><a href="one-way-anova-identity.html#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;</span></span>
+<span id="cb18-9"><a href="one-way-anova-identity.html#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="st">  model {</span></span>
+<span id="cb18-10"><a href="one-way-anova-identity.html#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb18-11"><a href="one-way-anova-identity.html#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="st">  # Likelihood</span></span>
+<span id="cb18-12"><a href="one-way-anova-identity.html#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1:n){</span></span>
+<span id="cb18-13"><a href="one-way-anova-identity.html#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="st">    y[i] ~ dnorm(mu[i], tau)</span></span>
+<span id="cb18-14"><a href="one-way-anova-identity.html#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="st">    mu[i] &lt;- betas[x[i]]</span></span>
+<span id="cb18-15"><a href="one-way-anova-identity.html#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb18-16"><a href="one-way-anova-identity.html#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="st">  # Priors</span></span>
+<span id="cb18-17"><a href="one-way-anova-identity.html#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="st">  for(i in 1:4) {</span></span>
+<span id="cb18-18"><a href="one-way-anova-identity.html#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="st">    betas[i] ~ dnorm(0, 0.00001)</span></span>
+<span id="cb18-19"><a href="one-way-anova-identity.html#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb18-20"><a href="one-way-anova-identity.html#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb18-21"><a href="one-way-anova-identity.html#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ dunif(0, 100) # standard deviation</span></span>
+<span id="cb18-22"><a href="one-way-anova-identity.html#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="st">    tau &lt;- 1 / (sigma * sigma) # sigma^2 doesn&#39;t work in JAGS</span></span>
+<span id="cb18-23"><a href="one-way-anova-identity.html#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb18-24"><a href="one-way-anova-identity.html#cb18-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-25"><a href="one-way-anova-identity.html#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="st">  # Derived values</span></span>
+<span id="cb18-26"><a href="one-way-anova-identity.html#cb18-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-27"><a href="one-way-anova-identity.html#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb18-28"><a href="one-way-anova-identity.html#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb18-29"><a href="one-way-anova-identity.html#cb18-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-30"><a href="one-way-anova-identity.html#cb18-30" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;betas&quot;</span>,<span class="st">&quot;sigma&quot;</span> )</span>
+<span id="cb18-31"><a href="one-way-anova-identity.html#cb18-31" aria-hidden="true" tabindex="-1"></a>set_initial_value <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb18-32"><a href="one-way-anova-identity.html#cb18-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>( </span>
+<span id="cb18-33"><a href="one-way-anova-identity.html#cb18-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-34"><a href="one-way-anova-identity.html#cb18-34" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-35"><a href="one-way-anova-identity.html#cb18-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-36"><a href="one-way-anova-identity.html#cb18-36" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10000</span> ; nt <span class="ot">&lt;-</span> <span class="dv">1</span> ; nb <span class="ot">&lt;-</span> <span class="dv">5000</span> ; nc <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb18-37"><a href="one-way-anova-identity.html#cb18-37" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">jags</span>(data, set_initial_value, parameters, model_string, <span class="at">n.chains =</span> nc, <span class="at">n.thin =</span> nt, <span class="at">n.iter =</span> ni, <span class="at">n.burnin =</span> nb)</span></code></pre></div>
+<pre><code>## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 1000
+##    Unobserved stochastic nodes: 5
+##    Total graph size: 2012
+## 
+## Initializing model
+## 
+## 
+  |                                                        
+  |                                                  |   0%
+  |                                                        
+  |++                                                |   4%
+  |                                                        
+  |++++                                              |   8%
+  |                                                        
+  |++++++                                            |  12%
+  |                                                        
+  |++++++++                                          |  16%
+  |                                                        
+  |++++++++++                                        |  20%
+  |                                                        
+  |++++++++++++                                      |  24%
+  |                                                        
+  |++++++++++++++                                    |  28%
+  |                                                        
+  |++++++++++++++++                                  |  32%
+  |                                                        
+  |++++++++++++++++++                                |  36%
+  |                                                        
+  |++++++++++++++++++++                              |  40%
+  |                                                        
+  |++++++++++++++++++++++                            |  44%
+  |                                                        
+  |++++++++++++++++++++++++                          |  48%
+  |                                                        
+  |++++++++++++++++++++++++++                        |  52%
+  |                                                        
+  |++++++++++++++++++++++++++++                      |  56%
+  |                                                        
+  |++++++++++++++++++++++++++++++                    |  60%
+  |                                                        
+  |++++++++++++++++++++++++++++++++                  |  64%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++                |  68%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++++              |  72%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++++++            |  76%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++++++++          |  80%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++++++++++        |  84%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++++++++++++      |  88%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++++++++++++++    |  92%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++++++++++++++++  |  96%
+  |                                                        
+  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
+## 
+  |                                                        
+  |                                                  |   0%
+  |                                                        
+  |**                                                |   4%
+  |                                                        
+  |****                                              |   8%
+  |                                                        
+  |******                                            |  12%
+  |                                                        
+  |********                                          |  16%
+  |                                                        
+  |**********                                        |  20%
+  |                                                        
+  |************                                      |  24%
+  |                                                        
+  |**************                                    |  28%
+  |                                                        
+  |****************                                  |  32%
+  |                                                        
+  |******************                                |  36%
+  |                                                        
+  |********************                              |  40%
+  |                                                        
+  |**********************                            |  44%
+  |                                                        
+  |************************                          |  48%
+  |                                                        
+  |**************************                        |  52%
+  |                                                        
+  |****************************                      |  56%
+  |                                                        
+  |******************************                    |  60%
+  |                                                        
+  |********************************                  |  64%
+  |                                                        
+  |**********************************                |  68%
+  |                                                        
+  |************************************              |  72%
+  |                                                        
+  |**************************************            |  76%
+  |                                                        
+  |****************************************          |  80%
+  |                                                        
+  |******************************************        |  84%
+  |                                                        
+  |********************************************      |  88%
+  |                                                        
+  |**********************************************    |  92%
+  |                                                        
+  |************************************************  |  96%
+  |                                                        
+  |**************************************************| 100%</code></pre>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="abundance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="survival.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="one-way-anova.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="two-way-anova.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
