@@ -48,22 +48,45 @@ Model description
 
 Algebraic model description in latex
 
-### Simulation 
-```{r }r ''`
+### Simulation {.tabset} 
 
-simulated_data <- 1
+::: {.tab}
+<button class="tablinks" onclick="unrolltab(event,'R#')">R</button>
+<button class="tablinks" onclick="unrolltab(event,'Python#')">Python</button>
+<button class="tablinks" onclick="unrolltab(event,'Julia#')">Julia</button>
+::: {#R# .tabcontent}
+#### {-}
+<br>
+```{r , eval = FALSE}r ''`
+```
+:::
+::: {#Python3 .tabcontent}
+#### {-}
+<br>
+```{r , eval = FALSE}r ''`
 
-```  
+```
+:::
+::: {#Julia# .tabcontent}
+#### {-}
+<br>
+```{r , eval = FALSE}r ''`
+
+```
+:::
+:::
+
 ### Models {.tabset}
 
 ::: {.tab}
-<button class="tablinks" onclick="unrolltab(event,'JAGS')">JAGS</button>
-<button class="tablinks" onclick="unrolltab(event,'NIMBLE')">NIMBLE</button>
-<button class="tablinks" onclick="unrolltab(event, 'Stan')">Stan</button>
-<button class="tablinks" onclick="unrolltab(event, 'Greta')">Greta</button>
+<button class="tablinks" onclick="unrolltab(event,'JAGS#')">JAGS</button>
+<button class="tablinks" onclick="unrolltab(event,'NIMBLE#')">NIMBLE</button>
+<button class="tablinks" onclick="unrolltab(event, 'Stan#')">Stan</button>
+<button class="tablinks" onclick="unrolltab(event, 'Greta#')">Greta</button>
 ::: {#JAGS .tabcontent}
-#### JAGS model fit {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}r ''`
+#### {-}
+<br>
+```{r ,eval = FALSE}r ''`
 library(knitr)
 library(R2jags)
 data <- list(
@@ -89,13 +112,21 @@ set_initial_value <- function() {
     
   )
 }
-ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
-model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
+ni <- 10000 ; nt <- 1 ; nc <- 3
+model <- jags(data = data, 
+              inits = inits, 
+              parameters = parameters, 
+              model.file = model_string, 
+              n.chains = nc, 
+              n.thin = nt, 
+              n.iter = ni, 
+              n.burnin = ni/2)
 ```
 :::
 ::: {#NIMBLE .tabcontent}
-#### NIMBLE model fit {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}r ''`
+#### {-}
+<br>
+```{r ,eval = FALSE}r ''`
 library(nimble)
 n_data <- list(
 
@@ -127,16 +158,21 @@ Model1_MCMC <- buildMCMC(MCMC_Model)
 Comp_Model <- compileNimble( Nimble_Model, showCompilerOutput = TRUE )
 Comp_Model <- compileNimble(Model1_MCMC, project = Nimble_Model)
 
-niter=10000
-Model_samples <- runMCMC(Comp_Model, niter = niter, nburnin=niter/2,nchains=3,summary = TRUE)
+ni <- 10000 ; nt <- 1 ; nc <- 3
+Model_samples <- runMCMC(mcmc = Comp_Model, 
+                         niter = ni, 
+                         nburnin = ni/2,
+                         nchains = nc,
+                         summary = TRUE)
 mcmc_combo(Model_samples$samples, pars = c("N", "p"))
 round(Model_samples$summary$all.chains,2)
 
 ```
 :::
 ::: {#Stan .tabcontent}
-#### Stan  {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}r ''`
+#### {-}
+<br>
+```{r ,eval = FALSE}r ''`
 library(knitr)
 library(rstan)
 
@@ -161,15 +197,20 @@ generated quantities {
 
 }
 "
-nc <- 4
-
-stan.samples <- stan(model_code = stan_model, data = data, iter = 10000, chains = nc, cores = nc)
+ni <- 10000 ; nt <- 1 ; nc <- 4
+stan.samples <- stan(model_code = stan_model, 
+                     data = data, 
+                     iter = ni, 
+                     warmup = floor(ni/2),
+                     chains = nc, 
+                     cores = nc)
 ```
 
 :::
 ::: {#Greta .tabcontent}
-#### Greta  {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}r ''`
+#### {-}
+<br>
+```{r ,eval = FALSE}r ''`
 library(greta)
 # priors
 
@@ -181,10 +222,13 @@ library(greta)
 m <- model() #objects to sample
 
 # sampling
-draws <- greta::mcmc(m, n_samples = 1000)
-```
-```{r}r ''`
-plot(m)
+ni <- 10000 ; nt <- 1 ; nc <- 4
+draws <- greta::mcmc(model = m, 
+                     n_samples = ni,
+                     thin = nt,
+                     warmup = floor(ni/2),
+                     chains = nc, 
+                     n_cores = nc)
 ```
 :::
 :::

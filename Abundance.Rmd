@@ -1,27 +1,33 @@
 # Abundance
 
-
-
 ## Lincoln-Peterson
 
 Lincoln 1930, Petersen 1896
 
 The Lincoln-Petersen abundance estimator arises in cases where we have mark-recapture data recorded over two capture occasions. During the first occasion individuals are captured and uniquely marked. During the second occasion the number of individuals captured is recorded, along with the number of individuals marked during the first occasion that are recaptured. 
 
-### Algebra
+### Algebra  
 
-The data consist of:
-- $M_1$ : the number of individuals captured and uniquely marked during the first occasion
-- $M_2$ : the number of previously marked individuals captured during the second occasion
-- $C$ : the number of animals captured during the second trapping occasion
+The data consist of:  
+
+- $M_1$ : the number of individuals captured and uniquely marked during the first occasion  
+- $M_2$ : the number of previously marked individuals captured during the second occasion  
+- $C$ : the number of animals captured during the second trapping occasion  
 
 $$M_2 \sim Binomial(C, \frac{M_1}{\hat{N}}) $$
 $$\mathcal{L}(C| M_1, p = \frac{M_1}{\hat{N}}) = {M_1 \choose C} p^C(1-p)^{M_1-C}$$
 The maximum likelihood estimate for $\hat{N}$ is, 
 $$\hat{N} = \frac{M_1*C}{M_2}$$
 
-### Simulation 
-```{r}
+### Simulation {.tabset}  
+::: {.tab}
+<button class="tablinks" onclick="unrolltab(event,'R1')">R</button>
+<button class="tablinks" onclick="unrolltab(event,'Python1')">Python</button>
+<button class="tablinks" onclick="unrolltab(event,'Julia1')">Julia</button>
+::: {#R1 .tabcontent}
+#### {-}
+<br>
+```{r , eval = FALSE}
 set.seed(1)
 N <- 75 #True population size
 n_occ <- 2 #Number of trapping occasions
@@ -36,16 +42,33 @@ M_1 <- sum(observed[,1])
 M_2 <- nrow(subset(observed,rowSums(observed)>1))
 C <- sum(observed[,2])
 ```
-### Models {.tabset}
+:::
+::: {#Python1 .tabcontent}
+#### {-}
+<br>
+```{r , eval = FALSE}
+
+```
+:::
+::: {#Julia1 .tabcontent}
+#### {-}
+<br>
+```{r , eval = FALSE}
+
+```
+:::
+:::
+### Models {.tabset}  
 
 ::: {.tab}
-<button class="tablinks" onclick="unrolltab(event,'JAGS')">JAGS</button>
-<button class="tablinks" onclick="unrolltab(event,'NIMBLE')">NIMBLE</button>
-<button class="tablinks" onclick="unrolltab(event, 'Stan')">Stan</button>
-<button class="tablinks" onclick="unrolltab(event, 'Greta')">Greta</button>
-::: {#JAGS .tabcontent}
-#### JAGS model fit {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+<button class="tablinks" onclick="unrolltab(event,'JAGS1')">JAGS</button>
+<button class="tablinks" onclick="unrolltab(event,'NIMBLE1')">NIMBLE</button>
+<button class="tablinks" onclick="unrolltab(event,'Stan1')">Stan</button>
+<button class="tablinks" onclick="unrolltab(event,'Greta1')">Greta</button>
+::: {#JAGS1 .tabcontent}
+#### {-}
+<br>
+```{r ,eval = FALSE}
 library(knitr)
 library(R2jags)
 data <- list(
@@ -78,9 +101,10 @@ ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
 model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
 ```
 :::
-::: {#NIMBLE .tabcontent}
-#### NIMBLE model fit {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+::: {#NIMBLE1 .tabcontent}
+#### {-}
+<br>
+```{r ,eval = FALSE}
 library(nimble)
 n_data <- list(
           M_1 = M_1,
@@ -123,9 +147,10 @@ Model_samples <- runMCMC(Comp_Model, niter = niter, nburnin=niter/2,nchains=3,su
 
 ```
 :::
-::: {#Stan .tabcontent}
-#### Stan  {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+::: {#Stan1 .tabcontent}
+#### {-}
+<br>
+```{r ,eval = FALSE}
 library(knitr)
 library(rstan)
 
@@ -152,11 +177,11 @@ nc <- 4
 
 stan.samples <- stan(model_code = stan_model, data = data, iter = 10000, chains = nc, cores = nc)
 ```
-
 :::
-::: {#Greta .tabcontent}
-#### Greta  {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+::: {#Greta1 .tabcontent}
+#### {-}
+<br>
+```{r ,eval = FALSE}
 library(reticulate)
 reticulate::use_condaenv("r-reticulate")
 reticulate::py_config()
@@ -174,14 +199,9 @@ m <- model(N) #objects to sample
 # sampling
 draws <- greta::mcmc(m, n_samples = 1000)
 ```
-```{r,eval = FALSE}
-plot(m)
-```
 :::
 :::
-
 ### Comparison
-
 
 ## Full Likelihood
 
@@ -189,19 +209,26 @@ plot(m)
 
 The conditional likelihood abundance estimator proposed by @huggins_statistical_1989 and @alho_logistic_1990, which was further extended in @huggins_practical_1991, is an extension to previous abundance estimators to account for heterogeneous capture probabilities ($p$). The model estimates individual capture probabilities and abundance conditional on captured individuals.
 
-
 ### Algebra
+
 The capture history $y_{i,t}$ is used to estimate the capture probability of individual $i$ as a Bernoulli trial,
-$$y_{i,t} \sim Bernoulli(p_{i,t}) $$
+$$y_{i,t} \sim Bernoulli(p_{i,t})$$
 $$\mathcal{L}(p| y) = \prod_{i=1}^n \prod_{t=1}^t p_{i,t}^{z_{i,t}}(1-p_{i,t})^{1-z_{i,t}}$$
 
 Abundance $\hat{N}$ is derived conditional on the count of known individuals ($C$), sometimes referred to the minimum number of known alive ($MNKA$).
 $$\hat{N} = \frac{C}{1-\prod^{t}(1-p_t)}$$
 Variation in detection probability can be modeled using linear logistic models or other variations used to estimate probabilities 0-1.
 
-### Simulation 
+### Simulation {.tabset} 
 
-```{r}
+::: {.tab}
+<button class="tablinks" onclick="unrolltab(event,'R3')">R</button>
+<button class="tablinks" onclick="unrolltab(event,'Python3')">Python</button>
+<button class="tablinks" onclick="unrolltab(event,'Julia3')">Julia</button>
+::: {#R3 .tabcontent}
+#### {-}
+<br>
+```{r , eval = FALSE}
 set.seed(1)
 N <- 150 #True population size
 n_occ <- 4 #Number of trapping occasions
@@ -215,16 +242,34 @@ observed <- true_detections[apply(true_detections,1,max) == 1,]
 MNKA <- nrow(observed)
 print( paste0("Number ever detected: ", MNKA,sep = " ") ) #number ever detected
 ```
+:::
+::: {#Python3 .tabcontent}
+#### {-}
+<br>
+```{r , eval = FALSE}
+
+```
+:::
+::: {#Julia3 .tabcontent}
+#### {-}
+<br>
+```{r , eval = FALSE}
+
+```
+:::
+:::
+
 ### Models {.tabset}
 
 ::: {.tab}
-<button class="tablinks" onclick="unrolltab(event,'JAGS')">JAGS</button>
-<button class="tablinks" onclick="unrolltab(event,'NIMBLE')">NIMBLE</button>
-<button class="tablinks" onclick="unrolltab(event, 'Stan')">Stan</button>
-<button class="tablinks" onclick="unrolltab(event, 'Greta')">Greta</button>
-::: {#JAGS .tabcontent}
-#### JAGS model fit {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+<button class="tablinks" onclick="unrolltab(event,'JAGS3')">JAGS</button>
+<button class="tablinks" onclick="unrolltab(event,'NIMBLE3')">NIMBLE</button>
+<button class="tablinks" onclick="unrolltab(event,'Stan3')">Stan</button>
+<button class="tablinks" onclick="unrolltab(event,'Greta3')">Greta</button>
+::: {#JAGS3 .tabcontent}
+#### {-}
+<br>
+```{r , eval = FALSE}
 library(R2jags)
 data <- list(
   y=observed,
@@ -255,13 +300,21 @@ inits <- function() {
   list( 
   )
 }
-ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
-model <- jags(data, inits, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
+ni <- 10000 ; nt <- 1 ; nc <- 3
+model <- jags(data = data, 
+              inits = inits, 
+              parameters = parameters, 
+              model.file = model_string, 
+              n.chains = nc, 
+              n.thin = nt, 
+              n.iter = ni, 
+              n.burnin = ni/2)
 ```
 :::
-::: {#NIMBLE .tabcontent}
-#### NIMBLE model fit {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+::: {#NIMBLE3 .tabcontent}
+#### {-}
+<br>
+```{r , eval = FALSE}
 library(nimble)
 n_data <- list(
   y = observed,
@@ -304,16 +357,20 @@ Model1_MCMC <- buildMCMC(MCMC_Model)
 Comp_Model <- compileNimble( Nimble_Model, showCompilerOutput = TRUE )
 Comp_Model <- compileNimble(Model1_MCMC, project = Nimble_Model)
 
-niter=10000
-Model_samples <- runMCMC(Comp_Model, niter = niter, nburnin=niter/2,nchains=3,summary = TRUE)
+ni <- 10000 ; nt <- 1 ; nc <- 3
+Model_samples <- runMCMC(mcmc = Comp_Model, 
+                         niter = ni, 
+                         nburnin = ni/2,
+                         nchains = nc,
+                         summary = TRUE)
 #mcmc_combo(Model_samples$samples, pars = c("N", "p"))
 round(Model_samples$summary$all.chains,2)
 ```
 :::
-::: {#Stan .tabcontent}
-#### Stan model fit {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
-library(knitr)
+::: {#Stan3 .tabcontent}
+#### {-}
+<br>
+```{r , eval = FALSE}
 library(rstan)
 data <- list(
   y=observed,
@@ -341,13 +398,20 @@ generated quantities {
   real N = MNKA / pstar;
 }
 "
-nc <- 4
-stan.samples <- stan(model_code = stan_model, data = data, iter = 10000, chains = nc, cores = nc, open_progress=FALSE)
+ni <- 10000 ; nt <- 1 ; nc <- 4
+stan.samples <- stan(model_code = stan_model, 
+                     data = data, 
+                     iter = ni, 
+                     warmup = floor(ni/2),
+                     chains = nc, 
+                     cores = nc)
 ```
+
 :::
-::: {#Greta .tabcontent}
-#### Greta model fit{-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+::: {#Greta3 .tabcontent}
+#### {-}
+<br>
+```{r , eval = FALSE}
 library(reticulate)
 reticulate::use_condaenv("r-reticulate")
 reticulate::py_config()
@@ -363,54 +427,60 @@ N_hat <- MNKA / pstar
 # defining the model
 m <- model(p_greta, N_hat, pstar)
 # sampling
-draws <- greta::mcmc(m, n_samples = 1000)
-```
-```{r,eval = FALSE}
-plot(m)
+ni <- 10000 ; nt <- 1 ; nc <- 4
+draws <- greta::mcmc(model = m, 
+                     n_samples = ni,
+                     thin = nt,
+                     warmup = floor(ni/2),
+                     chains = nc, 
+                     n_cores = nc)
 ```
 :::
 :::
 
 ### Comparison
+
 ```{r, echo=FALSE,warning=FALSE}
 # round(model$BUGSoutput$summary[c(1,3),c(1,2,3,7)],2) #jags
 # round(summary(stan.samples)$summary[c(2,1),c(1,3,4,8)],2) #stan
 # summary(draws) #greta
-library(gt)
-library(tidyverse)
-results_df <- data.frame(
-              Sampler=c("Simulated","JAGS","NIMBLE","Stan","greta","Simulated","JAGS","NIMBLE","Stan","greta"),
-              Parameter=c("N","N","N","N","N","p","p","p","p","p"),
-              Mean=c(150,149.73,149.73,149.73,149.73,NA,0.52,0.52,0.52,0.52),
-              SD=c(NA,1.46,1.46,1.43,1.44,NA,0.02,0.02,0.02,0.02),
-              LCL=c(NA,147.21,147.21,147.25,147.22,NA,0.48,0.48,0.48,0.48),
-              UCL=c(NA,152.95,152.95,152.79,152.96,NA,0.57,0.57,0.57,0.57)
-              )
-
-# Create a gt table based on preprocessed
-# `sp500` table data
-results_df %>%
-  dplyr::select(-Sampler,-Parameter) %>%
-  gt() %>%
-  tab_row_group(
-    group = "p",
-    rows = 5:8
-  ) %>%
-  tab_row_group(
-    group = "N",
-    rows = 1:4
-  ) %>%
-  tab_header(
-    title = "Estimate Comparison",
-    subtitle = "Comparison of Huggins abundance (N) and detection 
-              \n probability (p) estimates fit using JAGS, Stan, greta."
-  )
+# library(gt)
+# library(tidyverse)
+# results_df <- data.frame(
+#               Sampler=c("Simulated","JAGS","NIMBLE","Stan","greta","Simulated","JAGS","NIMBLE","Stan","greta"),
+#               Parameter=c("N","N","N","N","N","p","p","p","p","p"),
+#               Mean=c(150,149.73,149.73,149.73,149.73,NA,0.52,0.52,0.52,0.52),
+#               SD=c(NA,1.46,1.46,1.43,1.44,NA,0.02,0.02,0.02,0.02),
+#               LCL=c(NA,147.21,147.21,147.25,147.22,NA,0.48,0.48,0.48,0.48),
+#               UCL=c(NA,152.95,152.95,152.79,152.96,NA,0.57,0.57,0.57,0.57)
+#               )
+# 
+# # Create a gt table based on preprocessed
+# # `sp500` table data
+# results_df %>%
+#   dplyr::select(-Sampler,-Parameter) %>%
+#   gt() %>%
+#   tab_row_group(
+#     group = "p",
+#     rows = 5:8
+#   ) %>%
+#   tab_row_group(
+#     group = "N",
+#     rows = 1:4
+#   ) %>%
+#   tab_header(
+#     title = "Estimate Comparison",
+#     subtitle = "Comparison of Huggins abundance (N) and detection 
+#               \n probability (p) estimates fit using JAGS, Stan, greta."
+#   )
 ```
 
-
 ## Data Augmentation
+
 ## N-Mixture Model
+
 ## Distance Sampling
+
 ## Spatial Capture-Recapture
+
 ## Time to Event
-    

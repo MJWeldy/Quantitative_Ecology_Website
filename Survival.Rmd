@@ -14,8 +14,16 @@ $$z_{i,t+1}|z_{i,t} \sim Bernoulli(z_{i,t} \phi_{i,t}) $$
 Observation Process
 $$y_{i,t}|z_{i,t} \sim Bernoulli(z_{i,t},p_{i,t})$$ 
 
-### Simulation 
-```{r}
+### Simulation {.tabset} 
+
+::: {.tab}
+<button class="tablinks" onclick="unrolltab(event,'R3')">R</button>
+<button class="tablinks" onclick="unrolltab(event,'Python3')">Python</button>
+<button class="tablinks" onclick="unrolltab(event,'Julia3')">Julia</button>
+::: {#R3 .tabcontent}
+#### {-}
+<br>
+```{r , eval = FALSE}
 n_occ <- 4                   # Number of capture occasions
 marked <- rep(50, n_occ-1)   # Annual number of newly marked individuals
 phi <- rep(0.65, n_occ-1)
@@ -44,17 +52,35 @@ first_capture <- apply(CH, 1, get.first.capture)
 
 get.last.capture <- function(x) max(which(x!=0))
 last_capture <- apply(CH, 1, get.last.capture)
-```  
+```
+:::
+::: {#Python3 .tabcontent}
+#### {-}
+<br>
+```{r , eval = FALSE}
+
+```
+:::
+::: {#Julia3 .tabcontent}
+#### {-}
+<br>
+```{r , eval = FALSE}
+
+```
+:::
+:::
+
 ### Models {.tabset}
 
 ::: {.tab}
-<button class="tablinks" onclick="unrolltab(event,'JAGS')">JAGS</button>
-<button class="tablinks" onclick="unrolltab(event,'NIMBLE')">NIMBLE</button>
-<button class="tablinks" onclick="unrolltab(event, 'Stan')">Stan</button>
-<button class="tablinks" onclick="unrolltab(event, 'Greta')">Greta</button>
-::: {#JAGS .tabcontent}
-#### JAGS model fit {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+<button class="tablinks" onclick="unrolltab(event,'JAGS3')">JAGS</button>
+<button class="tablinks" onclick="unrolltab(event,'NIMBLE3')">NIMBLE</button>
+<button class="tablinks" onclick="unrolltab(event, 'Stan3')">Stan</button>
+<button class="tablinks" onclick="unrolltab(event, 'Greta3')">Greta</button>
+::: {#JAGS3 .tabcontent}
+#### {-}
+<br>
+```{r ,eval = FALSE}
 library(knitr)
 library(R2jags)
 
@@ -104,14 +130,22 @@ set_initial_value <- function() {
   z = cjs.z.init(CH)  
   )
 }
-ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
-model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
+ni <- 10000 ; nt <- 1 ; nc <- 3
+model <- jags(data = data, 
+              inits = inits, 
+              parameters = parameters, 
+              model.file = model_string, 
+              n.chains = nc, 
+              n.thin = nt, 
+              n.iter = ni, 
+              n.burnin = ni/2)
 ```
 
 :::
-::: {#NIMBLE .tabcontent}
-#### NIMBLE model fit {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+::: {#NIMBLE3 .tabcontent}
+#### {-}
+<br>
+```{r ,eval = FALSE}
 library(nimble)
 n_data <- list(
   y = CH
@@ -166,15 +200,20 @@ Model1_MCMC <- buildMCMC(MCMC_Model)
 Comp_Model <- compileNimble( Nimble_Model, showCompilerOutput = TRUE )
 Comp_Model <- compileNimble(Model1_MCMC, project = Nimble_Model)
 
-niter=10000
-Model_samples <- runMCMC(Comp_Model, niter = niter, nburnin=niter/2,nchains=3,summary = TRUE)
+ni <- 10000 ; nt <- 1 ; nc <- 3
+Model_samples <- runMCMC(mcmc = Comp_Model, 
+                         niter = ni, 
+                         nburnin = ni/2,
+                         nchains = nc,
+                         summary = TRUE)
 #mcmc_combo(Model_samples$samples, pars = c("N", "p"))
 round(Model_samples$summary$all.chains,2)
 ```
 :::
-::: {#Stan .tabcontent}
-#### Stan model fit {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+::: {#Stan3 .tabcontent}
+#### {-}
+<br>
+```{r ,eval = FALSE}
 library(knitr)
 library(rstan)
 
@@ -271,17 +310,19 @@ inits <- function() list(phi = runif(1, 0, 1),
 params <- c("phi", "p")
 
 ## MCMC settings
-ni <- 2000
-nt <- 1
-nb <- 1000
-nc <- 4
-
-stan.samples <- stan(model_code = stan_model, data = data, iter = 10000, chains = nc, cores = nc)
+ni <- 10000 ; nt <- 1 ; nc <- 4
+stan.samples <- stan(model_code = stan_model, 
+                     data = data, 
+                     iter = ni, 
+                     warmup = floor(ni/2),
+                     chains = nc, 
+                     cores = nc)
 ```
 :::
-::: {#Greta .tabcontent}
-#### Greta  model fit {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+::: {#Greta3 .tabcontent}
+#### {-}
+<br>
+```{r ,eval = FALSE}
 library(greta)
 head(CH)
 head(obs_id)
@@ -315,11 +356,13 @@ distribution(final_observation) <- bernoulli(chi[last_capture[not_seen_last]])
 m <- model(phi,p) #objects to sample
 
 # sampling
-draws <- greta::mcmc(m, n_samples = 1000)
-```
-
-```{r,eval = FALSE}
-plot(m)
+ni <- 10000 ; nt <- 1 ; nc <- 4
+draws <- greta::mcmc(model = m, 
+                     n_samples = ni,
+                     thin = nt,
+                     warmup = floor(ni/2),
+                     chains = nc, 
+                     n_cores = nc)
 ```
 :::
 :::

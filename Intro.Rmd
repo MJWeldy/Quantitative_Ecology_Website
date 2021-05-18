@@ -37,7 +37,7 @@ $$y \sim Normal(\mu, \sigma)$$
 $$mu = \beta_0$$
 $$P(\mu, \sigma| y) \propto \mathbb(L)*P$$
 
-```{r}
+```{r , eval = FALSE}
 lm_fit <- lm(y ~ 1)
 data <- list(
             n = n,
@@ -87,7 +87,7 @@ y <- rnorm(n, mean = mu, sd = sd)
 #model.matrix(~x)
 ```
 
-```{r}
+```{r , eval = FALSE}
 lm_fit <- lm(y ~ x)
 data <- list(
             n = n,
@@ -144,7 +144,7 @@ sd <- 10
 y <- rnorm(n, mean = mu, sd = sd)
 ```
 
-```{r}
+```{r , eval = FALSE}
 lm_fit <- lm(y ~ x)
 data <- list(
             n = n,
@@ -187,7 +187,7 @@ model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, 
 
 This is a one-way anova with an identity parameterization. Beta estimates represent the mean effect for each factor level. 
 
-```{r}
+```{r , eval = FALSE}
 n <- 1000
 beta_0 <- 3
 beta_1 <- 6
@@ -255,7 +255,7 @@ sd <- 3
 y <- rnorm(n, mean = mu, sd = sd)
 ```
 
-```{r}
+```{r , eval = FALSE}
 lm_fit <- lm(y ~ x + x2 + x:x2)
 data <- list(
             n = n,
@@ -310,11 +310,11 @@ unique(X)
 mu <- beta_0*X[,1] + beta_1*X[,2] + beta_2*X[,3] + beta_3*X[,4]
 sd <- 20
 y <- rnorm(n, mean = mu, sd = sd)
-df <- data.frame(y=y,x=x,year=year)
-template.jags(y~ x + year + x:year, data = df)
+#df <- data.frame(y=y,x=x,year=year)
+#template.jags(y~ x + year + x:year, data = df)
 ```
 
-```{r}
+```{r , eval = FALSE}
 lm_fit <- lm(y ~ x + year + x:year)
 data <- list(
             n = n,
@@ -356,4 +356,6 @@ model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, 
 ```
 ### MANOVA
 ### MANCOVA
+
 ## Common Priors
+

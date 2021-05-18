@@ -24,7 +24,7 @@
 <meta name="author" content="Matt Weldy" />
 
 
-<meta name="date" content="2021-05-11" />
+<meta name="date" content="2021-05-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -253,22 +253,45 @@ Model description
 
 Algebraic model description in latex
 
-### Simulation 
-```{r }r &#39;&#39;`
+### Simulation {.tabset} 
 
-simulated_data &lt;- 1
+::: {.tab}
+&lt;button class=&quot;tablinks&quot; onclick=&quot;unrolltab(event,&#39;R#&#39;)&quot;&gt;R&lt;/button&gt;
+&lt;button class=&quot;tablinks&quot; onclick=&quot;unrolltab(event,&#39;Python#&#39;)&quot;&gt;Python&lt;/button&gt;
+&lt;button class=&quot;tablinks&quot; onclick=&quot;unrolltab(event,&#39;Julia#&#39;)&quot;&gt;Julia&lt;/button&gt;
+::: {#R# .tabcontent}
+#### {-}
+&lt;br&gt;
+```{r , eval = FALSE}r &#39;&#39;`
+```
+:::
+::: {#Python3 .tabcontent}
+#### {-}
+&lt;br&gt;
+```{r , eval = FALSE}r &#39;&#39;`
 
-```  
+```
+:::
+::: {#Julia# .tabcontent}
+#### {-}
+&lt;br&gt;
+```{r , eval = FALSE}r &#39;&#39;`
+
+```
+:::
+:::
+
 ### Models {.tabset}
 
 ::: {.tab}
-&lt;button class=&quot;tablinks&quot; onclick=&quot;unrolltab(event,&#39;JAGS&#39;)&quot;&gt;JAGS&lt;/button&gt;
-&lt;button class=&quot;tablinks&quot; onclick=&quot;unrolltab(event,&#39;NIMBLE&#39;)&quot;&gt;NIMBLE&lt;/button&gt;
-&lt;button class=&quot;tablinks&quot; onclick=&quot;unrolltab(event, &#39;Stan&#39;)&quot;&gt;Stan&lt;/button&gt;
-&lt;button class=&quot;tablinks&quot; onclick=&quot;unrolltab(event, &#39;Greta&#39;)&quot;&gt;Greta&lt;/button&gt;
+&lt;button class=&quot;tablinks&quot; onclick=&quot;unrolltab(event,&#39;JAGS#&#39;)&quot;&gt;JAGS&lt;/button&gt;
+&lt;button class=&quot;tablinks&quot; onclick=&quot;unrolltab(event,&#39;NIMBLE#&#39;)&quot;&gt;NIMBLE&lt;/button&gt;
+&lt;button class=&quot;tablinks&quot; onclick=&quot;unrolltab(event, &#39;Stan#&#39;)&quot;&gt;Stan&lt;/button&gt;
+&lt;button class=&quot;tablinks&quot; onclick=&quot;unrolltab(event, &#39;Greta#&#39;)&quot;&gt;Greta&lt;/button&gt;
 ::: {#JAGS .tabcontent}
-#### JAGS model fit {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results=&#39;hide&#39;}r &#39;&#39;`
+#### {-}
+&lt;br&gt;
+```{r ,eval = FALSE}r &#39;&#39;`
 library(knitr)
 library(R2jags)
 data &lt;- list(
@@ -294,13 +317,21 @@ set_initial_value &lt;- function() {
     
   )
 }
-ni &lt;- 10000 ; nt &lt;- 1 ; nb &lt;- 5000 ; nc &lt;- 3
-model &lt;- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
+ni &lt;- 10000 ; nt &lt;- 1 ; nc &lt;- 3
+model &lt;- jags(data = data, 
+              inits = inits, 
+              parameters = parameters, 
+              model.file = model_string, 
+              n.chains = nc, 
+              n.thin = nt, 
+              n.iter = ni, 
+              n.burnin = ni/2)
 ```
 :::
 ::: {#NIMBLE .tabcontent}
-#### NIMBLE model fit {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results=&#39;hide&#39;}r &#39;&#39;`
+#### {-}
+&lt;br&gt;
+```{r ,eval = FALSE}r &#39;&#39;`
 library(nimble)
 n_data &lt;- list(
 
@@ -332,16 +363,21 @@ Model1_MCMC &lt;- buildMCMC(MCMC_Model)
 Comp_Model &lt;- compileNimble( Nimble_Model, showCompilerOutput = TRUE )
 Comp_Model &lt;- compileNimble(Model1_MCMC, project = Nimble_Model)
 
-niter=10000
-Model_samples &lt;- runMCMC(Comp_Model, niter = niter, nburnin=niter/2,nchains=3,summary = TRUE)
+ni &lt;- 10000 ; nt &lt;- 1 ; nc &lt;- 3
+Model_samples &lt;- runMCMC(mcmc = Comp_Model, 
+                         niter = ni, 
+                         nburnin = ni/2,
+                         nchains = nc,
+                         summary = TRUE)
 mcmc_combo(Model_samples$samples, pars = c(&quot;N&quot;, &quot;p&quot;))
 round(Model_samples$summary$all.chains,2)
 
 ```
 :::
 ::: {#Stan .tabcontent}
-#### Stan  {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results=&#39;hide&#39;}r &#39;&#39;`
+#### {-}
+&lt;br&gt;
+```{r ,eval = FALSE}r &#39;&#39;`
 library(knitr)
 library(rstan)
 
@@ -366,15 +402,20 @@ generated quantities {
 
 }
 &quot;
-nc &lt;- 4
-
-stan.samples &lt;- stan(model_code = stan_model, data = data, iter = 10000, chains = nc, cores = nc)
+ni &lt;- 10000 ; nt &lt;- 1 ; nc &lt;- 4
+stan.samples &lt;- stan(model_code = stan_model, 
+                     data = data, 
+                     iter = ni, 
+                     warmup = floor(ni/2),
+                     chains = nc, 
+                     cores = nc)
 ```
 
 :::
 ::: {#Greta .tabcontent}
-#### Greta  {-}
-```{r ,eval = FALSE,warning=FALSE,message=FALSE,error=FALSE, results=&#39;hide&#39;}r &#39;&#39;`
+#### {-}
+&lt;br&gt;
+```{r ,eval = FALSE}r &#39;&#39;`
 library(greta)
 # priors
 
@@ -386,10 +427,13 @@ library(greta)
 m &lt;- model() #objects to sample
 
 # sampling
-draws &lt;- greta::mcmc(m, n_samples = 1000)
-```
-```{r}r &#39;&#39;`
-plot(m)
+ni &lt;- 10000 ; nt &lt;- 1 ; nc &lt;- 4
+draws &lt;- greta::mcmc(model = m, 
+                     n_samples = ni,
+                     thin = nt,
+                     warmup = floor(ni/2),
+                     chains = nc, 
+                     n_cores = nc)
 ```
 :::
 :::

@@ -19,11 +19,11 @@ The scope of this work is to demonstrate the fit of well known ecological models
 
 Contributions to this web page are welcome, and can be made through the books github repository. The website is hosted through netlify, which offers continuous integration with the books git repository. Commit changes to the repository after using the bookdown and changes will populate to the page. Please try to structure indivudal model fits using the template outlined in Appendix B.
 
-```{r,eval=FALSE}
+```{r , eval=FALSE}
 bookdown::render_book("index.Rmd", "bookdown::gitbook")
 ```
 
-```{r include=FALSE}
+```{r, include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
   .packages(), 'bookdown', 'knitr', 'rmarkdown'
