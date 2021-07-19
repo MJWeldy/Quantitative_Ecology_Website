@@ -70,6 +70,7 @@ set_initial_value <- function() {
 }
 ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
 model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
+
 ```
 
 ### Difference of Means
