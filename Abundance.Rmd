@@ -21,51 +21,75 @@ $$\hat{N} = \frac{M_1*C}{M_2}$$
 
 ### Simulation {.tabset}  
 ::: {.tab}
-<button class="tablinks" onclick="unrolltab(event,'R1')">R</button>
-<button class="tablinks" onclick="unrolltab(event,'Python1')">Python</button>
-<button class="tablinks" onclick="unrolltab(event,'Julia1')">Julia</button>
-::: {#R1 .tabcontent}
+<button class="tablinks" onclick="unrolltab(event,'R_LP_sim')">R</button>
+<button class="tablinks" onclick="unrolltab(event,'Python_LP_sim')">Python</button>
+<button class="tablinks" onclick="unrolltab(event,'Julia_LP_sim')">Julia</button>
+::: {#R_LP_sim .tabcontent}
 #### {-}
 <br>
 ```{r , eval = FALSE}
 set.seed(1)
-N <- 75 #True population size
-n_occ <- 2 #Number of trapping occasions
-p <- 0.50 #Probability of first detection
+N <- 75 # True population size
+n_occ <- 2 # Number of trapping occasions
+p <- 0.50 # Probability of first detection
 
-true_detections <- array(NA, dim=c(N,n_occ))
-for (t in 1:n_occ){
-  true_detections[,t] <- rbinom(n=N,size=1,prob=p)
+true_detections <- array(NA, dim = c(N, n_occ))
+for (t in 1:n_occ) {
+  true_detections[, t] <- rbinom(n = N, size = 1, prob = p)
 }
-observed <- true_detections[apply(true_detections,1,max) == 1,]
-M_1 <- sum(observed[,1])
-M_2 <- nrow(subset(observed,rowSums(observed)>1))
-C <- sum(observed[,2])
+observed <- true_detections[apply(true_detections, 1, max) == 1, ]
+M_1 <- sum(observed[, 1])
+M_2 <- nrow(subset(observed, rowSums(observed) > 1))
+C <- sum(observed[, 2])
+M_2
 ```
 :::
-::: {#Python1 .tabcontent}
+::: {#Python_LP_sim .tabcontent}
 #### {-}
 <br>
-```{r , eval = FALSE}
+````{python , eval = FALSE}
+from pymc3 import *
+import pymc3 as pm
+import scipy as sp
+import numpy as np
+import arviz as az
+from IPython.display import display
+az.style.use("arviz-darkgrid")
 
-```
+N = 75
+n_occ = 2
+p = .50
+true_detections = sp.stats.bernoulli.rvs(p, size = (N, n_occ))
+obs = true_detections[~np.all(true_detections == 0, axis=1)]
+M1, C = obs.sum(axis = 0)
+M2 = np.shape(obs[ obs.sum(axis=1) > 1,])[0]
+
+````
 :::
-::: {#Julia1 .tabcontent}
+::: {#Julia_LP_sim .tabcontent}
 #### {-}
 <br>
-```{r , eval = FALSE}
+```{julia , eval = FALSE}
+using Distributions, MCMCChains, Random, StatsPlots, Turing
 
+Random.seed!(12)
+N = 150
+n_occ = 4
+p = .50
+Y = Float64.(rand(length(p)) .< p)
 ```
 :::
 :::
 ### Models {.tabset}  
 
 ::: {.tab}
-<button class="tablinks" onclick="unrolltab(event,'JAGS1')">JAGS</button>
-<button class="tablinks" onclick="unrolltab(event,'NIMBLE1')">NIMBLE</button>
-<button class="tablinks" onclick="unrolltab(event,'Stan1')">Stan</button>
-<button class="tablinks" onclick="unrolltab(event,'Greta1')">Greta</button>
-::: {#JAGS1 .tabcontent}
+<button class="tablinks" onclick="unrolltab(event,'JAGS_LP_mod')">JAGS</button>
+<button class="tablinks" onclick="unrolltab(event,'NIMBLE_LP_mod')">NIMBLE</button>
+<button class="tablinks" onclick="unrolltab(event,'Stan_LP_mod')">Stan</button>
+<button class="tablinks" onclick="unrolltab(event,'Greta_LP_mod')">Greta</button>
+<button class="tablinks" onclick="unrolltab(event,'Pymc3_LP_mod')">Pymc3</button>
+<button class="tablinks" onclick="unrolltab(event,'Turing_LP_mod')">Pymc3</button>
+::: {#JAGS_LP_mod .tabcontent}
 #### {-}
 <br>
 ```{r ,eval = FALSE}
@@ -101,7 +125,7 @@ ni <- 10000 ; nt <- 1 ; nb <- 5000 ; nc <- 3
 model <- jags(data, set_initial_value, parameters, model_string, n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
 ```
 :::
-::: {#NIMBLE1 .tabcontent}
+::: {#NIMBLE_LP_mod .tabcontent}
 #### {-}
 <br>
 ```{r ,eval = FALSE}
@@ -144,10 +168,10 @@ niter=10000
 Model_samples <- runMCMC(Comp_Model, niter = niter, nburnin=niter/2,nchains=3,summary = TRUE)
 # mcmc_combo(Model_samples$samples, pars = c("N", "p"))
 # round(Model_samples$summary$all.chains,2)
-
+H
 ```
 :::
-::: {#Stan1 .tabcontent}
+::: {#Stan_LP_mod .tabcontent}
 #### {-}
 <br>
 ```{r ,eval = FALSE}
@@ -159,7 +183,6 @@ data <- list(
           M_2= M_2,
           C = C
 )
-
 stan_model <- "
 data {
   int<lower=0> M_1;
@@ -174,17 +197,13 @@ model {
 }
 "
 nc <- 4
-
 stan.samples <- stan(model_code = stan_model, data = data, iter = 10000, chains = nc, cores = nc)
 ```
 :::
-::: {#Greta1 .tabcontent}
+::: {#Greta_LP_mod .tabcontent}
 #### {-}
 <br>
 ```{r ,eval = FALSE}
-library(reticulate)
-reticulate::use_condaenv("r-reticulate")
-reticulate::py_config()
 library(greta)
 LB <- C- M_1 + M_2
 UB <- 5*C
@@ -199,6 +218,53 @@ m <- model(N) #objects to sample
 # sampling
 draws <- greta::mcmc(m, n_samples = 1000)
 ```
+:::
+::: {#Pymc3_LP_mod .tabcontent}
+#### {-}
+<br>
+```{python ,eval = FALSE}
+LB = C - M1 + M2
+UB = 5*C
+trials = 1
+LB
+with Model() as model:  
+    # Priors for unknown model parameters
+    N_prior = pm.Uniform(name = "N", lower = LB, upper = UB)
+    # Likelihood (sampling distribution) of observations
+    N = pm.Binomial(name = "N_hat", p = M1/N_prior, observed = M2, n = C)
+    trace = pm.sample();
+
+with model:     
+  display(az.summary(trace, round_to = 2));
+
+```
+```{python}
+with model:     
+  display(az.summary(trace, round_to = 2));
+
+```
+
+:::
+::: {#Turing_mod .tabcontent}
+#### {-}
+<br>
+```{julia ,eval = FALSE}
+with Model() as model:  # model specifications in PyMC3 are wrapped in a with-statement
+# Priors for unknown model parameters
+    p = pm.Uniform('p', 0., 1.)
+    # Likelihood (sampling distribution) of observations
+    pstar =  1-(1-p)*(1-p)*(1-p)*(1-p)
+    N_hat =  pm.Deterministic("N_hat", MNKA / pstar)
+    Y_obs = pm.Bernoulli("Y_obs", p = p, observed=Y)
+    trace = pm.sample()
+
+```
+```{julia}
+with model:     
+  display(az.summary(trace, round_to = 2))
+
+```
+
 :::
 :::
 ### Comparison
@@ -222,10 +288,10 @@ Variation in detection probability can be modeled using linear logistic models o
 ### Simulation {.tabset} 
 
 ::: {.tab}
-<button class="tablinks" onclick="unrolltab(event,'R3')">R</button>
-<button class="tablinks" onclick="unrolltab(event,'Python3')">Python</button>
-<button class="tablinks" onclick="unrolltab(event,'Julia3')">Julia</button>
-::: {#R3 .tabcontent}
+<button class="tablinks" onclick="unrolltab(event,'R_Huggins_sim')">R</button>
+<button class="tablinks" onclick="unrolltab(event,'Python_Huggins_sim')">Python</button>
+<button class="tablinks" onclick="unrolltab(event,'Julia_Huggins_sim')">Julia</button>
+::: {#R_Huggins_sim .tabcontent}
 #### {-}
 <br>
 ```{r , eval = FALSE}
@@ -243,17 +309,29 @@ MNKA <- nrow(observed)
 print( paste0("Number ever detected: ", MNKA,sep = " ") ) #number ever detected
 ```
 :::
-::: {#Python3 .tabcontent}
+::: {#Python_Huggins_sim .tabcontent}
 #### {-}
 <br>
-```{r , eval = FALSE}
+````{python , eval = FALSE}
+from pymc3 import *
+import scipy as sp
+import numpy as np
+import arviz as az
+from IPython.display import display
+az.style.use("arviz-darkgrid")
 
-```
+N = 150
+n_occ = 4
+p = .50
+Y = sp.stats.bernoulli.rvs(p, size = (N, n_occ))
+obs = Y[~np.all(Y == 0, axis=1)]
+MNKA = len(obs)
+````
 :::
-::: {#Julia3 .tabcontent}
+::: {#Julia_Huggins_sim .tabcontent}
 #### {-}
 <br>
-```{r , eval = FALSE}
+```{julia , eval = FALSE}
 
 ```
 :::
@@ -262,11 +340,13 @@ print( paste0("Number ever detected: ", MNKA,sep = " ") ) #number ever detected
 ### Models {.tabset}
 
 ::: {.tab}
-<button class="tablinks" onclick="unrolltab(event,'JAGS3')">JAGS</button>
-<button class="tablinks" onclick="unrolltab(event,'NIMBLE3')">NIMBLE</button>
-<button class="tablinks" onclick="unrolltab(event,'Stan3')">Stan</button>
-<button class="tablinks" onclick="unrolltab(event,'Greta3')">Greta</button>
-::: {#JAGS3 .tabcontent}
+<button class="tablinks" onclick="unrolltab(event,'JAGS_Huggins_mod')">JAGS</button>
+<button class="tablinks" onclick="unrolltab(event,'NIMBLE_Huggins_mod')">NIMBLE</button>
+<button class="tablinks" onclick="unrolltab(event,'Stan_Huggins_mod')">Stan</button>
+<button class="tablinks" onclick="unrolltab(event,'Greta_Huggins_mod')">Greta</button>
+<button class="tablinks" onclick="unrolltab(event,'Pymc3_LP_mod')">Pymc3</button>
+<button class="tablinks" onclick="unrolltab(event,'Turing_LP_mod')">Pymc3</button>
+::: {#JAGS_Huggins_mod .tabcontent}
 #### {-}
 <br>
 ```{r , eval = FALSE}
@@ -311,7 +391,7 @@ model <- jags(data = data,
               n.burnin = ni/2)
 ```
 :::
-::: {#NIMBLE3 .tabcontent}
+::: {#NIMBLE_Huggins_mod .tabcontent}
 #### {-}
 <br>
 ```{r , eval = FALSE}
@@ -367,7 +447,7 @@ Model_samples <- runMCMC(mcmc = Comp_Model,
 round(Model_samples$summary$all.chains,2)
 ```
 :::
-::: {#Stan3 .tabcontent}
+::: {#Stan_Huggins_mod .tabcontent}
 #### {-}
 <br>
 ```{r , eval = FALSE}
@@ -408,7 +488,7 @@ stan.samples <- stan(model_code = stan_model,
 ```
 
 :::
-::: {#Greta3 .tabcontent}
+::: {#Greta_Huggins_mod .tabcontent}
 #### {-}
 <br>
 ```{r , eval = FALSE}
@@ -435,6 +515,27 @@ draws <- greta::mcmc(model = m,
                      chains = nc, 
                      n_cores = nc)
 ```
+:::
+::: {#Pymc3_LP_mod .tabcontent}
+#### {-}
+<br>
+```{python ,eval = FALSE}
+with Model() as model:  # model specifications in PyMC3 are wrapped in a with-statement
+# Priors for unknown model parameters
+    p = pm.Uniform('p', 0., 1.)
+    # Likelihood (sampling distribution) of observations
+    pstar =  1-(1-p)*(1-p)*(1-p)*(1-p)
+    N_hat =  pm.Deterministic("N_hat", MNKA / pstar)
+    Y_obs = pm.Bernoulli("Y_obs", p = p, observed=Y)
+    trace = pm.sample()
+
+```
+```{python}
+with model:     
+  display(az.summary(trace, round_to = 2))
+
+```
+
 :::
 :::
 

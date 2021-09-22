@@ -51,26 +51,26 @@ Algebraic model description in latex
 ### Simulation {.tabset} 
 
 ::: {.tab}
-<button class="tablinks" onclick="unrolltab(event,'R#')">R</button>
-<button class="tablinks" onclick="unrolltab(event,'Python#')">Python</button>
-<button class="tablinks" onclick="unrolltab(event,'Julia#')">Julia</button>
-::: {#R# .tabcontent}
+<button class="tablinks" onclick="unrolltab(event,'R_XXX_sim')">R</button>
+<button class="tablinks" onclick="unrolltab(event,'Python_XXX_sim')">Python</button>
+<button class="tablinks" onclick="unrolltab(event,'Julia_XXX_sim')">Julia</button>
+::: {#R_XXX_sim .tabcontent}
 #### {-}
 <br>
 ```{r , eval = FALSE}r ''`
 ```
 :::
-::: {#Python3 .tabcontent}
+::: {#Python_XXX_sim .tabcontent}
 #### {-}
 <br>
-```{r , eval = FALSE}r ''`
+```{python , eval = FALSE}r ''`
 
 ```
 :::
-::: {#Julia# .tabcontent}
+::: {#Julia_XXX_sim .tabcontent}
 #### {-}
 <br>
-```{r , eval = FALSE}r ''`
+```{julia , eval = FALSE}r ''`
 
 ```
 :::
@@ -79,11 +79,13 @@ Algebraic model description in latex
 ### Models {.tabset}
 
 ::: {.tab}
-<button class="tablinks" onclick="unrolltab(event,'JAGS#')">JAGS</button>
-<button class="tablinks" onclick="unrolltab(event,'NIMBLE#')">NIMBLE</button>
-<button class="tablinks" onclick="unrolltab(event, 'Stan#')">Stan</button>
-<button class="tablinks" onclick="unrolltab(event, 'Greta#')">Greta</button>
-::: {#JAGS .tabcontent}
+<button class="tablinks" onclick="unrolltab(event,'JAGS_XXX_mod')">JAGS</button>
+<button class="tablinks" onclick="unrolltab(event,'NIMBLE_XXX_mod')">NIMBLE</button>
+<button class="tablinks" onclick="unrolltab(event, 'Stan_XXX_mod')">Stan</button>
+<button class="tablinks" onclick="unrolltab(event, 'Greta_XXX_mod')">Greta</button>
+<button class="tablinks" onclick="unrolltab(event,'Pymc3_XXX_mod')">Pymc3</button>
+<button class="tablinks" onclick="unrolltab(event,'Turing_XXX_mod')">Pymc3</button>
+::: {#JAGS_XXX_mod .tabcontent}
 #### {-}
 <br>
 ```{r ,eval = FALSE}r ''`
@@ -123,7 +125,7 @@ model <- jags(data = data,
               n.burnin = ni/2)
 ```
 :::
-::: {#NIMBLE .tabcontent}
+::: {#NIMBLE_XXX_mod .tabcontent}
 #### {-}
 <br>
 ```{r ,eval = FALSE}r ''`
@@ -169,7 +171,7 @@ round(Model_samples$summary$all.chains,2)
 
 ```
 :::
-::: {#Stan .tabcontent}
+::: {#Stan_XXX_mod .tabcontent}
 #### {-}
 <br>
 ```{r ,eval = FALSE}r ''`
@@ -207,7 +209,7 @@ stan.samples <- stan(model_code = stan_model,
 ```
 
 :::
-::: {#Greta .tabcontent}
+::: {#Greta_XXX_mod .tabcontent}
 #### {-}
 <br>
 ```{r ,eval = FALSE}r ''`
@@ -229,6 +231,32 @@ draws <- greta::mcmc(model = m,
                      warmup = floor(ni/2),
                      chains = nc, 
                      n_cores = nc)
+```
+:::
+::: {#Pymc3_XXX_mod .tabcontent}
+#### {-}
+<br>
+```{python ,eval = FALSE}r ''`
+with Model() as model: 
+    # Priors for unknown model parameters
+    
+    # Likelihood (sampling distribution) of observations
+   
+    trace = pm.sample()
+
+```
+:::
+::: {#Turing_XXX_mod .tabcontent}
+#### {-}
+<br>
+```{julia ,eval = FALSE}r ''`
+using Turing, Distributions
+@model function linear_regression(x, y)
+
+end
+
+model = linear_regression(x, y)
+chain = sample(model, NUTS(0.65), 3_000);
 ```
 :::
 :::
