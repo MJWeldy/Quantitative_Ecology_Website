@@ -13,6 +13,38 @@ description: "This is a minimal example of using the bookdown package to write a
 
 # Setup
 
+## Setup Python
+
+```{r python, include=FALSE}
+library(reticulate)
+#Sys.setenv(RETICULATE_PYTHON = "/home/mweldy/anaconda3/envs/r-QEW/bin/python")
+# conda create -n r-QEW python=3.7 tensorflow=1.14 pyyaml requests Pillow pip numpy=1.16 h5py=2.8 tensorflow-probability=0.7 PyMC3=3.11.2 arviz 
+# conda install -c conda-forge pymc3=3.11.2
+reticulate::py_config()
+
+# %config InlineBackend.figure_format = 'retina'
+# az.style.use("arviz-darkgrid")
+# 
+# file.edit(file.path("~", ".Rprofile")) # edit .Rprofile in HOME
+# file.edit(".Rprofile") # edit project specific .Rprofil
+
+# 
+# plt.figure(figsize=(7, 7))
+# traceplot(trace)
+# plt.tight_layout();
+```
+## Setup Julia
+```{r setup_julia, include=FALSE}
+library(JuliaCall)
+knitr::opts_chunk$set(echo = TRUE)
+julia_setup(JULIA_HOME = "/opt/julia-1.6.0/bin")
+julia <- julia_setup()
+```
+
+Was the setup correct
+```{julia}
+a = sqrt(2)
+```
 
 # Prerequisites
 

@@ -238,7 +238,7 @@ with model:
   display(az.summary(trace, round_to = 2));
 
 ```
-```{python}
+```{python ,eval = FALSE}
 with model:     
   display(az.summary(trace, round_to = 2));
 
@@ -259,7 +259,7 @@ with Model() as model:  # model specifications in PyMC3 are wrapped in a with-st
     trace = pm.sample()
 
 ```
-```{julia}
+```{julia ,eval = FALSE}
 with model:     
   display(az.summary(trace, round_to = 2))
 
@@ -530,7 +530,7 @@ with Model() as model:  # model specifications in PyMC3 are wrapped in a with-st
     trace = pm.sample()
 
 ```
-```{python}
+```{python ,eval = FALSE}
 with model:     
   display(az.summary(trace, round_to = 2))
 

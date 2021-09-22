@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 Survival | Quantitative Ecology</title>
+  <title>Chapter 6 Survival | Quantitative Ecology</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 Survival | Quantitative Ecology" />
+  <meta property="og:title" content="Chapter 6 Survival | Quantitative Ecology" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 Survival | Quantitative Ecology" />
+  <meta name="twitter:title" content="Chapter 6 Survival | Quantitative Ecology" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Matt Weldy" />
 
 
-<meta name="date" content="2021-05-18" />
+<meta name="date" content="2021-09-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="occupancy.html"/>
 <link rel="next" href="appendix-a.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,6 +51,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script>
 function unrolltab(evt, tabName) {
   var i, tabcontent, tablinks;
@@ -72,6 +74,7 @@ function unrolltab(evt, tabName) {
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -132,6 +135,29 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
@@ -148,69 +174,74 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Quantitative Ecology</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Setup</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#probabilistic-modelling-in-ecology"><i class="fa fa-check"></i><b>2.1</b> Probabilistic Modelling in Ecology</a></li>
-<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#common-distributions"><i class="fa fa-check"></i><b>2.2</b> Common Distributions</a></li>
-<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#uncommon-distributions"><i class="fa fa-check"></i><b>2.3</b> Uncommon Distributions</a></li>
-<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#linear-models"><i class="fa fa-check"></i><b>2.4</b> Linear Models</a>
-<ul>
-<li class="chapter" data-level="2.4.1" data-path="intro.html"><a href="intro.html#model-of-the-mean"><i class="fa fa-check"></i><b>2.4.1</b> Model of the Mean</a></li>
-<li class="chapter" data-level="2.4.2" data-path="intro.html"><a href="intro.html#difference-of-means"><i class="fa fa-check"></i><b>2.4.2</b> Difference of Means</a></li>
-<li class="chapter" data-level="2.4.3" data-path="intro.html"><a href="intro.html#one-way-anova"><i class="fa fa-check"></i><b>2.4.3</b> One-way ANOVA</a></li>
-<li class="chapter" data-level="2.4.4" data-path="intro.html"><a href="intro.html#one-way-anova-identity"><i class="fa fa-check"></i><b>2.4.4</b> One-way ANOVA Identity</a></li>
-<li class="chapter" data-level="2.4.5" data-path="intro.html"><a href="intro.html#two-way-anova"><i class="fa fa-check"></i><b>2.4.5</b> Two-way ANOVA</a></li>
-<li class="chapter" data-level="2.4.6" data-path="intro.html"><a href="intro.html#ancova"><i class="fa fa-check"></i><b>2.4.6</b> ANCOVA</a></li>
-<li class="chapter" data-level="2.4.7" data-path="intro.html"><a href="intro.html#manova"><i class="fa fa-check"></i><b>2.4.7</b> MANOVA</a></li>
-<li class="chapter" data-level="2.4.8" data-path="intro.html"><a href="intro.html#mancova"><i class="fa fa-check"></i><b>2.4.8</b> MANCOVA</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#setup-python"><i class="fa fa-check"></i><b>1.1</b> Setup Python</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#setup-julia"><i class="fa fa-check"></i><b>1.2</b> Setup Julia</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#common-priors"><i class="fa fa-check"></i><b>2.5</b> Common Priors</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="abundance.html"><a href="abundance.html"><i class="fa fa-check"></i><b>3</b> Abundance</a>
+<li class="chapter" data-level="2" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i><b>2</b> Prerequisites</a></li>
+<li class="chapter" data-level="3" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>3</b> Introduction</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="abundance.html"><a href="abundance.html#lincoln-peterson"><i class="fa fa-check"></i><b>3.1</b> Lincoln-Peterson</a>
+<li class="chapter" data-level="3.1" data-path="intro.html"><a href="intro.html#probabilistic-modelling-in-ecology"><i class="fa fa-check"></i><b>3.1</b> Probabilistic Modelling in Ecology</a></li>
+<li class="chapter" data-level="3.2" data-path="intro.html"><a href="intro.html#common-distributions"><i class="fa fa-check"></i><b>3.2</b> Common Distributions</a></li>
+<li class="chapter" data-level="3.3" data-path="intro.html"><a href="intro.html#uncommon-distributions"><i class="fa fa-check"></i><b>3.3</b> Uncommon Distributions</a></li>
+<li class="chapter" data-level="3.4" data-path="intro.html"><a href="intro.html#linear-models"><i class="fa fa-check"></i><b>3.4</b> Linear Models</a>
 <ul>
-<li class="chapter" data-level="3.1.1" data-path="abundance.html"><a href="abundance.html#algebra"><i class="fa fa-check"></i><b>3.1.1</b> Algebra</a></li>
-<li class="chapter" data-level="3.1.2" data-path="abundance.html"><a href="abundance.html#simulation"><i class="fa fa-check"></i><b>3.1.2</b> Simulation</a></li>
-<li class="chapter" data-level="3.1.3" data-path="abundance.html"><a href="abundance.html#models"><i class="fa fa-check"></i><b>3.1.3</b> Models</a></li>
-<li class="chapter" data-level="3.1.4" data-path="abundance.html"><a href="abundance.html#comparison"><i class="fa fa-check"></i><b>3.1.4</b> Comparison</a></li>
+<li class="chapter" data-level="3.4.1" data-path="intro.html"><a href="intro.html#model-of-the-mean"><i class="fa fa-check"></i><b>3.4.1</b> Model of the Mean</a></li>
+<li class="chapter" data-level="3.4.2" data-path="intro.html"><a href="intro.html#difference-of-means"><i class="fa fa-check"></i><b>3.4.2</b> Difference of Means</a></li>
+<li class="chapter" data-level="3.4.3" data-path="intro.html"><a href="intro.html#one-way-anova"><i class="fa fa-check"></i><b>3.4.3</b> One-way ANOVA</a></li>
+<li class="chapter" data-level="3.4.4" data-path="intro.html"><a href="intro.html#one-way-anova-identity"><i class="fa fa-check"></i><b>3.4.4</b> One-way ANOVA Identity</a></li>
+<li class="chapter" data-level="3.4.5" data-path="intro.html"><a href="intro.html#two-way-anova"><i class="fa fa-check"></i><b>3.4.5</b> Two-way ANOVA</a></li>
+<li class="chapter" data-level="3.4.6" data-path="intro.html"><a href="intro.html#ancova"><i class="fa fa-check"></i><b>3.4.6</b> ANCOVA</a></li>
+<li class="chapter" data-level="3.4.7" data-path="intro.html"><a href="intro.html#manova"><i class="fa fa-check"></i><b>3.4.7</b> MANOVA</a></li>
+<li class="chapter" data-level="3.4.8" data-path="intro.html"><a href="intro.html#mancova"><i class="fa fa-check"></i><b>3.4.8</b> MANCOVA</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="abundance.html"><a href="abundance.html#full-likelihood"><i class="fa fa-check"></i><b>3.2</b> Full Likelihood</a></li>
-<li class="chapter" data-level="3.3" data-path="abundance.html"><a href="abundance.html#conditional-likelihood"><i class="fa fa-check"></i><b>3.3</b> Conditional Likelihood</a>
+<li class="chapter" data-level="3.5" data-path="intro.html"><a href="intro.html#common-priors"><i class="fa fa-check"></i><b>3.5</b> Common Priors</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="abundance.html"><a href="abundance.html"><i class="fa fa-check"></i><b>4</b> Abundance</a>
 <ul>
-<li class="chapter" data-level="3.3.1" data-path="abundance.html"><a href="abundance.html#algebra-1"><i class="fa fa-check"></i><b>3.3.1</b> Algebra</a></li>
-<li class="chapter" data-level="3.3.2" data-path="abundance.html"><a href="abundance.html#simulation-1"><i class="fa fa-check"></i><b>3.3.2</b> Simulation</a></li>
-<li class="chapter" data-level="3.3.3" data-path="abundance.html"><a href="abundance.html#models-1"><i class="fa fa-check"></i><b>3.3.3</b> Models</a></li>
-<li class="chapter" data-level="3.3.4" data-path="abundance.html"><a href="abundance.html#comparison-1"><i class="fa fa-check"></i><b>3.3.4</b> Comparison</a></li>
-</ul></li>
-<li class="chapter" data-level="3.4" data-path="abundance.html"><a href="abundance.html#data-augmentation"><i class="fa fa-check"></i><b>3.4</b> Data Augmentation</a></li>
-<li class="chapter" data-level="3.5" data-path="abundance.html"><a href="abundance.html#n-mixture-model"><i class="fa fa-check"></i><b>3.5</b> N-Mixture Model</a></li>
-<li class="chapter" data-level="3.6" data-path="abundance.html"><a href="abundance.html#distance-sampling"><i class="fa fa-check"></i><b>3.6</b> Distance Sampling</a></li>
-<li class="chapter" data-level="3.7" data-path="abundance.html"><a href="abundance.html#spatial-capture-recapture"><i class="fa fa-check"></i><b>3.7</b> Spatial Capture-Recapture</a></li>
-<li class="chapter" data-level="3.8" data-path="abundance.html"><a href="abundance.html#time-to-event"><i class="fa fa-check"></i><b>3.8</b> Time to Event</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="occupancy.html"><a href="occupancy.html"><i class="fa fa-check"></i><b>4</b> Occupancy</a>
+<li class="chapter" data-level="4.1" data-path="abundance.html"><a href="abundance.html#lincoln-peterson"><i class="fa fa-check"></i><b>4.1</b> Lincoln-Peterson</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="occupancy.html"><a href="occupancy.html#static-single-season"><i class="fa fa-check"></i><b>4.1</b> Static Single Season</a></li>
-<li class="chapter" data-level="4.2" data-path="occupancy.html"><a href="occupancy.html#multistate"><i class="fa fa-check"></i><b>4.2</b> Multistate</a></li>
-<li class="chapter" data-level="4.3" data-path="occupancy.html"><a href="occupancy.html#multiscale"><i class="fa fa-check"></i><b>4.3</b> Multiscale</a></li>
-<li class="chapter" data-level="4.4" data-path="occupancy.html"><a href="occupancy.html#multiscale-multistate"><i class="fa fa-check"></i><b>4.4</b> Multiscale Multistate</a></li>
-<li class="chapter" data-level="4.5" data-path="occupancy.html"><a href="occupancy.html#species-cooccurrence"><i class="fa fa-check"></i><b>4.5</b> Species Cooccurrence</a></li>
-<li class="chapter" data-level="4.6" data-path="occupancy.html"><a href="occupancy.html#dynamic-occupancy"><i class="fa fa-check"></i><b>4.6</b> Dynamic Occupancy</a></li>
+<li class="chapter" data-level="4.1.1" data-path="abundance.html"><a href="abundance.html#algebra"><i class="fa fa-check"></i><b>4.1.1</b> Algebra</a></li>
+<li class="chapter" data-level="4.1.2" data-path="abundance.html"><a href="abundance.html#simulation"><i class="fa fa-check"></i><b>4.1.2</b> Simulation</a></li>
+<li class="chapter" data-level="4.1.3" data-path="abundance.html"><a href="abundance.html#models"><i class="fa fa-check"></i><b>4.1.3</b> Models</a></li>
+<li class="chapter" data-level="4.1.4" data-path="abundance.html"><a href="abundance.html#comparison"><i class="fa fa-check"></i><b>4.1.4</b> Comparison</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>5</b> Survival</a>
+<li class="chapter" data-level="4.2" data-path="abundance.html"><a href="abundance.html#full-likelihood"><i class="fa fa-check"></i><b>4.2</b> Full Likelihood</a></li>
+<li class="chapter" data-level="4.3" data-path="abundance.html"><a href="abundance.html#conditional-likelihood"><i class="fa fa-check"></i><b>4.3</b> Conditional Likelihood</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="survival.html"><a href="survival.html#nest-survival"><i class="fa fa-check"></i><b>5.1</b> Nest Survival</a></li>
-<li class="chapter" data-level="5.2" data-path="survival.html"><a href="survival.html#known-fate"><i class="fa fa-check"></i><b>5.2</b> Known-fate</a></li>
-<li class="chapter" data-level="5.3" data-path="survival.html"><a href="survival.html#individual-level-cormack-jolly-seber"><i class="fa fa-check"></i><b>5.3</b> Individual-level Cormack-Jolly-Seber</a>
-<ul>
-<li class="chapter" data-level="5.3.1" data-path="survival.html"><a href="survival.html#algebra-2"><i class="fa fa-check"></i><b>5.3.1</b> Algebra</a></li>
-<li class="chapter" data-level="5.3.2" data-path="survival.html"><a href="survival.html#simulation-2"><i class="fa fa-check"></i><b>5.3.2</b> Simulation</a></li>
-<li class="chapter" data-level="5.3.3" data-path="survival.html"><a href="survival.html#models-2"><i class="fa fa-check"></i><b>5.3.3</b> Models</a></li>
-<li class="chapter" data-level="5.3.4" data-path="survival.html"><a href="survival.html#comparison-2"><i class="fa fa-check"></i><b>5.3.4</b> Comparison</a></li>
+<li class="chapter" data-level="4.3.1" data-path="abundance.html"><a href="abundance.html#algebra-1"><i class="fa fa-check"></i><b>4.3.1</b> Algebra</a></li>
+<li class="chapter" data-level="4.3.2" data-path="abundance.html"><a href="abundance.html#simulation-1"><i class="fa fa-check"></i><b>4.3.2</b> Simulation</a></li>
+<li class="chapter" data-level="4.3.3" data-path="abundance.html"><a href="abundance.html#models-1"><i class="fa fa-check"></i><b>4.3.3</b> Models</a></li>
+<li class="chapter" data-level="4.3.4" data-path="abundance.html"><a href="abundance.html#comparison-1"><i class="fa fa-check"></i><b>4.3.4</b> Comparison</a></li>
 </ul></li>
-<li class="chapter" data-level="5.4" data-path="survival.html"><a href="survival.html#jolly-seber"><i class="fa fa-check"></i><b>5.4</b> Jolly-Seber</a></li>
+<li class="chapter" data-level="4.4" data-path="abundance.html"><a href="abundance.html#data-augmentation"><i class="fa fa-check"></i><b>4.4</b> Data Augmentation</a></li>
+<li class="chapter" data-level="4.5" data-path="abundance.html"><a href="abundance.html#n-mixture-model"><i class="fa fa-check"></i><b>4.5</b> N-Mixture Model</a></li>
+<li class="chapter" data-level="4.6" data-path="abundance.html"><a href="abundance.html#distance-sampling"><i class="fa fa-check"></i><b>4.6</b> Distance Sampling</a></li>
+<li class="chapter" data-level="4.7" data-path="abundance.html"><a href="abundance.html#spatial-capture-recapture"><i class="fa fa-check"></i><b>4.7</b> Spatial Capture-Recapture</a></li>
+<li class="chapter" data-level="4.8" data-path="abundance.html"><a href="abundance.html#time-to-event"><i class="fa fa-check"></i><b>4.8</b> Time to Event</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="occupancy.html"><a href="occupancy.html"><i class="fa fa-check"></i><b>5</b> Occupancy</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="occupancy.html"><a href="occupancy.html#static-single-season"><i class="fa fa-check"></i><b>5.1</b> Static Single Season</a></li>
+<li class="chapter" data-level="5.2" data-path="occupancy.html"><a href="occupancy.html#multistate"><i class="fa fa-check"></i><b>5.2</b> Multistate</a></li>
+<li class="chapter" data-level="5.3" data-path="occupancy.html"><a href="occupancy.html#multiscale"><i class="fa fa-check"></i><b>5.3</b> Multiscale</a></li>
+<li class="chapter" data-level="5.4" data-path="occupancy.html"><a href="occupancy.html#multiscale-multistate"><i class="fa fa-check"></i><b>5.4</b> Multiscale Multistate</a></li>
+<li class="chapter" data-level="5.5" data-path="occupancy.html"><a href="occupancy.html#species-cooccurrence"><i class="fa fa-check"></i><b>5.5</b> Species Cooccurrence</a></li>
+<li class="chapter" data-level="5.6" data-path="occupancy.html"><a href="occupancy.html#dynamic-occupancy"><i class="fa fa-check"></i><b>5.6</b> Dynamic Occupancy</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>6</b> Survival</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="survival.html"><a href="survival.html#nest-survival"><i class="fa fa-check"></i><b>6.1</b> Nest Survival</a></li>
+<li class="chapter" data-level="6.2" data-path="survival.html"><a href="survival.html#known-fate"><i class="fa fa-check"></i><b>6.2</b> Known-fate</a></li>
+<li class="chapter" data-level="6.3" data-path="survival.html"><a href="survival.html#individual-level-cormack-jolly-seber"><i class="fa fa-check"></i><b>6.3</b> Individual-level Cormack-Jolly-Seber</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="survival.html"><a href="survival.html#algebra-2"><i class="fa fa-check"></i><b>6.3.1</b> Algebra</a></li>
+<li class="chapter" data-level="6.3.2" data-path="survival.html"><a href="survival.html#simulation-2"><i class="fa fa-check"></i><b>6.3.2</b> Simulation</a></li>
+<li class="chapter" data-level="6.3.3" data-path="survival.html"><a href="survival.html#models-2"><i class="fa fa-check"></i><b>6.3.3</b> Models</a></li>
+<li class="chapter" data-level="6.3.4" data-path="survival.html"><a href="survival.html#comparison-2"><i class="fa fa-check"></i><b>6.3.4</b> Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="survival.html"><a href="survival.html#jolly-seber"><i class="fa fa-check"></i><b>6.4</b> Jolly-Seber</a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>A</b> Appendix A</a>
@@ -242,19 +273,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="survival" class="section level1" number="5">
-<h1><span class="header-section-number">Chapter 5</span> Survival</h1>
-<div id="nest-survival" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Nest Survival</h2>
+<div id="survival" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Survival</h1>
+<div id="nest-survival" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Nest Survival</h2>
 </div>
-<div id="known-fate" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Known-fate</h2>
+<div id="known-fate" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Known-fate</h2>
 </div>
-<div id="individual-level-cormack-jolly-seber" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Individual-level Cormack-Jolly-Seber</h2>
+<div id="individual-level-cormack-jolly-seber" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Individual-level Cormack-Jolly-Seber</h2>
 <p>Model description</p>
-<div id="algebra-2" class="section level3" number="5.3.1">
-<h3><span class="header-section-number">5.3.1</span> Algebra</h3>
+<div id="algebra-2" class="section level3" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> Algebra</h3>
 <p>Log likelihood of the state-space parametrization
 <span class="math display">\[\mathcal{L}(\phi, p, z| y) = f(z_1|\phi) \prod_{t=2}^T f(z_t| z_{t-1}, \phi) \prod_{t=1}^T f(y_t| z_t, p)\]</span>
 State Process
@@ -263,8 +294,8 @@ State Process
 Observation Process
 <span class="math display">\[y_{i,t}|z_{i,t} \sim Bernoulli(z_{i,t},p_{i,t})\]</span></p>
 </div>
-<div id="simulation-2" class="section level3 tabset" number="5.3.2">
-<h3><span class="header-section-number">5.3.2</span> Simulation</h3>
+<div id="simulation-2" class="section level3 tabset" number="6.3.2">
+<h3><span class="header-section-number">6.3.2</span> Simulation</h3>
 <div class="tab">
 <button class="tablinks" onclick="unrolltab(event,&#39;R3&#39;)">
 R
@@ -276,55 +307,55 @@ Python
 Julia
 </button>
 <div id="R3" class="tabcontent">
-<div id="section-14" class="section level4 unnumbered">
+<div id="section-17" class="section level4 unnumbered">
 <h4 class="unnumbered"></h4>
 <p><br></p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="survival.html#cb37-1" aria-hidden="true" tabindex="-1"></a>n_occ <span class="ot">&lt;-</span> <span class="dv">4</span>                   <span class="co"># Number of capture occasions</span></span>
-<span id="cb37-2"><a href="survival.html#cb37-2" aria-hidden="true" tabindex="-1"></a>marked <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">50</span>, n_occ<span class="dv">-1</span>)   <span class="co"># Annual number of newly marked individuals</span></span>
-<span id="cb37-3"><a href="survival.html#cb37-3" aria-hidden="true" tabindex="-1"></a>phi <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.65</span>, n_occ<span class="dv">-1</span>)</span>
-<span id="cb37-4"><a href="survival.html#cb37-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.4</span>, n_occ<span class="dv">-1</span>)</span>
-<span id="cb37-5"><a href="survival.html#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-6"><a href="survival.html#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define matrices with survival and recapture probabilities</span></span>
-<span id="cb37-7"><a href="survival.html#cb37-7" aria-hidden="true" tabindex="-1"></a>PHI <span class="ot">&lt;-</span> <span class="fu">matrix</span>(phi, <span class="at">ncol =</span> n_occ<span class="dv">-1</span>, <span class="at">nrow =</span> <span class="fu">sum</span>(marked))</span>
-<span id="cb37-8"><a href="survival.html#cb37-8" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="fu">matrix</span>(p, <span class="at">ncol =</span> n_occ<span class="dv">-1</span>, <span class="at">nrow =</span> <span class="fu">sum</span>(marked))</span>
-<span id="cb37-9"><a href="survival.html#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-10"><a href="survival.html#cb37-10" aria-hidden="true" tabindex="-1"></a>CH <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol =</span> n_occ, <span class="at">nrow =</span> <span class="fu">sum</span>(marked))</span>
-<span id="cb37-11"><a href="survival.html#cb37-11" aria-hidden="true" tabindex="-1"></a>marking_occ <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(marked), marked[<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(marked)])</span>
-<span id="cb37-12"><a href="survival.html#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill the CH matrix</span></span>
-<span id="cb37-13"><a href="survival.html#cb37-13" aria-hidden="true" tabindex="-1"></a>i<span class="ot">&lt;-</span><span class="dv">1</span></span>
-<span id="cb37-14"><a href="survival.html#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">sum</span>(marked)){</span>
-<span id="cb37-15"><a href="survival.html#cb37-15" aria-hidden="true" tabindex="-1"></a>  CH[i, marking_occ[i]] <span class="ot">&lt;-</span> <span class="dv">1</span>       <span class="co"># Write an 1 at the release occasion</span></span>
-<span id="cb37-16"><a href="survival.html#cb37-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (marking_occ[i]<span class="sc">==</span>n_occ) <span class="cf">next</span></span>
-<span id="cb37-17"><a href="survival.html#cb37-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (t <span class="cf">in</span> (marking_occ[i]<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n_occ){</span>
-<span id="cb37-18"><a href="survival.html#cb37-18" aria-hidden="true" tabindex="-1"></a>    survive_occasion <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, PHI[i,t<span class="dv">-1</span>])</span>
-<span id="cb37-19"><a href="survival.html#cb37-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (survive_occasion<span class="sc">==</span><span class="dv">0</span>) <span class="cf">break</span> </span>
-<span id="cb37-20"><a href="survival.html#cb37-20" aria-hidden="true" tabindex="-1"></a>    rp <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, P[i,t<span class="dv">-1</span>])</span>
-<span id="cb37-21"><a href="survival.html#cb37-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (rp<span class="sc">==</span><span class="dv">1</span>) CH[i,t] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb37-22"><a href="survival.html#cb37-22" aria-hidden="true" tabindex="-1"></a>  } <span class="co">#t</span></span>
-<span id="cb37-23"><a href="survival.html#cb37-23" aria-hidden="true" tabindex="-1"></a>} <span class="co">#i</span></span>
-<span id="cb37-24"><a href="survival.html#cb37-24" aria-hidden="true" tabindex="-1"></a>get.first.capture <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">min</span>(<span class="fu">which</span>(x<span class="sc">!=</span><span class="dv">0</span>))</span>
-<span id="cb37-25"><a href="survival.html#cb37-25" aria-hidden="true" tabindex="-1"></a>first_capture <span class="ot">&lt;-</span> <span class="fu">apply</span>(CH, <span class="dv">1</span>, get.first.capture)</span>
-<span id="cb37-26"><a href="survival.html#cb37-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-27"><a href="survival.html#cb37-27" aria-hidden="true" tabindex="-1"></a>get.last.capture <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">max</span>(<span class="fu">which</span>(x<span class="sc">!=</span><span class="dv">0</span>))</span>
-<span id="cb37-28"><a href="survival.html#cb37-28" aria-hidden="true" tabindex="-1"></a>last_capture <span class="ot">&lt;-</span> <span class="fu">apply</span>(CH, <span class="dv">1</span>, get.last.capture)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="survival.html#cb49-1" aria-hidden="true" tabindex="-1"></a>n_occ <span class="ot">&lt;-</span> <span class="dv">4</span>                   <span class="co"># Number of capture occasions</span></span>
+<span id="cb49-2"><a href="survival.html#cb49-2" aria-hidden="true" tabindex="-1"></a>marked <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">50</span>, n_occ<span class="dv">-1</span>)   <span class="co"># Annual number of newly marked individuals</span></span>
+<span id="cb49-3"><a href="survival.html#cb49-3" aria-hidden="true" tabindex="-1"></a>phi <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.65</span>, n_occ<span class="dv">-1</span>)</span>
+<span id="cb49-4"><a href="survival.html#cb49-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.4</span>, n_occ<span class="dv">-1</span>)</span>
+<span id="cb49-5"><a href="survival.html#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="survival.html#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define matrices with survival and recapture probabilities</span></span>
+<span id="cb49-7"><a href="survival.html#cb49-7" aria-hidden="true" tabindex="-1"></a>PHI <span class="ot">&lt;-</span> <span class="fu">matrix</span>(phi, <span class="at">ncol =</span> n_occ<span class="dv">-1</span>, <span class="at">nrow =</span> <span class="fu">sum</span>(marked))</span>
+<span id="cb49-8"><a href="survival.html#cb49-8" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="fu">matrix</span>(p, <span class="at">ncol =</span> n_occ<span class="dv">-1</span>, <span class="at">nrow =</span> <span class="fu">sum</span>(marked))</span>
+<span id="cb49-9"><a href="survival.html#cb49-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-10"><a href="survival.html#cb49-10" aria-hidden="true" tabindex="-1"></a>CH <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol =</span> n_occ, <span class="at">nrow =</span> <span class="fu">sum</span>(marked))</span>
+<span id="cb49-11"><a href="survival.html#cb49-11" aria-hidden="true" tabindex="-1"></a>marking_occ <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(marked), marked[<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(marked)])</span>
+<span id="cb49-12"><a href="survival.html#cb49-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill the CH matrix</span></span>
+<span id="cb49-13"><a href="survival.html#cb49-13" aria-hidden="true" tabindex="-1"></a>i<span class="ot">&lt;-</span><span class="dv">1</span></span>
+<span id="cb49-14"><a href="survival.html#cb49-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">sum</span>(marked)){</span>
+<span id="cb49-15"><a href="survival.html#cb49-15" aria-hidden="true" tabindex="-1"></a>  CH[i, marking_occ[i]] <span class="ot">&lt;-</span> <span class="dv">1</span>       <span class="co"># Write an 1 at the release occasion</span></span>
+<span id="cb49-16"><a href="survival.html#cb49-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (marking_occ[i]<span class="sc">==</span>n_occ) <span class="cf">next</span></span>
+<span id="cb49-17"><a href="survival.html#cb49-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (t <span class="cf">in</span> (marking_occ[i]<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n_occ){</span>
+<span id="cb49-18"><a href="survival.html#cb49-18" aria-hidden="true" tabindex="-1"></a>    survive_occasion <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, PHI[i,t<span class="dv">-1</span>])</span>
+<span id="cb49-19"><a href="survival.html#cb49-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (survive_occasion<span class="sc">==</span><span class="dv">0</span>) <span class="cf">break</span> </span>
+<span id="cb49-20"><a href="survival.html#cb49-20" aria-hidden="true" tabindex="-1"></a>    rp <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, P[i,t<span class="dv">-1</span>])</span>
+<span id="cb49-21"><a href="survival.html#cb49-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (rp<span class="sc">==</span><span class="dv">1</span>) CH[i,t] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb49-22"><a href="survival.html#cb49-22" aria-hidden="true" tabindex="-1"></a>  } <span class="co">#t</span></span>
+<span id="cb49-23"><a href="survival.html#cb49-23" aria-hidden="true" tabindex="-1"></a>} <span class="co">#i</span></span>
+<span id="cb49-24"><a href="survival.html#cb49-24" aria-hidden="true" tabindex="-1"></a>get.first.capture <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">min</span>(<span class="fu">which</span>(x<span class="sc">!=</span><span class="dv">0</span>))</span>
+<span id="cb49-25"><a href="survival.html#cb49-25" aria-hidden="true" tabindex="-1"></a>first_capture <span class="ot">&lt;-</span> <span class="fu">apply</span>(CH, <span class="dv">1</span>, get.first.capture)</span>
+<span id="cb49-26"><a href="survival.html#cb49-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-27"><a href="survival.html#cb49-27" aria-hidden="true" tabindex="-1"></a>get.last.capture <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">max</span>(<span class="fu">which</span>(x<span class="sc">!=</span><span class="dv">0</span>))</span>
+<span id="cb49-28"><a href="survival.html#cb49-28" aria-hidden="true" tabindex="-1"></a>last_capture <span class="ot">&lt;-</span> <span class="fu">apply</span>(CH, <span class="dv">1</span>, get.last.capture)</span></code></pre></div>
 </div>
 </div>
 <div id="Python3" class="tabcontent">
-<div id="section-15" class="section level4 unnumbered">
+<div id="section-18" class="section level4 unnumbered">
 <h4 class="unnumbered"></h4>
 <p><br></p>
 </div>
 </div>
 <div id="Julia3" class="tabcontent">
-<div id="section-16" class="section level4 unnumbered">
+<div id="section-19" class="section level4 unnumbered">
 <h4 class="unnumbered"></h4>
 <p><br></p>
 </div>
 </div>
 </div>
 </div>
-<div id="models-2" class="section level3 tabset" number="5.3.3">
-<h3><span class="header-section-number">5.3.3</span> Models</h3>
+<div id="models-2" class="section level3 tabset" number="6.3.3">
+<h3><span class="header-section-number">6.3.3</span> Models</h3>
 <div class="tab">
 <button class="tablinks" onclick="unrolltab(event,&#39;JAGS3&#39;)">
 JAGS
@@ -339,301 +370,314 @@ Stan
 Greta
 </button>
 <div id="JAGS3" class="tabcontent">
-<div id="section-17" class="section level4 unnumbered">
-<h4 class="unnumbered"></h4>
-<p><br></p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="survival.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb38-2"><a href="survival.html#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(R2jags)</span>
-<span id="cb38-3"><a href="survival.html#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-4"><a href="survival.html#cb38-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb38-5"><a href="survival.html#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> CH,</span>
-<span id="cb38-6"><a href="survival.html#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_ind =</span> <span class="fu">dim</span>(CH)[<span class="dv">1</span>],</span>
-<span id="cb38-7"><a href="survival.html#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">nocc =</span> <span class="fu">dim</span>(CH)[<span class="dv">2</span>],</span>
-<span id="cb38-8"><a href="survival.html#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">f =</span> first_capture</span>
-<span id="cb38-9"><a href="survival.html#cb38-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb38-10"><a href="survival.html#cb38-10" aria-hidden="true" tabindex="-1"></a>model_string <span class="ot">&lt;-</span> <span class="fu">textConnection</span>(</span>
-<span id="cb38-11"><a href="survival.html#cb38-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;</span></span>
-<span id="cb38-12"><a href="survival.html#cb38-12" aria-hidden="true" tabindex="-1"></a><span class="st">    model {</span></span>
-<span id="cb38-13"><a href="survival.html#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb38-14"><a href="survival.html#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="st">  # Likelihood</span></span>
-<span id="cb38-15"><a href="survival.html#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1:n_ind){</span></span>
-<span id="cb38-16"><a href="survival.html#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="st">    z[i,f[i]] &lt;- 1</span></span>
-<span id="cb38-17"><a href="survival.html#cb38-17" aria-hidden="true" tabindex="-1"></a><span class="st">    for (t in (f[i]+1):n_occ){</span></span>
-<span id="cb38-18"><a href="survival.html#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="st">      # State process</span></span>
-<span id="cb38-19"><a href="survival.html#cb38-19" aria-hidden="true" tabindex="-1"></a><span class="st">      z[i,t] ~ dbern(phi * z[i,t-1])</span></span>
-<span id="cb38-20"><a href="survival.html#cb38-20" aria-hidden="true" tabindex="-1"></a><span class="st">      # Observation process</span></span>
-<span id="cb38-21"><a href="survival.html#cb38-21" aria-hidden="true" tabindex="-1"></a><span class="st">      y[i,t] ~ dbern(mu[i,t])</span></span>
-<span id="cb38-22"><a href="survival.html#cb38-22" aria-hidden="true" tabindex="-1"></a><span class="st">      mu[i,t] &lt;- p * z[i,t]</span></span>
-<span id="cb38-23"><a href="survival.html#cb38-23" aria-hidden="true" tabindex="-1"></a><span class="st">    } #t</span></span>
-<span id="cb38-24"><a href="survival.html#cb38-24" aria-hidden="true" tabindex="-1"></a><span class="st">  } #i</span></span>
-<span id="cb38-25"><a href="survival.html#cb38-25" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb38-26"><a href="survival.html#cb38-26" aria-hidden="true" tabindex="-1"></a><span class="st">  # Priors and Constraints</span></span>
-<span id="cb38-27"><a href="survival.html#cb38-27" aria-hidden="true" tabindex="-1"></a><span class="st">  phi ~ dunif(0, 1)</span></span>
-<span id="cb38-28"><a href="survival.html#cb38-28" aria-hidden="true" tabindex="-1"></a><span class="st">  p ~ dunif(0, 1)</span></span>
-<span id="cb38-29"><a href="survival.html#cb38-29" aria-hidden="true" tabindex="-1"></a><span class="st">  # Derived values</span></span>
-<span id="cb38-30"><a href="survival.html#cb38-30" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb38-31"><a href="survival.html#cb38-31" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
-<span id="cb38-32"><a href="survival.html#cb38-32" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb38-33"><a href="survival.html#cb38-33" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;p&quot;</span>,<span class="st">&quot;phi&quot;</span>)</span>
-<span id="cb38-34"><a href="survival.html#cb38-34" aria-hidden="true" tabindex="-1"></a>cjs.z.init <span class="ot">&lt;-</span> <span class="cf">function</span>(ch){</span>
-<span id="cb38-35"><a href="survival.html#cb38-35" aria-hidden="true" tabindex="-1"></a>state <span class="ot">&lt;-</span> ch</span>
-<span id="cb38-36"><a href="survival.html#cb38-36" aria-hidden="true" tabindex="-1"></a>   <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(ch)[<span class="dv">1</span>]){</span>
-<span id="cb38-37"><a href="survival.html#cb38-37" aria-hidden="true" tabindex="-1"></a>      n1 <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="fu">which</span>(ch[i,]<span class="sc">==</span><span class="dv">1</span>))</span>
-<span id="cb38-38"><a href="survival.html#cb38-38" aria-hidden="true" tabindex="-1"></a>      n2 <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">which</span>(ch[i,]<span class="sc">==</span><span class="dv">1</span>))</span>
-<span id="cb38-39"><a href="survival.html#cb38-39" aria-hidden="true" tabindex="-1"></a>      state[i,n1<span class="sc">:</span>n2] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb38-40"><a href="survival.html#cb38-40" aria-hidden="true" tabindex="-1"></a>      state[i,n1] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb38-41"><a href="survival.html#cb38-41" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb38-42"><a href="survival.html#cb38-42" aria-hidden="true" tabindex="-1"></a>   state[state<span class="sc">==</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb38-43"><a href="survival.html#cb38-43" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(state)</span>
-<span id="cb38-44"><a href="survival.html#cb38-44" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb38-45"><a href="survival.html#cb38-45" aria-hidden="true" tabindex="-1"></a>set_initial_value <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb38-46"><a href="survival.html#cb38-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>( </span>
-<span id="cb38-47"><a href="survival.html#cb38-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> <span class="fu">cjs.z.init</span>(CH)  </span>
-<span id="cb38-48"><a href="survival.html#cb38-48" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb38-49"><a href="survival.html#cb38-49" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb38-50"><a href="survival.html#cb38-50" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10000</span> ; nt <span class="ot">&lt;-</span> <span class="dv">1</span> ; nc <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb38-51"><a href="survival.html#cb38-51" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">jags</span>(<span class="at">data =</span> data, </span>
-<span id="cb38-52"><a href="survival.html#cb38-52" aria-hidden="true" tabindex="-1"></a>              <span class="at">inits =</span> inits, </span>
-<span id="cb38-53"><a href="survival.html#cb38-53" aria-hidden="true" tabindex="-1"></a>              <span class="at">parameters =</span> parameters, </span>
-<span id="cb38-54"><a href="survival.html#cb38-54" aria-hidden="true" tabindex="-1"></a>              <span class="at">model.file =</span> model_string, </span>
-<span id="cb38-55"><a href="survival.html#cb38-55" aria-hidden="true" tabindex="-1"></a>              <span class="at">n.chains =</span> nc, </span>
-<span id="cb38-56"><a href="survival.html#cb38-56" aria-hidden="true" tabindex="-1"></a>              <span class="at">n.thin =</span> nt, </span>
-<span id="cb38-57"><a href="survival.html#cb38-57" aria-hidden="true" tabindex="-1"></a>              <span class="at">n.iter =</span> ni, </span>
-<span id="cb38-58"><a href="survival.html#cb38-58" aria-hidden="true" tabindex="-1"></a>              <span class="at">n.burnin =</span> ni<span class="sc">/</span><span class="dv">2</span>)</span></code></pre></div>
-</div>
-</div>
-<div id="NIMBLE3" class="tabcontent">
-<div id="section-18" class="section level4 unnumbered">
-<h4 class="unnumbered"></h4>
-<p><br></p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="survival.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimble)</span>
-<span id="cb39-2"><a href="survival.html#cb39-2" aria-hidden="true" tabindex="-1"></a>n_data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb39-3"><a href="survival.html#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> CH</span>
-<span id="cb39-4"><a href="survival.html#cb39-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb39-5"><a href="survival.html#cb39-5" aria-hidden="true" tabindex="-1"></a>n_constants <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb39-6"><a href="survival.html#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_ind =</span> <span class="fu">dim</span>(CH)[<span class="dv">1</span>],</span>
-<span id="cb39-7"><a href="survival.html#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">nocc =</span> <span class="fu">dim</span>(CH)[<span class="dv">2</span>],</span>
-<span id="cb39-8"><a href="survival.html#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">f =</span> first_capture</span>
-<span id="cb39-9"><a href="survival.html#cb39-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb39-10"><a href="survival.html#cb39-10" aria-hidden="true" tabindex="-1"></a>Nimble_Code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
-<span id="cb39-11"><a href="survival.html#cb39-11" aria-hidden="true" tabindex="-1"></a> <span class="co"># Likelihood</span></span>
-<span id="cb39-12"><a href="survival.html#cb39-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_ind){</span>
-<span id="cb39-13"><a href="survival.html#cb39-13" aria-hidden="true" tabindex="-1"></a>    z[i,f[i]] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb39-14"><a href="survival.html#cb39-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (t <span class="cf">in</span> (f[i]<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n_occ){</span>
-<span id="cb39-15"><a href="survival.html#cb39-15" aria-hidden="true" tabindex="-1"></a>      <span class="co"># State process</span></span>
-<span id="cb39-16"><a href="survival.html#cb39-16" aria-hidden="true" tabindex="-1"></a>      z[i,t] <span class="sc">~</span> <span class="fu">dbern</span>(phi <span class="sc">*</span> z[i,t<span class="dv">-1</span>])</span>
-<span id="cb39-17"><a href="survival.html#cb39-17" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Observation process</span></span>
-<span id="cb39-18"><a href="survival.html#cb39-18" aria-hidden="true" tabindex="-1"></a>      y[i,t] <span class="sc">~</span> <span class="fu">dbern</span>(mu[i,t])</span>
-<span id="cb39-19"><a href="survival.html#cb39-19" aria-hidden="true" tabindex="-1"></a>      mu[i,t] <span class="ot">&lt;-</span> p <span class="sc">*</span> z[i,t]</span>
-<span id="cb39-20"><a href="survival.html#cb39-20" aria-hidden="true" tabindex="-1"></a>    } <span class="co">#t</span></span>
-<span id="cb39-21"><a href="survival.html#cb39-21" aria-hidden="true" tabindex="-1"></a>  } <span class="co">#i</span></span>
-<span id="cb39-22"><a href="survival.html#cb39-22" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb39-23"><a href="survival.html#cb39-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Priors and Constraints</span></span>
-<span id="cb39-24"><a href="survival.html#cb39-24" aria-hidden="true" tabindex="-1"></a>  phi <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb39-25"><a href="survival.html#cb39-25" aria-hidden="true" tabindex="-1"></a>  p <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb39-26"><a href="survival.html#cb39-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Derived values</span></span>
-<span id="cb39-27"><a href="survival.html#cb39-27" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb39-28"><a href="survival.html#cb39-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-29"><a href="survival.html#cb39-29" aria-hidden="true" tabindex="-1"></a>n_params <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;p&quot;</span>, <span class="st">&quot;phi&quot;</span>)</span>
-<span id="cb39-30"><a href="survival.html#cb39-30" aria-hidden="true" tabindex="-1"></a>cjs.z.init <span class="ot">&lt;-</span> <span class="cf">function</span>(ch){</span>
-<span id="cb39-31"><a href="survival.html#cb39-31" aria-hidden="true" tabindex="-1"></a>state <span class="ot">&lt;-</span> ch</span>
-<span id="cb39-32"><a href="survival.html#cb39-32" aria-hidden="true" tabindex="-1"></a>   <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(ch)[<span class="dv">1</span>]){</span>
-<span id="cb39-33"><a href="survival.html#cb39-33" aria-hidden="true" tabindex="-1"></a>      n1 <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="fu">which</span>(ch[i,]<span class="sc">==</span><span class="dv">1</span>))</span>
-<span id="cb39-34"><a href="survival.html#cb39-34" aria-hidden="true" tabindex="-1"></a>      n2 <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">which</span>(ch[i,]<span class="sc">==</span><span class="dv">1</span>))</span>
-<span id="cb39-35"><a href="survival.html#cb39-35" aria-hidden="true" tabindex="-1"></a>      state[i,n1<span class="sc">:</span>n2] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb39-36"><a href="survival.html#cb39-36" aria-hidden="true" tabindex="-1"></a>      state[i,n1] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb39-37"><a href="survival.html#cb39-37" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb39-38"><a href="survival.html#cb39-38" aria-hidden="true" tabindex="-1"></a>   state[state<span class="sc">==</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb39-39"><a href="survival.html#cb39-39" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(state)</span>
-<span id="cb39-40"><a href="survival.html#cb39-40" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb39-41"><a href="survival.html#cb39-41" aria-hidden="true" tabindex="-1"></a>n_inits <span class="ot">&lt;-</span> <span class="fu">list</span>( </span>
-<span id="cb39-42"><a href="survival.html#cb39-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> <span class="fu">cjs.z.init</span>(CH)</span>
-<span id="cb39-43"><a href="survival.html#cb39-43" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb39-44"><a href="survival.html#cb39-44" aria-hidden="true" tabindex="-1"></a>Nimble_Model <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(</span>
-<span id="cb39-45"><a href="survival.html#cb39-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">code =</span> Nimble_Code,</span>
-<span id="cb39-46"><a href="survival.html#cb39-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">constants =</span> n_constants,</span>
-<span id="cb39-47"><a href="survival.html#cb39-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> n_data,</span>
-<span id="cb39-48"><a href="survival.html#cb39-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">inits =</span> n_inits</span>
-<span id="cb39-49"><a href="survival.html#cb39-49" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb39-50"><a href="survival.html#cb39-50" aria-hidden="true" tabindex="-1"></a>MCMC_Model <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(Nimble_Model, <span class="at">monitors =</span> n_params, <span class="at">print =</span> T, <span class="at">enableWAIC =</span> F)</span>
-<span id="cb39-51"><a href="survival.html#cb39-51" aria-hidden="true" tabindex="-1"></a>Model1_MCMC <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(MCMC_Model)</span>
-<span id="cb39-52"><a href="survival.html#cb39-52" aria-hidden="true" tabindex="-1"></a>Comp_Model <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>( Nimble_Model, <span class="at">showCompilerOutput =</span> <span class="cn">TRUE</span> )</span>
-<span id="cb39-53"><a href="survival.html#cb39-53" aria-hidden="true" tabindex="-1"></a>Comp_Model <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(Model1_MCMC, <span class="at">project =</span> Nimble_Model)</span>
-<span id="cb39-54"><a href="survival.html#cb39-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-55"><a href="survival.html#cb39-55" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10000</span> ; nt <span class="ot">&lt;-</span> <span class="dv">1</span> ; nc <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb39-56"><a href="survival.html#cb39-56" aria-hidden="true" tabindex="-1"></a>Model_samples <span class="ot">&lt;-</span> <span class="fu">runMCMC</span>(<span class="at">mcmc =</span> Comp_Model, </span>
-<span id="cb39-57"><a href="survival.html#cb39-57" aria-hidden="true" tabindex="-1"></a>                         <span class="at">niter =</span> ni, </span>
-<span id="cb39-58"><a href="survival.html#cb39-58" aria-hidden="true" tabindex="-1"></a>                         <span class="at">nburnin =</span> ni<span class="sc">/</span><span class="dv">2</span>,</span>
-<span id="cb39-59"><a href="survival.html#cb39-59" aria-hidden="true" tabindex="-1"></a>                         <span class="at">nchains =</span> nc,</span>
-<span id="cb39-60"><a href="survival.html#cb39-60" aria-hidden="true" tabindex="-1"></a>                         <span class="at">summary =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb39-61"><a href="survival.html#cb39-61" aria-hidden="true" tabindex="-1"></a><span class="co">#mcmc_combo(Model_samples$samples, pars = c(&quot;N&quot;, &quot;p&quot;))</span></span>
-<span id="cb39-62"><a href="survival.html#cb39-62" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(Model_samples<span class="sc">$</span>summary<span class="sc">$</span>all.chains,<span class="dv">2</span>)</span></code></pre></div>
-</div>
-</div>
-<div id="Stan3" class="tabcontent">
-<div id="section-19" class="section level4 unnumbered">
-<h4 class="unnumbered"></h4>
-<p><br></p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="survival.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb40-2"><a href="survival.html#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
-<span id="cb40-3"><a href="survival.html#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="survival.html#cb40-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb40-5"><a href="survival.html#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">CH =</span> CH,</span>
-<span id="cb40-6"><a href="survival.html#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_ind =</span> <span class="fu">dim</span>(CH)[<span class="dv">1</span>],</span>
-<span id="cb40-7"><a href="survival.html#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_occ =</span> <span class="fu">dim</span>(CH)[<span class="dv">2</span>],</span>
-<span id="cb40-8"><a href="survival.html#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">f =</span> first_capture,</span>
-<span id="cb40-9"><a href="survival.html#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">l =</span> last_capture</span>
-<span id="cb40-10"><a href="survival.html#cb40-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb40-11"><a href="survival.html#cb40-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-12"><a href="survival.html#cb40-12" aria-hidden="true" tabindex="-1"></a>stan_model <span class="ot">&lt;-</span> <span class="st">&quot;</span></span>
-<span id="cb40-13"><a href="survival.html#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="st">/**</span></span>
-<span id="cb40-14"><a href="survival.html#cb40-14" aria-hidden="true" tabindex="-1"></a><span class="st"> * Cormack-Jolly-Seber Model</span></span>
-<span id="cb40-15"><a href="survival.html#cb40-15" aria-hidden="true" tabindex="-1"></a><span class="st"> * </span></span>
-<span id="cb40-16"><a href="survival.html#cb40-16" aria-hidden="true" tabindex="-1"></a><span class="st"> * following section 1.2.1 of:</span></span>
-<span id="cb40-17"><a href="survival.html#cb40-17" aria-hidden="true" tabindex="-1"></a><span class="st"> * http://www.maths.otago.ac.nz/home/resources/theses/PhD_Matthew_Schofield.pdf</span></span>
-<span id="cb40-18"><a href="survival.html#cb40-18" aria-hidden="true" tabindex="-1"></a><span class="st"> * https://discourse.mc-stan.org/t/cjs-log-likelihood/15112</span></span>
-<span id="cb40-19"><a href="survival.html#cb40-19" aria-hidden="true" tabindex="-1"></a><span class="st"> */</span></span>
-<span id="cb40-20"><a href="survival.html#cb40-20" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb40-21"><a href="survival.html#cb40-21" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=2&gt; n_occ;                      // capture events</span></span>
-<span id="cb40-22"><a href="survival.html#cb40-22" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; n_ind;                      // number of individuals</span></span>
-<span id="cb40-23"><a href="survival.html#cb40-23" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0, upper=n_occ+1&gt; f[n_ind];     // f[i]: ind i first capture</span></span>
-<span id="cb40-24"><a href="survival.html#cb40-24" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0, upper=n_occ+1&gt; l[n_ind];     // l[i]:  ind i last capture</span></span>
-<span id="cb40-25"><a href="survival.html#cb40-25" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0,upper=1&gt; CH[n_ind,n_occ];    // CH[i,k]: individual i captured at k</span></span>
-<span id="cb40-26"><a href="survival.html#cb40-26" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb40-27"><a href="survival.html#cb40-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-28"><a href="survival.html#cb40-28" aria-hidden="true" tabindex="-1"></a><span class="st">transformed data {</span></span>
-<span id="cb40-29"><a href="survival.html#cb40-29" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0,upper=n_ind&gt; n_captured[n_occ];  // n_capt[k]: num aptured at k</span></span>
-<span id="cb40-30"><a href="survival.html#cb40-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-31"><a href="survival.html#cb40-31" aria-hidden="true" tabindex="-1"></a><span class="st">  n_captured = rep_array(0,n_occ);</span></span>
-<span id="cb40-32"><a href="survival.html#cb40-32" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1:n_ind)</span></span>
-<span id="cb40-33"><a href="survival.html#cb40-33" aria-hidden="true" tabindex="-1"></a><span class="st">    for (k in 1:n_occ)</span></span>
-<span id="cb40-34"><a href="survival.html#cb40-34" aria-hidden="true" tabindex="-1"></a><span class="st">      n_captured[k] = n_captured[k] + CH[i,k];</span></span>
-<span id="cb40-35"><a href="survival.html#cb40-35" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb40-36"><a href="survival.html#cb40-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-37"><a href="survival.html#cb40-37" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb40-38"><a href="survival.html#cb40-38" aria-hidden="true" tabindex="-1"></a><span class="st">  //vector&lt;lower=0,upper=1&gt;[n_occ-1] phi;  // phi[k]: Pr[alive at k + 1 | alive at k]</span></span>
-<span id="cb40-39"><a href="survival.html#cb40-39" aria-hidden="true" tabindex="-1"></a><span class="st">  //vector&lt;lower=0,upper=1&gt;[n_occ] p;      // p[k]: Pr[capture at k]</span></span>
-<span id="cb40-40"><a href="survival.html#cb40-40" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0,upper=1&gt; phi;  // phi[k]: Pr[alive at k + 1 | alive at k]</span></span>
-<span id="cb40-41"><a href="survival.html#cb40-41" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0,upper=1&gt; p;      // p[k]: Pr[capture at k]</span></span>
-<span id="cb40-42"><a href="survival.html#cb40-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-43"><a href="survival.html#cb40-43" aria-hidden="true" tabindex="-1"></a><span class="st">  // note:  p[1] not used in model and hence not identified</span></span>
-<span id="cb40-44"><a href="survival.html#cb40-44" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb40-45"><a href="survival.html#cb40-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-46"><a href="survival.html#cb40-46" aria-hidden="true" tabindex="-1"></a><span class="st">transformed parameters {</span></span>
-<span id="cb40-47"><a href="survival.html#cb40-47" aria-hidden="true" tabindex="-1"></a><span class="st">  vector&lt;lower=0,upper=1&gt;[n_occ] chi;   // chi[k]: Pr[no capture &gt;  k | alive at k]</span></span>
-<span id="cb40-48"><a href="survival.html#cb40-48" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[n_ind] log_lik;</span></span>
-<span id="cb40-49"><a href="survival.html#cb40-49" aria-hidden="true" tabindex="-1"></a><span class="st">  {</span></span>
-<span id="cb40-50"><a href="survival.html#cb40-50" aria-hidden="true" tabindex="-1"></a><span class="st">    int k;</span></span>
-<span id="cb40-51"><a href="survival.html#cb40-51" aria-hidden="true" tabindex="-1"></a><span class="st">    chi[n_occ] = 1.0;              </span></span>
-<span id="cb40-52"><a href="survival.html#cb40-52" aria-hidden="true" tabindex="-1"></a><span class="st">    k = n_occ - 1;</span></span>
-<span id="cb40-53"><a href="survival.html#cb40-53" aria-hidden="true" tabindex="-1"></a><span class="st">    while (k &gt; 0) {</span></span>
-<span id="cb40-54"><a href="survival.html#cb40-54" aria-hidden="true" tabindex="-1"></a><span class="st">      //chi[k] = (1 - phi[k]) + phi[k] * (1 - p[k+1]) * chi[k+1]; </span></span>
-<span id="cb40-55"><a href="survival.html#cb40-55" aria-hidden="true" tabindex="-1"></a><span class="st">      chi[k] = (1 - phi) + phi * (1 - p) * chi[k+1];</span></span>
-<span id="cb40-56"><a href="survival.html#cb40-56" aria-hidden="true" tabindex="-1"></a><span class="st">      k = k - 1;</span></span>
-<span id="cb40-57"><a href="survival.html#cb40-57" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
-<span id="cb40-58"><a href="survival.html#cb40-58" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb40-59"><a href="survival.html#cb40-59" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb40-60"><a href="survival.html#cb40-60" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1:n_ind) {</span></span>
-<span id="cb40-61"><a href="survival.html#cb40-61" aria-hidden="true" tabindex="-1"></a><span class="st">    log_lik[i] = 0;</span></span>
-<span id="cb40-62"><a href="survival.html#cb40-62" aria-hidden="true" tabindex="-1"></a><span class="st">    if (l[i] &gt; 0) {</span></span>
-<span id="cb40-63"><a href="survival.html#cb40-63" aria-hidden="true" tabindex="-1"></a><span class="st">      for (k in (f[i]+1):l[i]) {</span></span>
-<span id="cb40-64"><a href="survival.html#cb40-64" aria-hidden="true" tabindex="-1"></a><span class="st">        log_lik[i] +=log(phi);     // i survived from k-1 to k</span></span>
-<span id="cb40-65"><a href="survival.html#cb40-65" aria-hidden="true" tabindex="-1"></a><span class="st">        if (CH[i,k] == 1)</span></span>
-<span id="cb40-66"><a href="survival.html#cb40-66" aria-hidden="true" tabindex="-1"></a><span class="st">          log_lik[i] +=log(p);       // i captured at k</span></span>
-<span id="cb40-67"><a href="survival.html#cb40-67" aria-hidden="true" tabindex="-1"></a><span class="st">        else</span></span>
-<span id="cb40-68"><a href="survival.html#cb40-68" aria-hidden="true" tabindex="-1"></a><span class="st">          log_lik[i] +=log1m(p);     // i not captured at k</span></span>
-<span id="cb40-69"><a href="survival.html#cb40-69" aria-hidden="true" tabindex="-1"></a><span class="st">      }</span></span>
-<span id="cb40-70"><a href="survival.html#cb40-70" aria-hidden="true" tabindex="-1"></a><span class="st">      log_lik[i] +=log(chi[l[i]]);   // i not seen after last[i]</span></span>
-<span id="cb40-71"><a href="survival.html#cb40-71" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
-<span id="cb40-72"><a href="survival.html#cb40-72" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb40-73"><a href="survival.html#cb40-73" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb40-74"><a href="survival.html#cb40-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-75"><a href="survival.html#cb40-75" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
-<span id="cb40-76"><a href="survival.html#cb40-76" aria-hidden="true" tabindex="-1"></a><span class="st">  target += sum(log_lik);</span></span>
-<span id="cb40-77"><a href="survival.html#cb40-77" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb40-78"><a href="survival.html#cb40-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-79"><a href="survival.html#cb40-79" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
-<span id="cb40-80"><a href="survival.html#cb40-80" aria-hidden="true" tabindex="-1"></a><span class="st">  // phi[K-1] and p(K) not identified, but product is</span></span>
-<span id="cb40-81"><a href="survival.html#cb40-81" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta;</span></span>
-<span id="cb40-82"><a href="survival.html#cb40-82" aria-hidden="true" tabindex="-1"></a><span class="st">  vector&lt;lower=0&gt;[n_occ] pop_hat;  // population</span></span>
-<span id="cb40-83"><a href="survival.html#cb40-83" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb40-84"><a href="survival.html#cb40-84" aria-hidden="true" tabindex="-1"></a><span class="st">  beta = phi * p;</span></span>
-<span id="cb40-85"><a href="survival.html#cb40-85" aria-hidden="true" tabindex="-1"></a><span class="st">  for (k in 1:n_occ)</span></span>
-<span id="cb40-86"><a href="survival.html#cb40-86" aria-hidden="true" tabindex="-1"></a><span class="st">    pop_hat[k] = n_captured[k] / p;  </span></span>
-<span id="cb40-87"><a href="survival.html#cb40-87" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb40-88"><a href="survival.html#cb40-88" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
-<span id="cb40-89"><a href="survival.html#cb40-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-90"><a href="survival.html#cb40-90" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="cf">function</span>() <span class="fu">list</span>(<span class="at">phi =</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>),</span>
-<span id="cb40-91"><a href="survival.html#cb40-91" aria-hidden="true" tabindex="-1"></a>                         <span class="at">p =</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
-<span id="cb40-92"><a href="survival.html#cb40-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-93"><a href="survival.html#cb40-93" aria-hidden="true" tabindex="-1"></a><span class="do">## Parameters monitored</span></span>
-<span id="cb40-94"><a href="survival.html#cb40-94" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;phi&quot;</span>, <span class="st">&quot;p&quot;</span>)</span>
-<span id="cb40-95"><a href="survival.html#cb40-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-96"><a href="survival.html#cb40-96" aria-hidden="true" tabindex="-1"></a><span class="do">## MCMC settings</span></span>
-<span id="cb40-97"><a href="survival.html#cb40-97" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10000</span> ; nt <span class="ot">&lt;-</span> <span class="dv">1</span> ; nc <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb40-98"><a href="survival.html#cb40-98" aria-hidden="true" tabindex="-1"></a>stan.samples <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">model_code =</span> stan_model, </span>
-<span id="cb40-99"><a href="survival.html#cb40-99" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> data, </span>
-<span id="cb40-100"><a href="survival.html#cb40-100" aria-hidden="true" tabindex="-1"></a>                     <span class="at">iter =</span> ni, </span>
-<span id="cb40-101"><a href="survival.html#cb40-101" aria-hidden="true" tabindex="-1"></a>                     <span class="at">warmup =</span> <span class="fu">floor</span>(ni<span class="sc">/</span><span class="dv">2</span>),</span>
-<span id="cb40-102"><a href="survival.html#cb40-102" aria-hidden="true" tabindex="-1"></a>                     <span class="at">chains =</span> nc, </span>
-<span id="cb40-103"><a href="survival.html#cb40-103" aria-hidden="true" tabindex="-1"></a>                     <span class="at">cores =</span> nc)</span></code></pre></div>
-</div>
-</div>
-<div id="Greta3" class="tabcontent">
 <div id="section-20" class="section level4 unnumbered">
 <h4 class="unnumbered"></h4>
 <p><br></p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="survival.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(greta)</span>
-<span id="cb41-2"><a href="survival.html#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(CH)</span>
-<span id="cb41-3"><a href="survival.html#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(obs_id)</span>
-<span id="cb41-4"><a href="survival.html#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(capture_vec)</span>
-<span id="cb41-5"><a href="survival.html#cb41-5" aria-hidden="true" tabindex="-1"></a>obs_id <span class="ot">&lt;-</span> <span class="fu">apply</span>(CH, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="fu">seq</span>(<span class="fu">min</span>(<span class="fu">which</span>(x <span class="sc">&gt;</span> <span class="dv">0</span>)), <span class="fu">max</span>(<span class="fu">which</span>(x <span class="sc">&gt;</span> <span class="dv">0</span>)), <span class="at">by =</span> <span class="dv">1</span>)[<span class="sc">-</span><span class="dv">1</span>])</span>
-<span id="cb41-6"><a href="survival.html#cb41-6" aria-hidden="true" tabindex="-1"></a>obs_id <span class="ot">&lt;-</span> <span class="fu">unlist</span>(obs_id)</span>
-<span id="cb41-7"><a href="survival.html#cb41-7" aria-hidden="true" tabindex="-1"></a>capture_vec <span class="ot">&lt;-</span> <span class="fu">apply</span>(CH, <span class="dv">1</span>, <span class="cf">function</span>(x) x[<span class="fu">min</span>(<span class="fu">which</span>(x <span class="sc">&gt;</span> <span class="dv">0</span>))<span class="sc">:</span><span class="fu">max</span>(<span class="fu">which</span>(x <span class="sc">&gt;</span> <span class="dv">0</span>))][<span class="sc">-</span><span class="dv">1</span>])</span>
-<span id="cb41-8"><a href="survival.html#cb41-8" aria-hidden="true" tabindex="-1"></a>capture_vec <span class="ot">&lt;-</span> <span class="fu">unlist</span>(capture_vec)</span>
-<span id="cb41-9"><a href="survival.html#cb41-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-10"><a href="survival.html#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="co"># dummy variables</span></span>
-<span id="cb41-11"><a href="survival.html#cb41-11" aria-hidden="true" tabindex="-1"></a>alive_data <span class="ot">&lt;-</span> <span class="fu">ones</span>(<span class="fu">length</span>(obs_id))            <span class="co"># definitely alive</span></span>
-<span id="cb41-12"><a href="survival.html#cb41-12" aria-hidden="true" tabindex="-1"></a>not_seen_last <span class="ot">&lt;-</span> last_capture <span class="sc">!=</span> n_occ              <span class="co"># ignore observations in last timestep</span></span>
-<span id="cb41-13"><a href="survival.html#cb41-13" aria-hidden="true" tabindex="-1"></a>final_observation <span class="ot">&lt;-</span> <span class="fu">ones</span>(<span class="fu">sum</span>(not_seen_last)) <span class="co"># final observation</span></span>
-<span id="cb41-14"><a href="survival.html#cb41-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-15"><a href="survival.html#cb41-15" aria-hidden="true" tabindex="-1"></a>capture_vec <span class="ot">&lt;-</span> <span class="fu">as_data</span>(observed)</span>
-<span id="cb41-16"><a href="survival.html#cb41-16" aria-hidden="true" tabindex="-1"></a><span class="co"># priors</span></span>
-<span id="cb41-17"><a href="survival.html#cb41-17" aria-hidden="true" tabindex="-1"></a>phi <span class="ot">&lt;-</span> <span class="fu">beta</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="at">dim =</span> <span class="dv">1</span>)</span>
-<span id="cb41-18"><a href="survival.html#cb41-18" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">beta</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="at">dim =</span> <span class="dv">1</span>)</span>
-<span id="cb41-19"><a href="survival.html#cb41-19" aria-hidden="true" tabindex="-1"></a><span class="co"># derived parameter</span></span>
-<span id="cb41-20"><a href="survival.html#cb41-20" aria-hidden="true" tabindex="-1"></a>chi <span class="ot">&lt;-</span> <span class="fu">ones</span>(n_occ)</span>
-<span id="cb41-21"><a href="survival.html#cb41-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(n_occ <span class="sc">-</span> <span class="dv">1</span>)) {</span>
-<span id="cb41-22"><a href="survival.html#cb41-22" aria-hidden="true" tabindex="-1"></a>  tn <span class="ot">&lt;-</span> n_occ <span class="sc">-</span> i</span>
-<span id="cb41-23"><a href="survival.html#cb41-23" aria-hidden="true" tabindex="-1"></a>  chi[tn] <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> phi) <span class="sc">+</span> phi <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p) <span class="sc">*</span> chi[tn <span class="sc">+</span> <span class="dv">1</span>]</span>
-<span id="cb41-24"><a href="survival.html#cb41-24" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb41-25"><a href="survival.html#cb41-25" aria-hidden="true" tabindex="-1"></a><span class="co"># likelihood</span></span>
-<span id="cb41-26"><a href="survival.html#cb41-26" aria-hidden="true" tabindex="-1"></a><span class="fu">distribution</span>(alive_data) <span class="ot">&lt;-</span> <span class="fu">bernoulli</span>(phi)</span>
-<span id="cb41-27"><a href="survival.html#cb41-27" aria-hidden="true" tabindex="-1"></a><span class="fu">distribution</span>(capture_vec) <span class="ot">&lt;-</span> <span class="fu">bernoulli</span>(p)</span>
-<span id="cb41-28"><a href="survival.html#cb41-28" aria-hidden="true" tabindex="-1"></a><span class="fu">distribution</span>(final_observation) <span class="ot">&lt;-</span> <span class="fu">bernoulli</span>(chi[last_capture[not_seen_last]])</span>
-<span id="cb41-29"><a href="survival.html#cb41-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-30"><a href="survival.html#cb41-30" aria-hidden="true" tabindex="-1"></a><span class="co"># defining the model</span></span>
-<span id="cb41-31"><a href="survival.html#cb41-31" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">model</span>(phi,p) <span class="co">#objects to sample</span></span>
-<span id="cb41-32"><a href="survival.html#cb41-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-33"><a href="survival.html#cb41-33" aria-hidden="true" tabindex="-1"></a><span class="co"># sampling</span></span>
-<span id="cb41-34"><a href="survival.html#cb41-34" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10000</span> ; nt <span class="ot">&lt;-</span> <span class="dv">1</span> ; nc <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb41-35"><a href="survival.html#cb41-35" aria-hidden="true" tabindex="-1"></a>draws <span class="ot">&lt;-</span> greta<span class="sc">::</span><span class="fu">mcmc</span>(<span class="at">model =</span> m, </span>
-<span id="cb41-36"><a href="survival.html#cb41-36" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n_samples =</span> ni,</span>
-<span id="cb41-37"><a href="survival.html#cb41-37" aria-hidden="true" tabindex="-1"></a>                     <span class="at">thin =</span> nt,</span>
-<span id="cb41-38"><a href="survival.html#cb41-38" aria-hidden="true" tabindex="-1"></a>                     <span class="at">warmup =</span> <span class="fu">floor</span>(ni<span class="sc">/</span><span class="dv">2</span>),</span>
-<span id="cb41-39"><a href="survival.html#cb41-39" aria-hidden="true" tabindex="-1"></a>                     <span class="at">chains =</span> nc, </span>
-<span id="cb41-40"><a href="survival.html#cb41-40" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n_cores =</span> nc)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="survival.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb50-2"><a href="survival.html#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(R2jags)</span>
+<span id="cb50-3"><a href="survival.html#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="survival.html#cb50-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb50-5"><a href="survival.html#cb50-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> CH,</span>
+<span id="cb50-6"><a href="survival.html#cb50-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_ind =</span> <span class="fu">dim</span>(CH)[<span class="dv">1</span>],</span>
+<span id="cb50-7"><a href="survival.html#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">nocc =</span> <span class="fu">dim</span>(CH)[<span class="dv">2</span>],</span>
+<span id="cb50-8"><a href="survival.html#cb50-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">f =</span> first_capture</span>
+<span id="cb50-9"><a href="survival.html#cb50-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb50-10"><a href="survival.html#cb50-10" aria-hidden="true" tabindex="-1"></a>model_string <span class="ot">&lt;-</span> <span class="fu">textConnection</span>(</span>
+<span id="cb50-11"><a href="survival.html#cb50-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;</span></span>
+<span id="cb50-12"><a href="survival.html#cb50-12" aria-hidden="true" tabindex="-1"></a><span class="st">    model {</span></span>
+<span id="cb50-13"><a href="survival.html#cb50-13" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb50-14"><a href="survival.html#cb50-14" aria-hidden="true" tabindex="-1"></a><span class="st">  # Likelihood</span></span>
+<span id="cb50-15"><a href="survival.html#cb50-15" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1:n_ind){</span></span>
+<span id="cb50-16"><a href="survival.html#cb50-16" aria-hidden="true" tabindex="-1"></a><span class="st">    z[i,f[i]] &lt;- 1</span></span>
+<span id="cb50-17"><a href="survival.html#cb50-17" aria-hidden="true" tabindex="-1"></a><span class="st">    for (t in (f[i]+1):n_occ){</span></span>
+<span id="cb50-18"><a href="survival.html#cb50-18" aria-hidden="true" tabindex="-1"></a><span class="st">      # State process</span></span>
+<span id="cb50-19"><a href="survival.html#cb50-19" aria-hidden="true" tabindex="-1"></a><span class="st">      z[i,t] ~ dbern(phi * z[i,t-1])</span></span>
+<span id="cb50-20"><a href="survival.html#cb50-20" aria-hidden="true" tabindex="-1"></a><span class="st">      # Observation process</span></span>
+<span id="cb50-21"><a href="survival.html#cb50-21" aria-hidden="true" tabindex="-1"></a><span class="st">      y[i,t] ~ dbern(mu[i,t])</span></span>
+<span id="cb50-22"><a href="survival.html#cb50-22" aria-hidden="true" tabindex="-1"></a><span class="st">      mu[i,t] &lt;- p * z[i,t]</span></span>
+<span id="cb50-23"><a href="survival.html#cb50-23" aria-hidden="true" tabindex="-1"></a><span class="st">    } #t</span></span>
+<span id="cb50-24"><a href="survival.html#cb50-24" aria-hidden="true" tabindex="-1"></a><span class="st">  } #i</span></span>
+<span id="cb50-25"><a href="survival.html#cb50-25" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb50-26"><a href="survival.html#cb50-26" aria-hidden="true" tabindex="-1"></a><span class="st">  # Priors and Constraints</span></span>
+<span id="cb50-27"><a href="survival.html#cb50-27" aria-hidden="true" tabindex="-1"></a><span class="st">  phi ~ dunif(0, 1)</span></span>
+<span id="cb50-28"><a href="survival.html#cb50-28" aria-hidden="true" tabindex="-1"></a><span class="st">  p ~ dunif(0, 1)</span></span>
+<span id="cb50-29"><a href="survival.html#cb50-29" aria-hidden="true" tabindex="-1"></a><span class="st">  # Derived values</span></span>
+<span id="cb50-30"><a href="survival.html#cb50-30" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb50-31"><a href="survival.html#cb50-31" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb50-32"><a href="survival.html#cb50-32" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb50-33"><a href="survival.html#cb50-33" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;p&quot;</span>,<span class="st">&quot;phi&quot;</span>)</span>
+<span id="cb50-34"><a href="survival.html#cb50-34" aria-hidden="true" tabindex="-1"></a>cjs.z.init <span class="ot">&lt;-</span> <span class="cf">function</span>(ch){</span>
+<span id="cb50-35"><a href="survival.html#cb50-35" aria-hidden="true" tabindex="-1"></a>state <span class="ot">&lt;-</span> ch</span>
+<span id="cb50-36"><a href="survival.html#cb50-36" aria-hidden="true" tabindex="-1"></a>   <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(ch)[<span class="dv">1</span>]){</span>
+<span id="cb50-37"><a href="survival.html#cb50-37" aria-hidden="true" tabindex="-1"></a>      n1 <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="fu">which</span>(ch[i,]<span class="sc">==</span><span class="dv">1</span>))</span>
+<span id="cb50-38"><a href="survival.html#cb50-38" aria-hidden="true" tabindex="-1"></a>      n2 <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">which</span>(ch[i,]<span class="sc">==</span><span class="dv">1</span>))</span>
+<span id="cb50-39"><a href="survival.html#cb50-39" aria-hidden="true" tabindex="-1"></a>      state[i,n1<span class="sc">:</span>n2] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb50-40"><a href="survival.html#cb50-40" aria-hidden="true" tabindex="-1"></a>      state[i,n1] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb50-41"><a href="survival.html#cb50-41" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb50-42"><a href="survival.html#cb50-42" aria-hidden="true" tabindex="-1"></a>   state[state<span class="sc">==</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb50-43"><a href="survival.html#cb50-43" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(state)</span>
+<span id="cb50-44"><a href="survival.html#cb50-44" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb50-45"><a href="survival.html#cb50-45" aria-hidden="true" tabindex="-1"></a>set_initial_value <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb50-46"><a href="survival.html#cb50-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>( </span>
+<span id="cb50-47"><a href="survival.html#cb50-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> <span class="fu">cjs.z.init</span>(CH)  </span>
+<span id="cb50-48"><a href="survival.html#cb50-48" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb50-49"><a href="survival.html#cb50-49" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb50-50"><a href="survival.html#cb50-50" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10000</span> ; nt <span class="ot">&lt;-</span> <span class="dv">1</span> ; nc <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb50-51"><a href="survival.html#cb50-51" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">jags</span>(<span class="at">data =</span> data, </span>
+<span id="cb50-52"><a href="survival.html#cb50-52" aria-hidden="true" tabindex="-1"></a>              <span class="at">inits =</span> inits, </span>
+<span id="cb50-53"><a href="survival.html#cb50-53" aria-hidden="true" tabindex="-1"></a>              <span class="at">parameters =</span> parameters, </span>
+<span id="cb50-54"><a href="survival.html#cb50-54" aria-hidden="true" tabindex="-1"></a>              <span class="at">model.file =</span> model_string, </span>
+<span id="cb50-55"><a href="survival.html#cb50-55" aria-hidden="true" tabindex="-1"></a>              <span class="at">n.chains =</span> nc, </span>
+<span id="cb50-56"><a href="survival.html#cb50-56" aria-hidden="true" tabindex="-1"></a>              <span class="at">n.thin =</span> nt, </span>
+<span id="cb50-57"><a href="survival.html#cb50-57" aria-hidden="true" tabindex="-1"></a>              <span class="at">n.iter =</span> ni, </span>
+<span id="cb50-58"><a href="survival.html#cb50-58" aria-hidden="true" tabindex="-1"></a>              <span class="at">n.burnin =</span> ni<span class="sc">/</span><span class="dv">2</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="NIMBLE3" class="tabcontent">
+<div id="section-21" class="section level4 unnumbered">
+<h4 class="unnumbered"></h4>
+<p><br></p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="survival.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimble)</span>
+<span id="cb51-2"><a href="survival.html#cb51-2" aria-hidden="true" tabindex="-1"></a>n_data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb51-3"><a href="survival.html#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> CH</span>
+<span id="cb51-4"><a href="survival.html#cb51-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb51-5"><a href="survival.html#cb51-5" aria-hidden="true" tabindex="-1"></a>n_constants <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb51-6"><a href="survival.html#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_ind =</span> <span class="fu">dim</span>(CH)[<span class="dv">1</span>],</span>
+<span id="cb51-7"><a href="survival.html#cb51-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">nocc =</span> <span class="fu">dim</span>(CH)[<span class="dv">2</span>],</span>
+<span id="cb51-8"><a href="survival.html#cb51-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">f =</span> first_capture</span>
+<span id="cb51-9"><a href="survival.html#cb51-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb51-10"><a href="survival.html#cb51-10" aria-hidden="true" tabindex="-1"></a>Nimble_Code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb51-11"><a href="survival.html#cb51-11" aria-hidden="true" tabindex="-1"></a> <span class="co"># Likelihood</span></span>
+<span id="cb51-12"><a href="survival.html#cb51-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_ind){</span>
+<span id="cb51-13"><a href="survival.html#cb51-13" aria-hidden="true" tabindex="-1"></a>    z[i,f[i]] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb51-14"><a href="survival.html#cb51-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (t <span class="cf">in</span> (f[i]<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n_occ){</span>
+<span id="cb51-15"><a href="survival.html#cb51-15" aria-hidden="true" tabindex="-1"></a>      <span class="co"># State process</span></span>
+<span id="cb51-16"><a href="survival.html#cb51-16" aria-hidden="true" tabindex="-1"></a>      z[i,t] <span class="sc">~</span> <span class="fu">dbern</span>(phi <span class="sc">*</span> z[i,t<span class="dv">-1</span>])</span>
+<span id="cb51-17"><a href="survival.html#cb51-17" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Observation process</span></span>
+<span id="cb51-18"><a href="survival.html#cb51-18" aria-hidden="true" tabindex="-1"></a>      y[i,t] <span class="sc">~</span> <span class="fu">dbern</span>(mu[i,t])</span>
+<span id="cb51-19"><a href="survival.html#cb51-19" aria-hidden="true" tabindex="-1"></a>      mu[i,t] <span class="ot">&lt;-</span> p <span class="sc">*</span> z[i,t]</span>
+<span id="cb51-20"><a href="survival.html#cb51-20" aria-hidden="true" tabindex="-1"></a>    } <span class="co">#t</span></span>
+<span id="cb51-21"><a href="survival.html#cb51-21" aria-hidden="true" tabindex="-1"></a>  } <span class="co">#i</span></span>
+<span id="cb51-22"><a href="survival.html#cb51-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb51-23"><a href="survival.html#cb51-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Priors and Constraints</span></span>
+<span id="cb51-24"><a href="survival.html#cb51-24" aria-hidden="true" tabindex="-1"></a>  phi <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb51-25"><a href="survival.html#cb51-25" aria-hidden="true" tabindex="-1"></a>  p <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb51-26"><a href="survival.html#cb51-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Derived values</span></span>
+<span id="cb51-27"><a href="survival.html#cb51-27" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb51-28"><a href="survival.html#cb51-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-29"><a href="survival.html#cb51-29" aria-hidden="true" tabindex="-1"></a>n_params <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;p&quot;</span>, <span class="st">&quot;phi&quot;</span>)</span>
+<span id="cb51-30"><a href="survival.html#cb51-30" aria-hidden="true" tabindex="-1"></a>cjs.z.init <span class="ot">&lt;-</span> <span class="cf">function</span>(ch){</span>
+<span id="cb51-31"><a href="survival.html#cb51-31" aria-hidden="true" tabindex="-1"></a>state <span class="ot">&lt;-</span> ch</span>
+<span id="cb51-32"><a href="survival.html#cb51-32" aria-hidden="true" tabindex="-1"></a>   <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(ch)[<span class="dv">1</span>]){</span>
+<span id="cb51-33"><a href="survival.html#cb51-33" aria-hidden="true" tabindex="-1"></a>      n1 <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="fu">which</span>(ch[i,]<span class="sc">==</span><span class="dv">1</span>))</span>
+<span id="cb51-34"><a href="survival.html#cb51-34" aria-hidden="true" tabindex="-1"></a>      n2 <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">which</span>(ch[i,]<span class="sc">==</span><span class="dv">1</span>))</span>
+<span id="cb51-35"><a href="survival.html#cb51-35" aria-hidden="true" tabindex="-1"></a>      state[i,n1<span class="sc">:</span>n2] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb51-36"><a href="survival.html#cb51-36" aria-hidden="true" tabindex="-1"></a>      state[i,n1] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb51-37"><a href="survival.html#cb51-37" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb51-38"><a href="survival.html#cb51-38" aria-hidden="true" tabindex="-1"></a>   state[state<span class="sc">==</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb51-39"><a href="survival.html#cb51-39" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(state)</span>
+<span id="cb51-40"><a href="survival.html#cb51-40" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb51-41"><a href="survival.html#cb51-41" aria-hidden="true" tabindex="-1"></a>n_inits <span class="ot">&lt;-</span> <span class="fu">list</span>( </span>
+<span id="cb51-42"><a href="survival.html#cb51-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> <span class="fu">cjs.z.init</span>(CH)</span>
+<span id="cb51-43"><a href="survival.html#cb51-43" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb51-44"><a href="survival.html#cb51-44" aria-hidden="true" tabindex="-1"></a>Nimble_Model <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(</span>
+<span id="cb51-45"><a href="survival.html#cb51-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">code =</span> Nimble_Code,</span>
+<span id="cb51-46"><a href="survival.html#cb51-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">constants =</span> n_constants,</span>
+<span id="cb51-47"><a href="survival.html#cb51-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> n_data,</span>
+<span id="cb51-48"><a href="survival.html#cb51-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">inits =</span> n_inits</span>
+<span id="cb51-49"><a href="survival.html#cb51-49" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb51-50"><a href="survival.html#cb51-50" aria-hidden="true" tabindex="-1"></a>MCMC_Model <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(Nimble_Model, <span class="at">monitors =</span> n_params, <span class="at">print =</span> T, <span class="at">enableWAIC =</span> F)</span>
+<span id="cb51-51"><a href="survival.html#cb51-51" aria-hidden="true" tabindex="-1"></a>Model1_MCMC <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(MCMC_Model)</span>
+<span id="cb51-52"><a href="survival.html#cb51-52" aria-hidden="true" tabindex="-1"></a>Comp_Model <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>( Nimble_Model, <span class="at">showCompilerOutput =</span> <span class="cn">TRUE</span> )</span>
+<span id="cb51-53"><a href="survival.html#cb51-53" aria-hidden="true" tabindex="-1"></a>Comp_Model <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(Model1_MCMC, <span class="at">project =</span> Nimble_Model)</span>
+<span id="cb51-54"><a href="survival.html#cb51-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-55"><a href="survival.html#cb51-55" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10000</span> ; nt <span class="ot">&lt;-</span> <span class="dv">1</span> ; nc <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb51-56"><a href="survival.html#cb51-56" aria-hidden="true" tabindex="-1"></a>Model_samples <span class="ot">&lt;-</span> <span class="fu">runMCMC</span>(<span class="at">mcmc =</span> Comp_Model, </span>
+<span id="cb51-57"><a href="survival.html#cb51-57" aria-hidden="true" tabindex="-1"></a>                         <span class="at">niter =</span> ni, </span>
+<span id="cb51-58"><a href="survival.html#cb51-58" aria-hidden="true" tabindex="-1"></a>                         <span class="at">nburnin =</span> ni<span class="sc">/</span><span class="dv">2</span>,</span>
+<span id="cb51-59"><a href="survival.html#cb51-59" aria-hidden="true" tabindex="-1"></a>                         <span class="at">nchains =</span> nc,</span>
+<span id="cb51-60"><a href="survival.html#cb51-60" aria-hidden="true" tabindex="-1"></a>                         <span class="at">summary =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb51-61"><a href="survival.html#cb51-61" aria-hidden="true" tabindex="-1"></a><span class="co">#mcmc_combo(Model_samples$samples, pars = c(&quot;N&quot;, &quot;p&quot;))</span></span>
+<span id="cb51-62"><a href="survival.html#cb51-62" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(Model_samples<span class="sc">$</span>summary<span class="sc">$</span>all.chains,<span class="dv">2</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="Stan3" class="tabcontent">
+<div id="section-22" class="section level4 unnumbered">
+<h4 class="unnumbered"></h4>
+<p><br></p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="survival.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb52-2"><a href="survival.html#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
+<span id="cb52-3"><a href="survival.html#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="survival.html#cb52-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb52-5"><a href="survival.html#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">CH =</span> CH,</span>
+<span id="cb52-6"><a href="survival.html#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_ind =</span> <span class="fu">dim</span>(CH)[<span class="dv">1</span>],</span>
+<span id="cb52-7"><a href="survival.html#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_occ =</span> <span class="fu">dim</span>(CH)[<span class="dv">2</span>],</span>
+<span id="cb52-8"><a href="survival.html#cb52-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">f =</span> first_capture,</span>
+<span id="cb52-9"><a href="survival.html#cb52-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">l =</span> last_capture</span>
+<span id="cb52-10"><a href="survival.html#cb52-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb52-11"><a href="survival.html#cb52-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-12"><a href="survival.html#cb52-12" aria-hidden="true" tabindex="-1"></a>stan_model <span class="ot">&lt;-</span> <span class="st">&quot;</span></span>
+<span id="cb52-13"><a href="survival.html#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="st">/**</span></span>
+<span id="cb52-14"><a href="survival.html#cb52-14" aria-hidden="true" tabindex="-1"></a><span class="st"> * Cormack-Jolly-Seber Model</span></span>
+<span id="cb52-15"><a href="survival.html#cb52-15" aria-hidden="true" tabindex="-1"></a><span class="st"> * </span></span>
+<span id="cb52-16"><a href="survival.html#cb52-16" aria-hidden="true" tabindex="-1"></a><span class="st"> * following section 1.2.1 of:</span></span>
+<span id="cb52-17"><a href="survival.html#cb52-17" aria-hidden="true" tabindex="-1"></a><span class="st"> * http://www.maths.otago.ac.nz/home/resources/theses/PhD_Matthew_Schofield.pdf</span></span>
+<span id="cb52-18"><a href="survival.html#cb52-18" aria-hidden="true" tabindex="-1"></a><span class="st"> * https://discourse.mc-stan.org/t/cjs-log-likelihood/15112</span></span>
+<span id="cb52-19"><a href="survival.html#cb52-19" aria-hidden="true" tabindex="-1"></a><span class="st"> */</span></span>
+<span id="cb52-20"><a href="survival.html#cb52-20" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb52-21"><a href="survival.html#cb52-21" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=2&gt; n_occ;                      // capture events</span></span>
+<span id="cb52-22"><a href="survival.html#cb52-22" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; n_ind;                      // number of individuals</span></span>
+<span id="cb52-23"><a href="survival.html#cb52-23" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0, upper=n_occ+1&gt; f[n_ind];     // f[i]: ind i first capture</span></span>
+<span id="cb52-24"><a href="survival.html#cb52-24" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0, upper=n_occ+1&gt; l[n_ind];     // l[i]:  ind i last capture</span></span>
+<span id="cb52-25"><a href="survival.html#cb52-25" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0,upper=1&gt; CH[n_ind,n_occ];    // CH[i,k]: individual i captured at k</span></span>
+<span id="cb52-26"><a href="survival.html#cb52-26" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb52-27"><a href="survival.html#cb52-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-28"><a href="survival.html#cb52-28" aria-hidden="true" tabindex="-1"></a><span class="st">transformed data {</span></span>
+<span id="cb52-29"><a href="survival.html#cb52-29" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0,upper=n_ind&gt; n_captured[n_occ];  // n_capt[k]: num aptured at k</span></span>
+<span id="cb52-30"><a href="survival.html#cb52-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-31"><a href="survival.html#cb52-31" aria-hidden="true" tabindex="-1"></a><span class="st">  n_captured = rep_array(0,n_occ);</span></span>
+<span id="cb52-32"><a href="survival.html#cb52-32" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1:n_ind)</span></span>
+<span id="cb52-33"><a href="survival.html#cb52-33" aria-hidden="true" tabindex="-1"></a><span class="st">    for (k in 1:n_occ)</span></span>
+<span id="cb52-34"><a href="survival.html#cb52-34" aria-hidden="true" tabindex="-1"></a><span class="st">      n_captured[k] = n_captured[k] + CH[i,k];</span></span>
+<span id="cb52-35"><a href="survival.html#cb52-35" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb52-36"><a href="survival.html#cb52-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-37"><a href="survival.html#cb52-37" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb52-38"><a href="survival.html#cb52-38" aria-hidden="true" tabindex="-1"></a><span class="st">  //vector&lt;lower=0,upper=1&gt;[n_occ-1] phi;  // phi[k]: Pr[alive at k + 1 | alive at k]</span></span>
+<span id="cb52-39"><a href="survival.html#cb52-39" aria-hidden="true" tabindex="-1"></a><span class="st">  //vector&lt;lower=0,upper=1&gt;[n_occ] p;      // p[k]: Pr[capture at k]</span></span>
+<span id="cb52-40"><a href="survival.html#cb52-40" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0,upper=1&gt; phi;  // phi[k]: Pr[alive at k + 1 | alive at k]</span></span>
+<span id="cb52-41"><a href="survival.html#cb52-41" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0,upper=1&gt; p;      // p[k]: Pr[capture at k]</span></span>
+<span id="cb52-42"><a href="survival.html#cb52-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-43"><a href="survival.html#cb52-43" aria-hidden="true" tabindex="-1"></a><span class="st">  // note:  p[1] not used in model and hence not identified</span></span>
+<span id="cb52-44"><a href="survival.html#cb52-44" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb52-45"><a href="survival.html#cb52-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-46"><a href="survival.html#cb52-46" aria-hidden="true" tabindex="-1"></a><span class="st">transformed parameters {</span></span>
+<span id="cb52-47"><a href="survival.html#cb52-47" aria-hidden="true" tabindex="-1"></a><span class="st">  vector&lt;lower=0,upper=1&gt;[n_occ] chi;   // chi[k]: Pr[no capture &gt;  k | alive at k]</span></span>
+<span id="cb52-48"><a href="survival.html#cb52-48" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[n_ind] log_lik;</span></span>
+<span id="cb52-49"><a href="survival.html#cb52-49" aria-hidden="true" tabindex="-1"></a><span class="st">  {</span></span>
+<span id="cb52-50"><a href="survival.html#cb52-50" aria-hidden="true" tabindex="-1"></a><span class="st">    int k;</span></span>
+<span id="cb52-51"><a href="survival.html#cb52-51" aria-hidden="true" tabindex="-1"></a><span class="st">    chi[n_occ] = 1.0;              </span></span>
+<span id="cb52-52"><a href="survival.html#cb52-52" aria-hidden="true" tabindex="-1"></a><span class="st">    k = n_occ - 1;</span></span>
+<span id="cb52-53"><a href="survival.html#cb52-53" aria-hidden="true" tabindex="-1"></a><span class="st">    while (k &gt; 0) {</span></span>
+<span id="cb52-54"><a href="survival.html#cb52-54" aria-hidden="true" tabindex="-1"></a><span class="st">      //chi[k] = (1 - phi[k]) + phi[k] * (1 - p[k+1]) * chi[k+1]; </span></span>
+<span id="cb52-55"><a href="survival.html#cb52-55" aria-hidden="true" tabindex="-1"></a><span class="st">      chi[k] = (1 - phi) + phi * (1 - p) * chi[k+1];</span></span>
+<span id="cb52-56"><a href="survival.html#cb52-56" aria-hidden="true" tabindex="-1"></a><span class="st">      k = k - 1;</span></span>
+<span id="cb52-57"><a href="survival.html#cb52-57" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
+<span id="cb52-58"><a href="survival.html#cb52-58" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb52-59"><a href="survival.html#cb52-59" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb52-60"><a href="survival.html#cb52-60" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1:n_ind) {</span></span>
+<span id="cb52-61"><a href="survival.html#cb52-61" aria-hidden="true" tabindex="-1"></a><span class="st">    log_lik[i] = 0;</span></span>
+<span id="cb52-62"><a href="survival.html#cb52-62" aria-hidden="true" tabindex="-1"></a><span class="st">    if (l[i] &gt; 0) {</span></span>
+<span id="cb52-63"><a href="survival.html#cb52-63" aria-hidden="true" tabindex="-1"></a><span class="st">      for (k in (f[i]+1):l[i]) {</span></span>
+<span id="cb52-64"><a href="survival.html#cb52-64" aria-hidden="true" tabindex="-1"></a><span class="st">        log_lik[i] +=log(phi);     // i survived from k-1 to k</span></span>
+<span id="cb52-65"><a href="survival.html#cb52-65" aria-hidden="true" tabindex="-1"></a><span class="st">        if (CH[i,k] == 1)</span></span>
+<span id="cb52-66"><a href="survival.html#cb52-66" aria-hidden="true" tabindex="-1"></a><span class="st">          log_lik[i] +=log(p);       // i captured at k</span></span>
+<span id="cb52-67"><a href="survival.html#cb52-67" aria-hidden="true" tabindex="-1"></a><span class="st">        else</span></span>
+<span id="cb52-68"><a href="survival.html#cb52-68" aria-hidden="true" tabindex="-1"></a><span class="st">          log_lik[i] +=log1m(p);     // i not captured at k</span></span>
+<span id="cb52-69"><a href="survival.html#cb52-69" aria-hidden="true" tabindex="-1"></a><span class="st">      }</span></span>
+<span id="cb52-70"><a href="survival.html#cb52-70" aria-hidden="true" tabindex="-1"></a><span class="st">      log_lik[i] +=log(chi[l[i]]);   // i not seen after last[i]</span></span>
+<span id="cb52-71"><a href="survival.html#cb52-71" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
+<span id="cb52-72"><a href="survival.html#cb52-72" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb52-73"><a href="survival.html#cb52-73" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb52-74"><a href="survival.html#cb52-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-75"><a href="survival.html#cb52-75" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb52-76"><a href="survival.html#cb52-76" aria-hidden="true" tabindex="-1"></a><span class="st">  target += sum(log_lik);</span></span>
+<span id="cb52-77"><a href="survival.html#cb52-77" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb52-78"><a href="survival.html#cb52-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-79"><a href="survival.html#cb52-79" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb52-80"><a href="survival.html#cb52-80" aria-hidden="true" tabindex="-1"></a><span class="st">  // phi[K-1] and p(K) not identified, but product is</span></span>
+<span id="cb52-81"><a href="survival.html#cb52-81" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta;</span></span>
+<span id="cb52-82"><a href="survival.html#cb52-82" aria-hidden="true" tabindex="-1"></a><span class="st">  vector&lt;lower=0&gt;[n_occ] pop_hat;  // population</span></span>
+<span id="cb52-83"><a href="survival.html#cb52-83" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb52-84"><a href="survival.html#cb52-84" aria-hidden="true" tabindex="-1"></a><span class="st">  beta = phi * p;</span></span>
+<span id="cb52-85"><a href="survival.html#cb52-85" aria-hidden="true" tabindex="-1"></a><span class="st">  for (k in 1:n_occ)</span></span>
+<span id="cb52-86"><a href="survival.html#cb52-86" aria-hidden="true" tabindex="-1"></a><span class="st">    pop_hat[k] = n_captured[k] / p;  </span></span>
+<span id="cb52-87"><a href="survival.html#cb52-87" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb52-88"><a href="survival.html#cb52-88" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb52-89"><a href="survival.html#cb52-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-90"><a href="survival.html#cb52-90" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="cf">function</span>() <span class="fu">list</span>(<span class="at">phi =</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb52-91"><a href="survival.html#cb52-91" aria-hidden="true" tabindex="-1"></a>                         <span class="at">p =</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb52-92"><a href="survival.html#cb52-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-93"><a href="survival.html#cb52-93" aria-hidden="true" tabindex="-1"></a><span class="do">## Parameters monitored</span></span>
+<span id="cb52-94"><a href="survival.html#cb52-94" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;phi&quot;</span>, <span class="st">&quot;p&quot;</span>)</span>
+<span id="cb52-95"><a href="survival.html#cb52-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-96"><a href="survival.html#cb52-96" aria-hidden="true" tabindex="-1"></a><span class="do">## MCMC settings</span></span>
+<span id="cb52-97"><a href="survival.html#cb52-97" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10000</span> ; nt <span class="ot">&lt;-</span> <span class="dv">1</span> ; nc <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb52-98"><a href="survival.html#cb52-98" aria-hidden="true" tabindex="-1"></a>stan.samples <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">model_code =</span> stan_model, </span>
+<span id="cb52-99"><a href="survival.html#cb52-99" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> data, </span>
+<span id="cb52-100"><a href="survival.html#cb52-100" aria-hidden="true" tabindex="-1"></a>                     <span class="at">iter =</span> ni, </span>
+<span id="cb52-101"><a href="survival.html#cb52-101" aria-hidden="true" tabindex="-1"></a>                     <span class="at">warmup =</span> <span class="fu">floor</span>(ni<span class="sc">/</span><span class="dv">2</span>),</span>
+<span id="cb52-102"><a href="survival.html#cb52-102" aria-hidden="true" tabindex="-1"></a>                     <span class="at">chains =</span> nc, </span>
+<span id="cb52-103"><a href="survival.html#cb52-103" aria-hidden="true" tabindex="-1"></a>                     <span class="at">cores =</span> nc)</span></code></pre></div>
+</div>
+</div>
+<div id="Greta3" class="tabcontent">
+<div id="section-23" class="section level4 unnumbered">
+<h4 class="unnumbered"></h4>
+<p><br></p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="survival.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(greta)</span>
+<span id="cb53-2"><a href="survival.html#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(CH)</span>
+<span id="cb53-3"><a href="survival.html#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(obs_id)</span>
+<span id="cb53-4"><a href="survival.html#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(capture_vec)</span>
+<span id="cb53-5"><a href="survival.html#cb53-5" aria-hidden="true" tabindex="-1"></a>obs_id <span class="ot">&lt;-</span> <span class="fu">apply</span>(CH, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="fu">seq</span>(<span class="fu">min</span>(<span class="fu">which</span>(x <span class="sc">&gt;</span> <span class="dv">0</span>)), <span class="fu">max</span>(<span class="fu">which</span>(x <span class="sc">&gt;</span> <span class="dv">0</span>)), <span class="at">by =</span> <span class="dv">1</span>)[<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb53-6"><a href="survival.html#cb53-6" aria-hidden="true" tabindex="-1"></a>obs_id <span class="ot">&lt;-</span> <span class="fu">unlist</span>(obs_id)</span>
+<span id="cb53-7"><a href="survival.html#cb53-7" aria-hidden="true" tabindex="-1"></a>capture_vec <span class="ot">&lt;-</span> <span class="fu">apply</span>(CH, <span class="dv">1</span>, <span class="cf">function</span>(x) x[<span class="fu">min</span>(<span class="fu">which</span>(x <span class="sc">&gt;</span> <span class="dv">0</span>))<span class="sc">:</span><span class="fu">max</span>(<span class="fu">which</span>(x <span class="sc">&gt;</span> <span class="dv">0</span>))][<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb53-8"><a href="survival.html#cb53-8" aria-hidden="true" tabindex="-1"></a>capture_vec <span class="ot">&lt;-</span> <span class="fu">unlist</span>(capture_vec)</span>
+<span id="cb53-9"><a href="survival.html#cb53-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-10"><a href="survival.html#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="co"># dummy variables</span></span>
+<span id="cb53-11"><a href="survival.html#cb53-11" aria-hidden="true" tabindex="-1"></a>alive_data <span class="ot">&lt;-</span> <span class="fu">ones</span>(<span class="fu">length</span>(obs_id))            <span class="co"># definitely alive</span></span>
+<span id="cb53-12"><a href="survival.html#cb53-12" aria-hidden="true" tabindex="-1"></a>not_seen_last <span class="ot">&lt;-</span> last_capture <span class="sc">!=</span> n_occ              <span class="co"># ignore observations in last timestep</span></span>
+<span id="cb53-13"><a href="survival.html#cb53-13" aria-hidden="true" tabindex="-1"></a>final_observation <span class="ot">&lt;-</span> <span class="fu">ones</span>(<span class="fu">sum</span>(not_seen_last)) <span class="co"># final observation</span></span>
+<span id="cb53-14"><a href="survival.html#cb53-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-15"><a href="survival.html#cb53-15" aria-hidden="true" tabindex="-1"></a>capture_vec <span class="ot">&lt;-</span> <span class="fu">as_data</span>(observed)</span>
+<span id="cb53-16"><a href="survival.html#cb53-16" aria-hidden="true" tabindex="-1"></a><span class="co"># priors</span></span>
+<span id="cb53-17"><a href="survival.html#cb53-17" aria-hidden="true" tabindex="-1"></a>phi <span class="ot">&lt;-</span> <span class="fu">beta</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="at">dim =</span> <span class="dv">1</span>)</span>
+<span id="cb53-18"><a href="survival.html#cb53-18" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">beta</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="at">dim =</span> <span class="dv">1</span>)</span>
+<span id="cb53-19"><a href="survival.html#cb53-19" aria-hidden="true" tabindex="-1"></a><span class="co"># derived parameter</span></span>
+<span id="cb53-20"><a href="survival.html#cb53-20" aria-hidden="true" tabindex="-1"></a>chi <span class="ot">&lt;-</span> <span class="fu">ones</span>(n_occ)</span>
+<span id="cb53-21"><a href="survival.html#cb53-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(n_occ <span class="sc">-</span> <span class="dv">1</span>)) {</span>
+<span id="cb53-22"><a href="survival.html#cb53-22" aria-hidden="true" tabindex="-1"></a>  tn <span class="ot">&lt;-</span> n_occ <span class="sc">-</span> i</span>
+<span id="cb53-23"><a href="survival.html#cb53-23" aria-hidden="true" tabindex="-1"></a>  chi[tn] <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> phi) <span class="sc">+</span> phi <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p) <span class="sc">*</span> chi[tn <span class="sc">+</span> <span class="dv">1</span>]</span>
+<span id="cb53-24"><a href="survival.html#cb53-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb53-25"><a href="survival.html#cb53-25" aria-hidden="true" tabindex="-1"></a><span class="co"># likelihood</span></span>
+<span id="cb53-26"><a href="survival.html#cb53-26" aria-hidden="true" tabindex="-1"></a><span class="fu">distribution</span>(alive_data) <span class="ot">&lt;-</span> <span class="fu">bernoulli</span>(phi)</span>
+<span id="cb53-27"><a href="survival.html#cb53-27" aria-hidden="true" tabindex="-1"></a><span class="fu">distribution</span>(capture_vec) <span class="ot">&lt;-</span> <span class="fu">bernoulli</span>(p)</span>
+<span id="cb53-28"><a href="survival.html#cb53-28" aria-hidden="true" tabindex="-1"></a><span class="fu">distribution</span>(final_observation) <span class="ot">&lt;-</span> <span class="fu">bernoulli</span>(chi[last_capture[not_seen_last]])</span>
+<span id="cb53-29"><a href="survival.html#cb53-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-30"><a href="survival.html#cb53-30" aria-hidden="true" tabindex="-1"></a><span class="co"># defining the model</span></span>
+<span id="cb53-31"><a href="survival.html#cb53-31" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">model</span>(phi,p) <span class="co">#objects to sample</span></span>
+<span id="cb53-32"><a href="survival.html#cb53-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-33"><a href="survival.html#cb53-33" aria-hidden="true" tabindex="-1"></a><span class="co"># sampling</span></span>
+<span id="cb53-34"><a href="survival.html#cb53-34" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10000</span> ; nt <span class="ot">&lt;-</span> <span class="dv">1</span> ; nc <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb53-35"><a href="survival.html#cb53-35" aria-hidden="true" tabindex="-1"></a>draws <span class="ot">&lt;-</span> greta<span class="sc">::</span><span class="fu">mcmc</span>(<span class="at">model =</span> m, </span>
+<span id="cb53-36"><a href="survival.html#cb53-36" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n_samples =</span> ni,</span>
+<span id="cb53-37"><a href="survival.html#cb53-37" aria-hidden="true" tabindex="-1"></a>                     <span class="at">thin =</span> nt,</span>
+<span id="cb53-38"><a href="survival.html#cb53-38" aria-hidden="true" tabindex="-1"></a>                     <span class="at">warmup =</span> <span class="fu">floor</span>(ni<span class="sc">/</span><span class="dv">2</span>),</span>
+<span id="cb53-39"><a href="survival.html#cb53-39" aria-hidden="true" tabindex="-1"></a>                     <span class="at">chains =</span> nc, </span>
+<span id="cb53-40"><a href="survival.html#cb53-40" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n_cores =</span> nc)</span></code></pre></div>
 </div>
 </div>
 </div>
 </div>
-<div id="comparison-2" class="section level3" number="5.3.4">
-<h3><span class="header-section-number">5.3.4</span> Comparison</h3>
+<div id="comparison-2" class="section level3" number="6.3.4">
+<h3><span class="header-section-number">6.3.4</span> Comparison</h3>
+<pre><code>## ── Attaching packages ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.2     ✓ dplyr   1.0.7
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## x tidyr::expand()  masks Matrix::expand()
+## x tidyr::extract() masks runjags::extract()
+## x dplyr::filter()  masks stats::filter()
+## x dplyr::lag()     masks stats::lag()
+## x tidyr::pack()    masks Matrix::pack()
+## x tidyr::unpack()  masks Matrix::unpack()</code></pre>
+<div id="altgbyfeur" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#osfhymvkbc .gt_table {
+#altgbyfeur .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -658,7 +702,7 @@ Greta
   border-left-color: #D3D3D3;
 }
 
-#osfhymvkbc .gt_heading {
+#altgbyfeur .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -670,7 +714,7 @@ Greta
   border-right-color: #D3D3D3;
 }
 
-#osfhymvkbc .gt_title {
+#altgbyfeur .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -680,23 +724,23 @@ Greta
   border-bottom-width: 0;
 }
 
-#osfhymvkbc .gt_subtitle {
+#altgbyfeur .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#osfhymvkbc .gt_bottom_border {
+#altgbyfeur .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#osfhymvkbc .gt_col_headings {
+#altgbyfeur .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -711,7 +755,7 @@ Greta
   border-right-color: #D3D3D3;
 }
 
-#osfhymvkbc .gt_col_heading {
+#altgbyfeur .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -731,7 +775,7 @@ Greta
   overflow-x: hidden;
 }
 
-#osfhymvkbc .gt_column_spanner_outer {
+#altgbyfeur .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -743,27 +787,27 @@ Greta
   padding-right: 4px;
 }
 
-#osfhymvkbc .gt_column_spanner_outer:first-child {
+#altgbyfeur .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#osfhymvkbc .gt_column_spanner_outer:last-child {
+#altgbyfeur .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#osfhymvkbc .gt_column_spanner {
+#altgbyfeur .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
   vertical-align: bottom;
   padding-top: 5px;
-  padding-bottom: 6px;
+  padding-bottom: 5px;
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
 }
 
-#osfhymvkbc .gt_group_heading {
+#altgbyfeur .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -785,7 +829,7 @@ Greta
   vertical-align: middle;
 }
 
-#osfhymvkbc .gt_empty_group_heading {
+#altgbyfeur .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -800,15 +844,15 @@ Greta
   vertical-align: middle;
 }
 
-#osfhymvkbc .gt_from_md > :first-child {
+#altgbyfeur .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#osfhymvkbc .gt_from_md > :last-child {
+#altgbyfeur .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#osfhymvkbc .gt_row {
+#altgbyfeur .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -827,7 +871,7 @@ Greta
   overflow-x: hidden;
 }
 
-#osfhymvkbc .gt_stub {
+#altgbyfeur .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -839,7 +883,7 @@ Greta
   padding-left: 12px;
 }
 
-#osfhymvkbc .gt_summary_row {
+#altgbyfeur .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -849,7 +893,7 @@ Greta
   padding-right: 5px;
 }
 
-#osfhymvkbc .gt_first_summary_row {
+#altgbyfeur .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -859,7 +903,7 @@ Greta
   border-top-color: #D3D3D3;
 }
 
-#osfhymvkbc .gt_grand_summary_row {
+#altgbyfeur .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -869,7 +913,7 @@ Greta
   padding-right: 5px;
 }
 
-#osfhymvkbc .gt_first_grand_summary_row {
+#altgbyfeur .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -879,11 +923,11 @@ Greta
   border-top-color: #D3D3D3;
 }
 
-#osfhymvkbc .gt_striped {
+#altgbyfeur .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#osfhymvkbc .gt_table_body {
+#altgbyfeur .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -892,7 +936,7 @@ Greta
   border-bottom-color: #D3D3D3;
 }
 
-#osfhymvkbc .gt_footnotes {
+#altgbyfeur .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -906,13 +950,13 @@ Greta
   border-right-color: #D3D3D3;
 }
 
-#osfhymvkbc .gt_footnote {
+#altgbyfeur .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#osfhymvkbc .gt_sourcenotes {
+#altgbyfeur .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -926,46 +970,47 @@ Greta
   border-right-color: #D3D3D3;
 }
 
-#osfhymvkbc .gt_sourcenote {
+#altgbyfeur .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#osfhymvkbc .gt_left {
+#altgbyfeur .gt_left {
   text-align: left;
 }
 
-#osfhymvkbc .gt_center {
+#altgbyfeur .gt_center {
   text-align: center;
 }
 
-#osfhymvkbc .gt_right {
+#altgbyfeur .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#osfhymvkbc .gt_font_normal {
+#altgbyfeur .gt_font_normal {
   font-weight: normal;
 }
 
-#osfhymvkbc .gt_font_bold {
+#altgbyfeur .gt_font_bold {
   font-weight: bold;
 }
 
-#osfhymvkbc .gt_font_italic {
+#altgbyfeur .gt_font_italic {
   font-style: italic;
 }
 
-#osfhymvkbc .gt_super {
+#altgbyfeur .gt_super {
   font-size: 65%;
 }
 
-#osfhymvkbc .gt_footnote_marks {
+#altgbyfeur .gt_footnote_marks {
   font-style: italic;
+  font-weight: normal;
   font-size: 65%;
 }
 </style>
-<div id="osfhymvkbc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<table class="gt_table">
   <thead class="gt_header">
     <tr>
       <th colspan="4" class="gt_heading gt_title gt_font_normal" style>Estimate Comparison</th>
@@ -987,65 +1032,50 @@ Greta
     <tr class="gt_group_heading_row">
       <td colspan="4" class="gt_group_heading">phi</td>
     </tr>
-    <tr>
-      <td class="gt_row gt_right">0.65</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.60</td>
-      <td class="gt_row gt_right">0.08</td>
-      <td class="gt_row gt_right">0.47</td>
-      <td class="gt_row gt_right">0.78</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.61</td>
-      <td class="gt_row gt_right">0.08</td>
-      <td class="gt_row gt_right">0.46</td>
-      <td class="gt_row gt_right">0.78</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.62</td>
-      <td class="gt_row gt_right">0.07</td>
-      <td class="gt_row gt_right">0.49</td>
-      <td class="gt_row gt_right">0.78</td>
-    </tr>
+    <tr><td class="gt_row gt_right">0.65</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_right">0.60</td>
+<td class="gt_row gt_right">0.08</td>
+<td class="gt_row gt_right">0.47</td>
+<td class="gt_row gt_right">0.78</td></tr>
+    <tr><td class="gt_row gt_right">0.61</td>
+<td class="gt_row gt_right">0.08</td>
+<td class="gt_row gt_right">0.46</td>
+<td class="gt_row gt_right">0.78</td></tr>
+    <tr><td class="gt_row gt_right">0.62</td>
+<td class="gt_row gt_right">0.07</td>
+<td class="gt_row gt_right">0.49</td>
+<td class="gt_row gt_right">0.78</td></tr>
     <tr class="gt_group_heading_row">
       <td colspan="4" class="gt_group_heading">p</td>
     </tr>
-    <tr>
-      <td class="gt_row gt_right">0.40</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.44</td>
-      <td class="gt_row gt_right">0.08</td>
-      <td class="gt_row gt_right">0.29</td>
-      <td class="gt_row gt_right">0.60</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.43</td>
-      <td class="gt_row gt_right">0.08</td>
-      <td class="gt_row gt_right">0.28</td>
-      <td class="gt_row gt_right">0.60</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">0.46</td>
-      <td class="gt_row gt_right">0.07</td>
-      <td class="gt_row gt_right">0.32</td>
-      <td class="gt_row gt_right">0.61</td>
-    </tr>
+    <tr><td class="gt_row gt_right">0.40</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_right">0.44</td>
+<td class="gt_row gt_right">0.08</td>
+<td class="gt_row gt_right">0.29</td>
+<td class="gt_row gt_right">0.60</td></tr>
+    <tr><td class="gt_row gt_right">0.43</td>
+<td class="gt_row gt_right">0.08</td>
+<td class="gt_row gt_right">0.28</td>
+<td class="gt_row gt_right">0.60</td></tr>
+    <tr><td class="gt_row gt_right">0.46</td>
+<td class="gt_row gt_right">0.07</td>
+<td class="gt_row gt_right">0.32</td>
+<td class="gt_row gt_right">0.61</td></tr>
   </tbody>
   
   
-</table></div>
+</table>
 </div>
 </div>
-<div id="jolly-seber" class="section level2" number="5.4">
-<h2><span class="header-section-number">5.4</span> Jolly-Seber</h2>
+</div>
+<div id="jolly-seber" class="section level2" number="6.4">
+<h2><span class="header-section-number">6.4</span> Jolly-Seber</h2>
 
 </div>
 </div>
@@ -1081,6 +1111,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"],
 "share": false
 },
